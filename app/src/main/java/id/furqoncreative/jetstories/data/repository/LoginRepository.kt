@@ -5,3 +5,9 @@ import id.furqoncreative.jetstories.data.source.network.response.JetstoriesApiSe
 interface LoginRepository {
 
 }
+
+class NetworkLoginRepository(
+    apiService: JetstoriesApiService
+): LoginRepository {
+
+}
