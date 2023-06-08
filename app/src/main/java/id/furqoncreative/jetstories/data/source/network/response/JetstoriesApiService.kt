@@ -10,8 +10,7 @@ interface JetstoriesApiService {
     @FormUrlEncoded
     @POST
     suspend fun loginUser(
-        @Field("email") email: String,
-        @Field("password") password: String
+        @Field("email") email: String, @Field("password") password: String
     ): LoginResponse
 
 }

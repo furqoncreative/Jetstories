@@ -4,7 +4,8 @@ import id.furqoncreative.jetstories.data.source.network.response.JetstoriesApiSe
 import id.furqoncreative.jetstories.model.login.LoginResponse
 
 class FakeApiService(
-    val response: Any
-): JetstoriesApiService {
-    override suspend fun loginUser(email: String, password: String): LoginResponse = response as LoginResponse
+    private val response: Any
+) : JetstoriesApiService {
+    override suspend fun loginUser(email: String, password: String): LoginResponse =
+        response as LoginResponse
 }

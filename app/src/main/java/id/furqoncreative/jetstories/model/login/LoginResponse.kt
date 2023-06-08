@@ -6,10 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LoginResponse(
-    @SerialName("error")
-    val error: Boolean?,
-    @SerialName("loginResult")
-    val loginResult: LoginResult?,
-    @SerialName("message")
-    val message: String?
+    @SerialName("error") val error: Boolean?,
+    @SerialName("loginResult") val loginResult: LoginResult?,
+    @SerialName("message") val message: String?
 )

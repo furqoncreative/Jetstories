@@ -9,6 +9,7 @@ interface LoginRepository {
 
 class NetworkLoginRepository(
     private val apiService: JetstoriesApiService
-): LoginRepository {
-    override suspend fun loginUser(email: String, password: String) = apiService.loginUser(email, password)
+) : LoginRepository {
+    override suspend fun loginUser(email: String, password: String) =
+        apiService.loginUser(email, password)
 }
