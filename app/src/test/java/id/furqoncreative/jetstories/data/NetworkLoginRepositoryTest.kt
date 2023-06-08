@@ -27,7 +27,28 @@ class NetworkLoginRepositoryTest {
 
             assertEquals(
                 expectedResult,
-                repository.loginUser( email = "email.com", password = "1234")
+                repository.loginUser(email = "email.com", password = "1234")
+            )
+        }
+
+    @Test
+    fun givenInvalidUsernameAndValidPasswordThenShouldFail() =
+        runTest {
+            val actualResult = LoginResponse(
+                error = true,
+                message = "\\\"email\\\" must be a valid email",
+                loginResult = null
+            )
+
+            val expectedResult = FakeDataSource.errorLoginResponse
+
+            val repository = NetworkLoginRepository(
+                apiService = FakeApiService(actualResult)
+            )
+
+            assertEquals(
+                expectedResult,
+                repository.loginUser(email = "email.com", password = "12345678")
             )
         }
 }
