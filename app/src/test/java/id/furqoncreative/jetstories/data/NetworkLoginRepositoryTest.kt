@@ -11,7 +11,7 @@ import org.junit.Test
 class NetworkLoginRepositoryTest {
 
     @Test
-    fun givenInvalidUsernameAndInvalidPasswordThenShouldFail() =
+    fun givenInvalidEmailAndInvalidPasswordThenShouldFail() =
         runTest {
             val actualResult = LoginResponse(
                 error = true,
@@ -32,7 +32,7 @@ class NetworkLoginRepositoryTest {
         }
 
     @Test
-    fun givenInvalidUsernameAndValidPasswordThenShouldFail() =
+    fun givenInvalidEmailAndValidPasswordThenShouldFail() =
         runTest {
             val actualResult = LoginResponse(
                 error = true,
@@ -53,7 +53,7 @@ class NetworkLoginRepositoryTest {
         }
 
     @Test
-    fun givenValidUsernameAndInvalidPasswordThenShouldFail() =
+    fun givenValidEmailAndInvalidPasswordThenShouldFail() =
         runTest {
             val actualResult = LoginResponse(
                 error = true,
@@ -74,7 +74,7 @@ class NetworkLoginRepositoryTest {
         }
 
     @Test
-    fun givenValidUsernameAndPasswordLessThanEightThenShouldFail() =
+    fun givenValidEmailAndPasswordLessThanEightThenShouldFail() =
         runTest {
             val actualResult = LoginResponse(
                 error = true,
