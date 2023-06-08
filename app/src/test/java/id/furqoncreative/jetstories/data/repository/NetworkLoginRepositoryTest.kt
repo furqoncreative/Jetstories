@@ -1,4 +1,4 @@
-package id.furqoncreative.jetstories.data
+package id.furqoncreative.jetstories.data.repository
 
 import id.furqoncreative.jetstories.data.repository.NetworkLoginRepository
 import id.furqoncreative.jetstories.fake.FakeApiService
