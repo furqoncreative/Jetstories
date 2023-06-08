@@ -72,5 +72,26 @@ class NetworkLoginRepositoryTest {
                 repository.loginUser(email = "test@email.com", password = "123456789")
             )
         }
+
+    @Test
+    fun givenValidUsernameAndPasswordLessThanEightThenShouldFail() =
+        runTest {
+            val actualResult = LoginResponse(
+                error = true,
+                message = "make sure your password is at least 8 characters",
+                loginResult = null
+            )
+
+            val expectedResult = FakeDataSource.passwordLessThanEightLoginResponse
+
+            val repository = NetworkLoginRepository(
+                apiService = FakeApiService(actualResult)
+            )
+
+            assertEquals(
+                expectedResult,
+                repository.loginUser(email = "test@email.com", password = "123456")
+            )
+        }
 }
 
