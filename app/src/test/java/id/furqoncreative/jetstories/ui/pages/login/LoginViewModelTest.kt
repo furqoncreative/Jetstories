@@ -3,8 +3,8 @@ package id.furqoncreative.jetstories.ui.pages.login
 import com.example.marsphotos.rules.TestDispatcherRule
 import id.furqoncreative.jetstories.fake.FakeDataSource
 import id.furqoncreative.jetstories.fake.FakeNetworkLoginRepository
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
@@ -19,9 +19,13 @@ class LoginViewModelTest {
             loginRepository = FakeNetworkLoginRepository()
         )
 
+        loginViewModel.loginUser(
+            email = "test@email.com",
+            password = "12345678",
+        )
+
         assertEquals(
-            LoginUiState.Success(FakeDataSource.successLoginResponse),
-            loginViewModel.loginUiState
+            LoginUiState.Success(FakeDataSource.successLoginResponse), loginViewModel.loginUiState
         )
     }
 }
