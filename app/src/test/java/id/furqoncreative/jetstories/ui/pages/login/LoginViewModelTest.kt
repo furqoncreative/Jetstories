@@ -1,6 +1,6 @@
 package id.furqoncreative.jetstories.ui.pages.login
 
-import com.example.marsphotos.rules.TestDispatcherRule
+import id.furqoncreative.jetstories.rules.TestDispatcherRule
 import id.furqoncreative.jetstories.fake.FakeDataSource
 import id.furqoncreative.jetstories.fake.FakeNetworkLoginRepository
 import kotlinx.coroutines.test.runTest
