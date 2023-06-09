@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">JetStories</string>
+    <string name="app_name">Jetstories</string>
+    <string name="app_tagline">Be heard, be seen, be yourself!</string>
 </resources>
