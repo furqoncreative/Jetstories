@@ -48,4 +48,7 @@ fun EmailTextField(
             onImeAction()
         }),
     )
+
+    emailState.getError()?.let { error -> TextFieldError(textError = error) }
+
 }
