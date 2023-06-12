@@ -7,18 +7,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import id.furqoncreative.jetstories.R
+import id.furqoncreative.jetstories.util.TextFieldState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailTextField(
-    emailState: TextFieldState = remember { EmailState() },
-    onImeAction: () -> Unit = {}
+    emailState: TextFieldState = remember { EmailState() }, onImeAction: () -> Unit = {}
 ) {
 
     OutlinedTextField(value = "", label = {
-        Text(text = "Email")
+        Text(text = stringResource(R.string.email_label))
     }, placeholder = {
-        Text(text = "Masukan email Anda")
+        Text(text = stringResource(R.string.email_placeholder))
     }, onValueChange = {
 
     }, modifier = Modifier.fillMaxWidth()
