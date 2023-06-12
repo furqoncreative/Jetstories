@@ -13,6 +13,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.util.TextFieldState
 
@@ -51,4 +52,10 @@ fun EmailTextField(
 
     emailState.getError()?.let { error -> TextFieldError(textError = error) }
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun EmailTextFieldPreview() {
+    EmailTextField()
 }
