@@ -43,6 +43,9 @@ fun EmailTextField(
                 }
             },
         isError = emailState.showErrors(),
+        supportingText = {
+            emailState.getError()?.let { error -> TextFieldError(textError = error) }
+        },
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Next, keyboardType = KeyboardType.Email
         ),
@@ -50,9 +53,6 @@ fun EmailTextField(
             onImeAction()
         }),
     )
-
-    emailState.getError()?.let { error -> TextFieldError(textError = error) }
-
 }
 
 @Preview(showBackground = true)
