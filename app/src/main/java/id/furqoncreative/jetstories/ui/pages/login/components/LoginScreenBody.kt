@@ -12,10 +12,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import id.furqoncreative.jetstories.ui.components.EmailState
+import id.furqoncreative.jetstories.ui.components.EmailStateSaver
+import id.furqoncreative.jetstories.ui.components.EmailTextField
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,14 +32,12 @@ fun LoginBody(
     Column(
         modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        OutlinedTextField(value = "", label = {
-            Text(text = "Email")
-        }, placeholder = {
-            Text(text = "Masukan email Anda")
-        }, onValueChange = {
 
-        }, modifier = Modifier.fillMaxWidth()
-        )
+        val emailState by rememberSaveable(stateSaver = EmailStateSaver) {
+            mutableStateOf(EmailState())
+        }
+
+        EmailTextField(emailState = emailState, onImeAction = { })
 
         OutlinedTextField(value = "", label = {
             Text(text = "Password")
