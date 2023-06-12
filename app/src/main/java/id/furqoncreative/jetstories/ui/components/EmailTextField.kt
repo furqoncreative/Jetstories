@@ -24,14 +24,14 @@ fun EmailTextField(
 ) {
     OutlinedTextField(
         value = emailState.text,
+        onValueChange = {
+            emailState.text = it
+        },
         label = {
             Text(text = stringResource(R.string.email_label))
         },
         placeholder = {
             Text(text = stringResource(R.string.email_placeholder))
-        },
-        onValueChange = {
-
         },
         modifier = Modifier
             .fillMaxWidth()
