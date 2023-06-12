@@ -6,7 +6,7 @@ import id.furqoncreative.jetstories.data.DefaultAppContainer
 
 class JetstoriesApplication : Application() {
 
-    private lateinit var container: AppContainer
+    lateinit var container: AppContainer
     override fun onCreate() {
         super.onCreate()
         container = DefaultAppContainer()
