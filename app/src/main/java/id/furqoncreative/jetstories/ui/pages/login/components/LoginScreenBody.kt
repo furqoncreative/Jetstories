@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import id.furqoncreative.jetstories.ui.components.EmailState
 import id.furqoncreative.jetstories.ui.components.EmailStateSaver
 import id.furqoncreative.jetstories.ui.components.EmailTextField
+import id.furqoncreative.jetstories.ui.components.PasswordTextField
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,14 +40,7 @@ fun LoginBody(
 
         EmailTextField(emailState = emailState, onImeAction = { })
 
-        OutlinedTextField(value = "", label = {
-            Text(text = "Password")
-        }, placeholder = {
-            Text(text = "Masukan password Anda")
-        }, onValueChange = {
-
-        }, modifier = Modifier.fillMaxWidth()
-        )
+        PasswordTextField()
 
         Row(
             modifier = Modifier
