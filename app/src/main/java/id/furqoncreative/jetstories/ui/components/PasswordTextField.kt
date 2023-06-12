@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -52,6 +53,12 @@ fun PasswordTextField(
                     passwordState.enableShowErrors()
                 }
             },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Password,
+                contentDescription = stringResource(id = R.string.hide_password)
+            )
+        },
         trailingIcon = {
             if (showPassword.value) {
                 IconButton(onClick = { showPassword.value = false }) {
@@ -85,7 +92,7 @@ fun PasswordTextField(
             onImeAction()
         }),
     )
-    
+
 }
 
 @Preview
