@@ -86,7 +86,7 @@ fun PasswordTextField(
             passwordState.getError()?.let { error -> TextFieldError(textError = error) }
         },
         keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Go, keyboardType = KeyboardType.Password
+            imeAction = ImeAction.Done, keyboardType = KeyboardType.Password
         ),
         keyboardActions = KeyboardActions(onDone = {
             onImeAction()
