@@ -26,6 +26,7 @@ fun EmailTextField(
         value = emailState.text,
         onValueChange = {
             emailState.text = it
+            emailState.enableShowErrors()
         },
         label = {
             Text(text = stringResource(R.string.email_label))
