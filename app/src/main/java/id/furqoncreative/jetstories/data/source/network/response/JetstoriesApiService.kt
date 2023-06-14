@@ -8,7 +8,7 @@ import retrofit2.http.POST
 interface JetstoriesApiService {
 
     @FormUrlEncoded
-    @POST
+    @POST("login")
     suspend fun loginUser(
         @Field("email") email: String, @Field("password") password: String
     ): LoginResponse
