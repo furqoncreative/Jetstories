@@ -1,6 +1,6 @@
 package id.furqoncreative.jetstories.data.repository
 
-import id.furqoncreative.jetstories.data.source.network.response.JetstoriesApiService
+import id.furqoncreative.jetstories.data.source.network.JetstoriesApiService
 import id.furqoncreative.jetstories.model.login.LoginResponse
 
 interface LoginRepository {

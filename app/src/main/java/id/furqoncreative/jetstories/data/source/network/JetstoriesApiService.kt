@@ -1,4 +1,4 @@
-package id.furqoncreative.jetstories.data.source.network.response
+package id.furqoncreative.jetstories.data.source.network
 
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import retrofit2.http.Field
