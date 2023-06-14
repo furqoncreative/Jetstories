@@ -18,14 +18,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import id.furqoncreative.jetstories.ui.components.EmailState
 import id.furqoncreative.jetstories.ui.components.EmailStateSaver
 import id.furqoncreative.jetstories.ui.components.PasswordState
@@ -36,9 +34,9 @@ import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    loginViewModel: LoginViewModel = hiltViewModel()
 ) {
-    val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
 
     val emailState by rememberSaveable(stateSaver = EmailStateSaver) {
         mutableStateOf(EmailState())
