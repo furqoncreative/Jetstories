@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import id.furqoncreative.jetstories.ui.pages.home.HomeScreen
 import id.furqoncreative.jetstories.ui.pages.login.LoginScreen
 
 @Composable
@@ -24,12 +25,16 @@ fun JetstoriesNavGraph(
     val currentRoute = currentNavBackStackEntry?.destination?.route ?: startDestination
 
     NavHost(
-        navController = navController,
-        startDestination = startDestination,
-        modifier = modifier
+        navController = navController, startDestination = startDestination, modifier = modifier
     ) {
         composable(JetstoriesDestinations.LOGIN_ROUTE) {
-            LoginScreen()
+            LoginScreen(onSuccessLogin = {
+                JetstoriesNavigationActions(navController).navigateToHome()
+            })
+        }
+
+        composable(JetstoriesDestinations.HOME_ROUTE) {
+            HomeScreen()
         }
     }
 }
