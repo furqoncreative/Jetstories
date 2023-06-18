@@ -87,7 +87,6 @@ fun LoginScreen(
     SnackbarHost(hostState = snackbarHostState, Modifier)
 }
 
-
 @Preview(showBackground = true, device = Devices.PIXEL_4)
 @Composable
 fun LoginScreenPreview() {
