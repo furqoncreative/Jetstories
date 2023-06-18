@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
-import id.furqoncreative.jetstories.ui.navigation.JetstoriesNavGraph
+import id.furqoncreative.jetstories.ui.JetstoriesApp
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 
 @AndroidEntryPoint
@@ -18,10 +18,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetStoriesTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    JetstoriesNavGraph()
+                    JetstoriesApp()
                 }
             }
         }
