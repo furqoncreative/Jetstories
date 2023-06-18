@@ -1,95 +1,100 @@
 package id.furqoncreative.jetstories.ui.pages.login
 
-import android.widget.Toast
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import id.furqoncreative.jetstories.ui.components.EmailState
-import id.furqoncreative.jetstories.ui.components.EmailStateSaver
-import id.furqoncreative.jetstories.ui.components.PasswordState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.furqoncreative.jetstories.ui.pages.login.components.LoginBody
 import id.furqoncreative.jetstories.ui.pages.login.components.LoginHeader
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
+    onSuccessLogin: () -> Unit,
     modifier: Modifier = Modifier,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
-
-    val emailState by rememberSaveable(stateSaver = EmailStateSaver) {
-        mutableStateOf(EmailState())
-    }
-
-    val passwordState = remember { PasswordState() }
+    val uiState by loginViewModel.uiState.collectAsStateWithLifecycle()
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val onSubmit = {
-        if (emailState.isValid && passwordState.isValid) {
-            loginViewModel.loginUser(
-                emailState.text, passwordState.text
-            )
+        if (uiState.emailState.isValid && uiState.passwordState.isValid) {
+            loginViewModel.loginUser()
             keyboardController?.hide()
         }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .verticalScroll(state = rememberScrollState())
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Scaffold(modifier = modifier
+        .fillMaxWidth()
+        .padding(16.dp),
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { paddingValues ->
 
-        ) {
-        when (loginViewModel.loginUiState) {
-            is LoginUiState.Loading -> {
-                LinearProgressIndicator()
-            }
-
-            is LoginUiState.Success -> {
-                Toast.makeText(LocalContext.current, "Login", Toast.LENGTH_LONG).show()
-            }
-
-            is LoginUiState.Error -> {
-                Toast.makeText(LocalContext.current, "Error", Toast.LENGTH_LONG).show()
-            }
-
-            LoginUiState.Idle -> {
-
+        uiState.userMessage?.let { userMessage ->
+            val snackbarText = stringResource(userMessage)
+            LaunchedEffect(snackbarHostState, loginViewModel, userMessage, snackbarText) {
+                snackbarHostState.showSnackbar(snackbarText)
+                loginViewModel.snackbarMessageShown()
             }
         }
 
-        LoginHeader(modifier = modifier)
+        LaunchedEffect(uiState.isSuccessLogin) {
+            Log.d("TAG", "LoginScreen: ${uiState.isSuccessLogin}")
+            if (uiState.isSuccessLogin) {
+                onSuccessLogin()
+            }
+        }
 
-        LoginBody(
-            emailState = emailState,
-            passwordState = passwordState,
-            onSubmit = onSubmit,
-            modifier = modifier
-        )
+        Column(
+            modifier = Modifier
+                .verticalScroll(state = rememberScrollState())
+                .padding(paddingValues),
+            horizontalAlignment = Alignment.CenterHorizontally,
+
+            ) {
+
+            if (uiState.isLoading) {
+                LinearProgressIndicator()
+            }
+
+            LoginHeader(modifier = modifier)
+
+            LoginBody(
+                emailState = uiState.emailState,
+                passwordState = uiState.passwordState,
+                onSubmit = onSubmit,
+                modifier = modifier
+            )
+        }
     }
+
+
 }
 
 @Preview(showBackground = true, device = Devices.PIXEL_4)
@@ -99,7 +104,7 @@ fun LoginScreenPreview() {
         Surface(
             color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()
         ) {
-            LoginScreen()
+            LoginScreen(onSuccessLogin = {})
         }
     }
 }
