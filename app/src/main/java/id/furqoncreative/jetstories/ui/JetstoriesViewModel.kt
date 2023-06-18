@@ -1,6 +1,5 @@
 package id.furqoncreative.jetstories.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +25,6 @@ class JetstoriesViewModel @Inject constructor(
     }
 
     private suspend fun checkUserLoginStatus() = preferencesManager.getUserToken.collect { token ->
-        Log.d("TAG", "checkUserLoginStatus: $token")
         if (token.isNotEmpty()) {
             _uiState.update { true }
         }
