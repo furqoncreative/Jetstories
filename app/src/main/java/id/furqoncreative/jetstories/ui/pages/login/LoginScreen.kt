@@ -29,7 +29,7 @@ import id.furqoncreative.jetstories.ui.pages.login.components.LoginBody
 import id.furqoncreative.jetstories.ui.pages.login.components.LoginHeader
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
     onSuccessLogin: () -> Unit,
@@ -61,7 +61,6 @@ fun LoginScreen(
             loginViewModel.snackbarMessageShown()
         }
     }
-
 
     Column(
         modifier = Modifier
