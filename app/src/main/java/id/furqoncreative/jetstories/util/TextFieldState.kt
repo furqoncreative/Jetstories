@@ -41,11 +41,3 @@ open class TextFieldState(
         }
     }
 }
-
-fun textFieldStateSaver(state: TextFieldState) =
-    listSaver<TextFieldState, Any>(save = { listOf(it.text, it.isFocusedDirty) }, restore = {
-        state.apply {
-            text = it[0] as String
-            isFocusedDirty = it[1] as Boolean
-        }
-    })
