@@ -29,7 +29,7 @@ fun JetstoriesNavGraph(
     ) {
         composable(JetstoriesDestinations.LOGIN_ROUTE) {
             LoginScreen(onSuccessLogin = {
-                JetstoriesNavigationActions(navController).navigateToHome()
+                navAction.navigateToHome()
             })
         }
 
