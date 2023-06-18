@@ -51,23 +51,23 @@ fun LoginScreen(
         }
     }
 
-    Scaffold(modifier = modifier
+    Scaffold(
+        modifier = modifier
         .fillMaxWidth()
         .padding(16.dp),
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { paddingValues ->
+
+        LaunchedEffect(uiState.isSuccessLogin) {
+            if (uiState.isSuccessLogin) {
+                onSuccessLogin()
+            }
+        }
 
         uiState.userMessage?.let { userMessage ->
             val snackbarText = stringResource(userMessage)
             LaunchedEffect(snackbarHostState, loginViewModel, userMessage, snackbarText) {
                 snackbarHostState.showSnackbar(snackbarText)
                 loginViewModel.snackbarMessageShown()
-            }
-        }
-
-        LaunchedEffect(uiState.isSuccessLogin) {
-            Log.d("TAG", "LoginScreen: ${uiState.isSuccessLogin}")
-            if (uiState.isSuccessLogin) {
-                onSuccessLogin()
             }
         }
 
