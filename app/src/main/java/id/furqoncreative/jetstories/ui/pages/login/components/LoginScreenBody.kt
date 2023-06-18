@@ -55,9 +55,11 @@ fun LoginBody(
 
         Button(modifier = Modifier
             .height(56.dp)
-            .fillMaxWidth(), onClick = {
-            onSubmit()
-        }) {
+            .fillMaxWidth(),
+            enabled = emailState.isValid && passwordState.isValid,
+            onClick = {
+                onSubmit()
+            }) {
             Text(text = "Sign in")
         }
     }
