@@ -1,12 +1,10 @@
 package id.furqoncreative.jetstories.model.login
 
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
 data class LoginResponse(
-    @SerialName("error") val error: Boolean?,
-    @SerialName("loginResult") val loginResult: LoginResult?,
-    @SerialName("message") val message: String?
+    @SerializedName("error") val error: Boolean?,
+    @SerializedName("loginResult") val loginResult: LoginResult?,
+    @SerializedName("message") val message: String?
 )
