@@ -1,16 +1,13 @@
 package id.furqoncreative.jetstories.ui.pages.login
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
@@ -51,51 +48,47 @@ fun LoginScreen(
         }
     }
 
-    Scaffold(
-        modifier = modifier
-        .fillMaxWidth()
-        .padding(16.dp),
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { paddingValues ->
-
-        LaunchedEffect(uiState.isSuccessLogin) {
-            if (uiState.isSuccessLogin) {
-                onSuccessLogin()
-            }
+    LaunchedEffect(uiState.isSuccessLogin) {
+        if (uiState.isSuccessLogin) {
+            onSuccessLogin()
         }
+    }
 
-        uiState.userMessage?.let { userMessage ->
-            val snackbarText = stringResource(userMessage)
-            LaunchedEffect(snackbarHostState, loginViewModel, userMessage, snackbarText) {
-                snackbarHostState.showSnackbar(snackbarText)
-                loginViewModel.snackbarMessageShown()
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .verticalScroll(state = rememberScrollState())
-                .padding(paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally,
-
-            ) {
-
-            if (uiState.isLoading) {
-                LinearProgressIndicator()
-            }
-
-            LoginHeader(modifier = modifier)
-
-            LoginBody(
-                emailState = uiState.emailState,
-                passwordState = uiState.passwordState,
-                onSubmit = onSubmit,
-                modifier = modifier
-            )
+    uiState.userMessage?.let { userMessage ->
+        val snackbarText = stringResource(userMessage)
+        LaunchedEffect(snackbarHostState, loginViewModel, userMessage, snackbarText) {
+            snackbarHostState.showSnackbar(snackbarText)
+            loginViewModel.snackbarMessageShown()
         }
     }
 
 
+    Column(
+        modifier = Modifier
+            .verticalScroll(state = rememberScrollState())
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+
+        ) {
+
+        if (uiState.isLoading) {
+            LinearProgressIndicator(color = MaterialTheme.colorScheme.tertiary)
+        }
+
+        LoginHeader(modifier = modifier)
+
+        LoginBody(
+            emailState = uiState.emailState,
+            passwordState = uiState.passwordState,
+            onSubmit = onSubmit,
+            modifier = modifier
+        )
+    }
+
+    SnackbarHost(hostState = snackbarHostState, Modifier)
 }
+
 
 @Preview(showBackground = true, device = Devices.PIXEL_4)
 @Composable
