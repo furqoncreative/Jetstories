@@ -1,14 +1,20 @@
 package id.furqoncreative.jetstories.di
 
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import id.furqoncreative.jetstories.BuildConfig
 import id.furqoncreative.jetstories.BuildConfig.BASE_URL
 import id.furqoncreative.jetstories.data.repository.LoginRepository
 import id.furqoncreative.jetstories.data.repository.NetworkLoginRepository
+import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.data.source.network.JestoriesNetworkDataSource
 import id.furqoncreative.jetstories.data.source.network.JetstoriesApiService
 import id.furqoncreative.jetstories.data.source.network.NetworkDataSource
@@ -21,17 +27,32 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
+object DataStorePreferencesModule {
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "jetstories-preferences")
+
+    @Singleton
+    @Provides
+    fun provideDataStore(@ApplicationContext app: Context): DataStore<Preferences> = app.dataStore
+
+    @Singleton
+    @Provides
+    fun providePreferencesManager(dataStore: DataStore<Preferences>): PreferencesManager =
+        PreferencesManager(dataStore)
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
 object NetworkDataModules {
 
     @Provides
     @Singleton
     fun okHttpCallFactory(): Call.Factory = OkHttpClient.Builder().addInterceptor(
-            HttpLoggingInterceptor().apply {
-                    if (BuildConfig.DEBUG) {
-                        setLevel(HttpLoggingInterceptor.Level.BODY)
-                    }
-                },
-        ).build()
+        HttpLoggingInterceptor().apply {
+            if (BuildConfig.DEBUG) {
+                setLevel(HttpLoggingInterceptor.Level.BODY)
+            }
+        },
+    ).build()
 
     @Provides
     fun provideAppService(
