@@ -23,11 +23,11 @@ private fun passwordAndConfirmationValid(password: String, confirmedPassword: St
 }
 
 private fun isPasswordValid(password: String): Boolean {
-    return password.length > 7
+    return password.length > 7 && password.isNotBlank()
 }
 
 private fun passwordValidationError(password: String): String {
-    return "Invalid password"
+    return "Password must be at least 8 characters long"
 }
 
 private fun passwordConfirmationError(): String {

@@ -1,4 +1,4 @@
-package id.furqoncreative.jetstories.data.source.network.response
+package id.furqoncreative.jetstories.data.source.network
 
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import retrofit2.http.Field
@@ -12,5 +12,4 @@ interface JetstoriesApiService {
     suspend fun loginUser(
         @Field("email") email: String, @Field("password") password: String
     ): LoginResponse
-
 }

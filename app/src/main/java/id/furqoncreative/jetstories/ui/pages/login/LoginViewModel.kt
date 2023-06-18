@@ -1,57 +1,84 @@
 package id.furqoncreative.jetstories.ui.pages.login
 
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import id.furqoncreative.jetstories.JetstoriesApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
+import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.LoginRepository
 import id.furqoncreative.jetstories.model.login.LoginResponse
+import id.furqoncreative.jetstories.model.login.LoginResult
+import id.furqoncreative.jetstories.ui.components.EmailState
+import id.furqoncreative.jetstories.ui.components.PasswordState
+import id.furqoncreative.jetstories.util.Async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
+import javax.inject.Inject
 
-sealed interface LoginUiState {
-    data class Success(val loginResponse: LoginResponse) : LoginUiState
-    object Error : LoginUiState
-    object Loading : LoginUiState
-    object Idle : LoginUiState
-}
+data class LoginUiState(
+    val emailState: EmailState = EmailState(),
+    val passwordState: PasswordState = PasswordState(),
+    val isLoading: Boolean = false,
+    val userMessage: Int? = null,
+    val loginResult: LoginResult? = null,
+    val isSuccessLogin: Boolean = false
+)
 
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     val loginRepository: LoginRepository
 ) : ViewModel() {
+    private val _uiState = MutableStateFlow(LoginUiState())
+    val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
-    var loginUiState: LoginUiState by mutableStateOf(LoginUiState.Idle)
-        private set
-
-    fun loginUser(email: String, password: String) {
+    fun loginUser() {
         viewModelScope.launch {
-            loginUiState = LoginUiState.Loading
-            loginUiState = try {
-                LoginUiState.Success(loginRepository.loginUser(email, password))
-            } catch (e: Exception) {
-                Log.d("TAG", "loginUser: $e")
-                LoginUiState.Error
-            } catch (e: HttpException) {
-                Log.d("TAG", "loginUser: $e")
-                LoginUiState.Error
+            _uiState.update {
+                it.copy(isLoading = true)
+            }
+            loginRepository.loginUser(
+                uiState.value.emailState.text, uiState.value.passwordState.text
+            ).collect { loginAsync ->
+                _uiState.update {
+                    produceLoginUiState(loginAsync)
+                }
+            }
+        }
+
+    }
+
+    private fun produceLoginUiState(loginAsync: Async<LoginResponse>) = when (loginAsync) {
+        Async.Loading -> LoginUiState(isLoading = true)
+
+        is Async.Error -> LoginUiState(
+            userMessage = loginAsync.errorMessage, isLoading = false, isSuccessLogin = false
+        )
+
+        is Async.Success -> {
+            val loginResult = loginAsync.data.loginResult
+            if (loginResult != null) {
+                LoginUiState(
+                    loginResult = loginResult, isLoading = false, isSuccessLogin = true
+                )
+            } else {
+                LoginUiState(
+                    emailState = uiState.value.emailState,
+                    passwordState = uiState.value.passwordState,
+                    isLoading = false,
+                    isSuccessLogin = false,
+                    userMessage = R.string.user_not_found
+                )
             }
         }
     }
 
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = (this[APPLICATION_KEY] as JetstoriesApplication)
-                val loginRepository = application.container.loginRepository
-                LoginViewModel(loginRepository = loginRepository)
-            }
+    fun snackbarMessageShown() {
+        _uiState.update {
+            it.copy(
+                userMessage = null
+            )
         }
     }
 }
