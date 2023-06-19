@@ -24,11 +24,11 @@ class JestoriesNetworkDataSource @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun `getAllStories`(
-        page: Int?, size: Int?, location: Int?
+    override suspend fun getAllStories(
+        token: String, page: Int?, size: Int?, location: Int?
     ): Flow<GetAllStoriesResponse> = flow {
         try {
-            val response = appService.getAllStories(page, size, location)
+            val response = appService.getAllStories(token, page, size, location)
             emit(response)
         } catch (e: Exception) {
             emit(

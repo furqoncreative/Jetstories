@@ -4,6 +4,8 @@ import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -15,10 +17,11 @@ interface JetstoriesApiService {
         @Field("email") email: String, @Field("password") password: String
     ): LoginResponse
 
-    @POST("login")
+    @GET("stories")
     suspend fun getAllStories(
+        @Header("Authorization") token: String,
         @Query("page") page: Int?,
         @Query("size") size: Int?,
-        @Query("location") location: Int? = 0,
+        @Query("location") location: Int?,
     ): GetAllStoriesResponse
 }

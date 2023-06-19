@@ -10,6 +10,6 @@ interface NetworkDataSource {
     ): Flow<LoginResponse>
 
     suspend fun getAllStories(
-        page: Int?, size: Int?, location: Int?
+        token: String, page: Int?, size: Int?, location: Int?
     ): Flow<GetAllStoriesResponse>
 }
