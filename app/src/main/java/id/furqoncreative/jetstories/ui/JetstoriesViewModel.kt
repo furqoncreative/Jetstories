@@ -4,9 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
+import id.furqoncreative.jetstories.util.WhileUiSubscribed
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,18 +18,25 @@ import javax.inject.Inject
 class JetstoriesViewModel @Inject constructor(
     private val preferencesManager: PreferencesManager
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(false)
-    val isLoggedIn: StateFlow<Boolean> = _uiState.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading = _isLoading.asStateFlow()
+
+    val isLoggedIn =
+        preferencesManager.getUserToken
+            .map {
+                it.isNotEmpty()
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = WhileUiSubscribed,
+                initialValue = false
+            )
 
     init {
         viewModelScope.launch {
-            checkUserLoginStatus()
-        }
-    }
-
-    private suspend fun checkUserLoginStatus() = preferencesManager.getUserToken.collect { token ->
-        if (token.isNotEmpty()) {
-            _uiState.update { true }
+            delay(2000)
+            _isLoading.value = false
         }
     }
 }

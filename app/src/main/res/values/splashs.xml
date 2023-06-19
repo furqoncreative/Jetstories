@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.JetStories.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/jetstories_logo</item>
+        <item name="windowSplashScreenBackground">@color/light_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.JetStories</item>
+    </style>
+</resources>
