@@ -12,10 +12,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.JetStories"
+        android:theme="@style/Theme.JetStories.Starting"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".JetstoriesActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.JetStories">

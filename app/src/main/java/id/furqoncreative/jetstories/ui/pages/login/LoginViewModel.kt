@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.LoginRepository
+import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.model.login.LoginResult
 import id.furqoncreative.jetstories.ui.components.EmailState
@@ -28,7 +29,8 @@ data class LoginUiState(
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    val loginRepository: LoginRepository
+    val loginRepository: LoginRepository,
+    val preferencesManager: PreferencesManager
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -49,7 +51,7 @@ class LoginViewModel @Inject constructor(
 
     }
 
-    private fun produceLoginUiState(loginAsync: Async<LoginResponse>) = when (loginAsync) {
+    private suspend fun produceLoginUiState(loginAsync: Async<LoginResponse>) = when (loginAsync) {
         Async.Loading -> LoginUiState(isLoading = true)
 
         is Async.Error -> LoginUiState(
@@ -59,6 +61,7 @@ class LoginViewModel @Inject constructor(
         is Async.Success -> {
             val loginResult = loginAsync.data.loginResult
             if (loginResult != null) {
+                preferencesManager.setUserToken(loginResult.token)
                 LoginUiState(
                     loginResult = loginResult, isLoading = false, isSuccessLogin = true
                 )
