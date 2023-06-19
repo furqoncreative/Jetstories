@@ -1,6 +1,7 @@
 package id.furqoncreative.jetstories.data.source.network
 
 import id.furqoncreative.jetstories.model.login.LoginResponse
+import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -19,5 +20,5 @@ interface JetstoriesApiService {
         @Query("page") page: Int?,
         @Query("size") size: Int?,
         @Query("location") location: Int? = 0,
-    ): LoginResponse
+    ): GetAllStoriesResponse
 }
