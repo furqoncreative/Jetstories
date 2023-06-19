@@ -34,7 +34,7 @@ fun JetstoriesNavGraph(
         }
 
         composable(JetstoriesDestinations.HOME_ROUTE) {
-            HomeScreen()
+            HomeScreen(onClickDetail = {})
         }
     }
 }
