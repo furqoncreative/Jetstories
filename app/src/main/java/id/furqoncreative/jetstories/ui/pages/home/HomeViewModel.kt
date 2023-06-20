@@ -47,17 +47,14 @@ class HomeViewModel @Inject constructor(
 
     private fun produceHomeUiState(storiesAsync: Async<GetAllStoriesResponse>) =
         when (storiesAsync) {
-            Async.Loading -> {
-                HomeUiState(isLoading = true, isEmpty = true)
-            }
+            Async.Loading -> HomeUiState(isLoading = true, isEmpty = true)
 
-            is Async.Error -> {
+            is Async.Error ->
                 HomeUiState(
                     isEmpty = true,
                     isLoading = false,
                     userMessage = storiesAsync.errorMessage
                 )
-            }
 
             is Async.Success -> {
                 val stories = storiesAsync.data.listStory
