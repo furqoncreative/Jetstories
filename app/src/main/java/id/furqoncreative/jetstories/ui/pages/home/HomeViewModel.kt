@@ -41,9 +41,9 @@ class HomeViewModel @Inject constructor(
             _uiState.update {
                 it.copy(isLoading = true)
             }
-            storiesRepository.getAllStories().collect { storiesAscyn ->
+            storiesRepository.getAllStories().collect { storiesAsync ->
                 _uiState.update {
-                    produceHomeUiState(storiesAscyn)
+                    produceHomeUiState(storiesAsync)
                 }
             }
         }

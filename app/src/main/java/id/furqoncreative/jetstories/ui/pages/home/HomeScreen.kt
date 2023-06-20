@@ -114,7 +114,8 @@ fun HomeScreen(
                     Icon(imageVector = Icons.Default.MoreVert, contentDescription = "More Menu")
                 }
                 OptionMenu(
-                    expanded = optionMenuExpandState, onClickMenu = mapOf(Pair(first = MenuItem.LOGOUT, second = {
+                    expanded = optionMenuExpandState,
+                    onClickMenu = mapOf(Pair(first = MenuItem.LOGOUT, second = {
                         Timber.d("LEWAT")
                         homeViewModel.userLogout()
                     }), Pair(MenuItem.SETTINGS) {
