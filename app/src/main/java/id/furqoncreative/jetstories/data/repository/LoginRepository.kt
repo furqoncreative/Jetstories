@@ -20,8 +20,12 @@ class NetworkLoginRepository @Inject constructor(
 ) : LoginRepository {
     override suspend fun loginUser(email: String, password: String): Flow<Async<LoginResponse>> {
         return networkDataSource.loginUser(email, password).map {
-            Async.Success(it)
-        }.catch<Async<LoginResponse>> {
+            if (it.error){
+                Async.Error(R.string.universal_error_message)
+            } else {
+                Async.Success(it)
+            }
+        }.catch {
             Async.Error(R.string.universal_error_message)
         }
     }
