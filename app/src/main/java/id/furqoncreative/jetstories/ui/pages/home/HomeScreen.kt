@@ -23,7 +23,9 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,19 +36,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import id.furqoncreative.jetstories.ui.components.MenuItem
+import id.furqoncreative.jetstories.ui.components.OptionMenu
 import id.furqoncreative.jetstories.ui.pages.home.components.StoryRow
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import timber.log.Timber
 
 @Composable
 fun HomeScreen(
     onClickStoryItem: () -> Unit,
     onClickAddStory: () -> Unit,
+    onClickSettings: () -> Unit,
+    onUserLoggedOut: () -> Unit,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
+    optionMenuExpandState: MutableState<Boolean> = remember { mutableStateOf(false) },
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
@@ -58,6 +66,14 @@ fun HomeScreen(
             homeViewModel.snackbarMessageShown()
         }
     }
+
+    LaunchedEffect(uiState.isUserLogout) {
+        Timber.d("${uiState.isUserLogout}")
+        if (uiState.isUserLogout) {
+            onUserLoggedOut()
+        }
+    }
+
 
     CollapsingToolbarScaffold(modifier = modifier,
         state = collapsingToolbarScaffoldState,
@@ -94,9 +110,17 @@ fun HomeScreen(
                 IconButton(onClick = { onClickAddStory() }) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = "Add Story")
                 }
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { optionMenuExpandState.value = true }) {
                     Icon(imageVector = Icons.Default.MoreVert, contentDescription = "More Menu")
                 }
+                OptionMenu(
+                    expanded = optionMenuExpandState, onClickMenu = mapOf(Pair(first = MenuItem.LOGOUT, second = {
+                        Timber.d("LEWAT")
+                        homeViewModel.userLogout()
+                    }), Pair(MenuItem.SETTINGS) {
+                        onClickSettings()
+                    })
+                )
             }
 
         }) {
