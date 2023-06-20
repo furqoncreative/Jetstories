@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.components.MenuItem
 import id.furqoncreative.jetstories.ui.components.OptionMenu
 import id.furqoncreative.jetstories.ui.pages.home.components.StoryRow
@@ -55,6 +56,7 @@ fun HomeScreen(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
     optionMenuExpandState: MutableState<Boolean> = remember { mutableStateOf(false) },
+    alertDialogState: MutableState<Boolean> = remember { mutableStateOf(false) },
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
@@ -74,6 +76,16 @@ fun HomeScreen(
         }
     }
 
+    JetstoriesAlertDialog(
+        openDialog = alertDialogState,
+        title = "Logout",
+        text = "Are you sure you want to logout?",
+        confirmText = "Yes",
+        dismissText = "No",
+        confirmAction = {
+            homeViewModel.userLogout()
+        },
+    )
 
     CollapsingToolbarScaffold(modifier = modifier,
         state = collapsingToolbarScaffoldState,
@@ -89,7 +101,6 @@ fun HomeScreen(
                     .pin()
                     .background(color = MaterialTheme.colorScheme.background)
             )
-
             Text(
                 "Jetstories", style = TextStyle(
                     color = MaterialTheme.colorScheme.onBackground,
@@ -116,8 +127,7 @@ fun HomeScreen(
                 OptionMenu(
                     expanded = optionMenuExpandState,
                     onClickMenu = mapOf(Pair(first = MenuItem.LOGOUT, second = {
-                        Timber.d("LEWAT")
-                        homeViewModel.userLogout()
+                        alertDialogState.value = true
                     }), Pair(MenuItem.SETTINGS) {
                         onClickSettings()
                     })
