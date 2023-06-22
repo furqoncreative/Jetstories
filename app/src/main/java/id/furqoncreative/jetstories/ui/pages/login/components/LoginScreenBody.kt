@@ -1,5 +1,6 @@
 package id.furqoncreative.jetstories.ui.pages.login.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +26,7 @@ fun LoginBody(
     emailState: TextFieldState,
     passwordState: PasswordState,
     onSubmit: () -> Unit,
+    onClickSignup: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -46,11 +48,13 @@ fun LoginBody(
             Text(
                 text = "Don't have an account?"
             )
-            Text(
-                text = "Sign up",
+            Text(text = "Sign up",
                 color = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier.padding(start = 8.dp)
-            )
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .clickable {
+                        onClickSignup()
+                    })
         }
 
         Button(modifier = Modifier
@@ -69,6 +73,10 @@ fun LoginBody(
 @Composable
 fun LoginBodyPreview() {
     JetStoriesTheme {
-        LoginBody(emailState = TextFieldState(), passwordState = PasswordState(), onSubmit = {})
+        LoginBody(
+            emailState = TextFieldState(),
+            passwordState = PasswordState(),
+            onSubmit = {},
+            onClickSignup = {})
     }
 }

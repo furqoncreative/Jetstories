@@ -32,6 +32,7 @@ import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 @Composable
 fun LoginScreen(
     onSuccessLogin: () -> Unit,
+    onClickSignup: () -> Unit,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     loginViewModel: LoginViewModel = hiltViewModel()
@@ -80,6 +81,7 @@ fun LoginScreen(
             emailState = uiState.emailState,
             passwordState = uiState.passwordState,
             onSubmit = onSubmit,
+            onClickSignup = onClickSignup,
             modifier = modifier
         )
     }
@@ -94,7 +96,7 @@ fun LoginScreenPreview() {
         Surface(
             color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()
         ) {
-            LoginScreen(onSuccessLogin = {})
+            LoginScreen(onSuccessLogin = {}, onClickSignup = {})
         }
     }
 }
