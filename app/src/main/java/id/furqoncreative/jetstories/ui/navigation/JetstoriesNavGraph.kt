@@ -11,6 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import id.furqoncreative.jetstories.ui.pages.home.HomeScreen
 import id.furqoncreative.jetstories.ui.pages.login.LoginScreen
+import id.furqoncreative.jetstories.ui.pages.register.RegisterScreen
 
 @Composable
 fun JetstoriesNavGraph(
@@ -30,17 +31,22 @@ fun JetstoriesNavGraph(
         composable(JetstoriesDestinations.LOGIN_ROUTE) {
             LoginScreen(onSuccessLogin = {
                 navAction.navigateToHome()
+            }, onClickSignup = {
+                navAction.navigateToRegister()
             })
         }
 
         composable(JetstoriesDestinations.HOME_ROUTE) {
-            HomeScreen(
-                onClickAddStory = {},
+            HomeScreen(onClickAddStory = {},
                 onClickStoryItem = {},
                 onClickSettings = {},
                 onUserLoggedOut = {
                     navAction.navigateToLogin()
                 })
+        }
+
+        composable(JetstoriesDestinations.REGISTER_ROUTE) {
+            RegisterScreen()
         }
     }
 }
