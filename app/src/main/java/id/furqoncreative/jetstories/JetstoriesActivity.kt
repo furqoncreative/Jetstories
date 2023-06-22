@@ -16,13 +16,15 @@ import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 
 @AndroidEntryPoint
 class JetstoriesActivity : ComponentActivity() {
+    private val viewModel: JetstoriesViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        val viewModel: JetstoriesViewModel by viewModels()
-        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-
-        splashScreen.setKeepOnScreenCondition{viewModel.isLoading.value}
-
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                viewModel.isLoading.value
+            }
+        }
         setContent {
             JetStoriesTheme {
                 Surface(
