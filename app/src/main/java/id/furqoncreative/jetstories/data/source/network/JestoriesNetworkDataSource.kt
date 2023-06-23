@@ -1,5 +1,6 @@
 package id.furqoncreative.jetstories.data.source.network
 
+import com.google.gson.Gson
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.model.register.RegisterResponse
 import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
@@ -7,7 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import retrofit2.HttpException
 import javax.inject.Inject
+
 
 class JestoriesNetworkDataSource @Inject constructor(
     private val appService: JetstoriesApiService
@@ -16,6 +19,10 @@ class JestoriesNetworkDataSource @Inject constructor(
         try {
             val response = appService.loginUser(email, password)
             emit(response)
+        } catch (e: HttpException) {
+            val errorBody = e.response()!!.errorBody()!!.string()
+            val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
+            emit(errorResponse)
         } catch (e: Exception) {
             emit(
                 LoginResponse(
@@ -28,9 +35,14 @@ class JestoriesNetworkDataSource @Inject constructor(
     override suspend fun registerUser(
         email: String, name: String, password: String
     ): Flow<RegisterResponse> = flow {
+
         try {
             val response = appService.registerUser(email, name, password)
             emit(response)
+        } catch (e: HttpException) {
+            val errorBody = e.response()!!.errorBody()!!.string()
+            val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
+            emit(errorResponse)
         } catch (e: Exception) {
             emit(
                 RegisterResponse(
@@ -46,6 +58,10 @@ class JestoriesNetworkDataSource @Inject constructor(
         try {
             val response = appService.getAllStories(token, page, size, location)
             emit(response)
+        } catch (e: HttpException) {
+            val errorBody = e.response()!!.errorBody()!!.string()
+            val errorResponse = Gson().fromJson(errorBody, GetAllStoriesResponse::class.java)
+            emit(errorResponse)
         } catch (e: Exception) {
             emit(
                 GetAllStoriesResponse(
