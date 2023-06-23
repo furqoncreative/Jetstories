@@ -3,7 +3,10 @@
     <string name="app_tagline">Be heard, be seen, be yourself!</string>
     <string name="email_label">Email</string>
     <string name="email_placeholder">Masukan email Anda</string>
+    <string name="name_label">Name</string>
+    <string name="name_placeholder">Masukan nama Anda</string>
     <string name="password_label">Password</string>
+    <string name="confirmation_password_label">Confirm Password</string>
     <string name="password_placeholder">Masukan password Anda</string>
     <string name="show_password">Show password</string>
     <string name="hide_password">Hide password</string>
