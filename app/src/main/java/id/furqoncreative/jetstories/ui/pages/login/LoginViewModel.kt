@@ -3,7 +3,6 @@ package id.furqoncreative.jetstories.ui.pages.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.LoginRepository
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.model.login.LoginResponse
@@ -22,7 +21,7 @@ data class LoginUiState(
     val emailState: EmailState = EmailState(),
     val passwordState: PasswordState = PasswordState(),
     val isLoading: Boolean = false,
-    val userMessage: Int? = null,
+    val userMessage: String? = null,
     val loginResult: LoginResult? = null,
     val isSuccessLogin: Boolean = false
 )
@@ -70,7 +69,7 @@ class LoginViewModel @Inject constructor(
                     passwordState = uiState.value.passwordState,
                     isLoading = false,
                     isSuccessLogin = false,
-                    userMessage = R.string.user_not_found
+                    userMessage = loginAsync.data.message
                 )
             }
         }
