@@ -14,7 +14,6 @@ interface NetworkDataSource {
         email: String, name: String, password: String
     ): Flow<RegisterResponse>
 
-
     suspend fun getAllStories(
         token: String, page: Int?, size: Int?, location: Int?
     ): Flow<GetAllStoriesResponse>

@@ -7,6 +7,8 @@ import id.furqoncreative.jetstories.util.Async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface RegisterRepository {
     suspend fun registerUser(
@@ -16,7 +18,8 @@ interface RegisterRepository {
     ): Flow<Async<RegisterResponse>>
 }
 
-class NetworkRegisterRepository(
+@Singleton
+class NetworkRegisterRepository @Inject constructor(
     private val networkDataSource: NetworkDataSource
 ) : RegisterRepository {
     override suspend fun registerUser(
