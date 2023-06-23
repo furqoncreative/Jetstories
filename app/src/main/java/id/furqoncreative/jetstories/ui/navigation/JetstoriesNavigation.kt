@@ -12,14 +12,9 @@ import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.REGISTER_SCR
 
 private object JetstoriesScreens {
     const val LOGIN_SCREEN = "login"
-    const val REGISTER_SCREEN = "home"
+    const val REGISTER_SCREEN = "register"
     const val HOME_SCREEN = "home"
 }
-
-object JetstoriesDestinationsArgs {
-    const val USER_DATA = "userData"
-}
-
 
 object JetstoriesDestinations {
     const val LOGIN_ROUTE = LOGIN_SCREEN
@@ -28,6 +23,10 @@ object JetstoriesDestinations {
 }
 
 class JetstoriesNavigationActions(private val navHostController: NavHostController) {
+    fun navigateUp() {
+        navHostController.navigateUp()
+    }
+
     fun navigateToLogin() {
         navHostController.navigate(LOGIN_ROUTE)
     }

@@ -46,7 +46,11 @@ fun JetstoriesNavGraph(
         }
 
         composable(JetstoriesDestinations.REGISTER_ROUTE) {
-            RegisterScreen()
+            RegisterScreen(
+                onNavUp = {
+                    navAction.navigateUp()
+                }
+            )
         }
     }
 }
