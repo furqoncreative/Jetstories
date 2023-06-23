@@ -1,5 +1,6 @@
 package id.furqoncreative.jetstories.data.repository
 
+import android.content.res.Resources
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.data.source.network.NetworkDataSource
@@ -33,7 +34,7 @@ class NetworkGetAllStoriesRepository @Inject constructor(
         ).map {
             Async.Success(it)
         }.catch<Async<GetAllStoriesResponse>> {
-            Async.Error(R.string.universal_error_message)
+            Async.Error(Resources.getSystem().getString(R.string.universal_error_message))
         }
     }
 }

@@ -20,7 +20,7 @@ data class HomeUiState(
     val isEmpty: Boolean = false,
     val isLoading: Boolean = false,
     val isUserLogout: Boolean = false,
-    val userMessage: Int? = null,
+    val userMessage: String? = null,
     val stories: List<Story>? = null,
 )
 
