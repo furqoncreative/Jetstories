@@ -1,6 +1,7 @@
 package id.furqoncreative.jetstories.data.source.network
 
 import id.furqoncreative.jetstories.model.login.LoginResponse
+import id.furqoncreative.jetstories.model.register.RegisterResponse
 import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,6 +20,21 @@ class JestoriesNetworkDataSource @Inject constructor(
             emit(
                 LoginResponse(
                     error = true, message = e.message, loginResult = null
+                )
+            )
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun registerUser(
+        email: String, name: String, password: String
+    ): Flow<RegisterResponse> = flow {
+        try {
+            val response = appService.registerUser(email, name, password)
+            emit(response)
+        } catch (e: Exception) {
+            emit(
+                RegisterResponse(
+                    error = true, message = e.message
                 )
             )
         }
