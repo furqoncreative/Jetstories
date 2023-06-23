@@ -29,7 +29,10 @@ import id.furqoncreative.jetstories.util.TextFieldState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordTextField(
-    passwordState: TextFieldState, onImeAction: () -> Unit = {}
+    label: String,
+    passwordState: TextFieldState,
+    imeAction: ImeAction = ImeAction.Done,
+    onImeAction: () -> Unit = {}
 ) {
     val showPassword = rememberSaveable { mutableStateOf(false) }
 
@@ -40,7 +43,7 @@ fun PasswordTextField(
             passwordState.enableShowErrors()
         },
         label = {
-            Text(text = stringResource(R.string.password_label))
+            Text(text = label)
         },
         placeholder = {
             Text(text = stringResource(R.string.password_placeholder))
@@ -86,7 +89,7 @@ fun PasswordTextField(
             passwordState.getError()?.let { error -> TextFieldError(textError = error) }
         },
         keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Done, keyboardType = KeyboardType.Password
+            imeAction = imeAction, keyboardType = KeyboardType.Password
         ),
         keyboardActions = KeyboardActions(onDone = {
             onImeAction()
@@ -98,7 +101,7 @@ fun PasswordTextField(
 @Preview
 @Composable
 fun PasswordTextFieldPreview() {
-    PasswordTextField(passwordState = rememberSaveable {
+    PasswordTextField(label = "Password", passwordState = rememberSaveable {
         PasswordState()
     })
 }

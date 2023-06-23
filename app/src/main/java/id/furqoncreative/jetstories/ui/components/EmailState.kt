@@ -7,8 +7,8 @@ private const val EMAIL_VALIDATION_REGEX = "^[\\w\\-\\.]+@([\\w-]+\\.)+[\\w-]{2,
 
 class EmailState : TextFieldState(validator = ::isEmailValid, errorFor = ::emailValidationError)
 
-private fun emailValidationError(email: String): String {
-    return "Invalid email: $email"
+private fun emailValidationError(): String {
+    return "Email must be valid"
 }
 
 private fun isEmailValid(email: String): Boolean {

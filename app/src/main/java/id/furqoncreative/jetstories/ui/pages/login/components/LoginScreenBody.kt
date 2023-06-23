@@ -13,8 +13,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.ui.components.EmailTextField
 import id.furqoncreative.jetstories.ui.components.PasswordState
 import id.furqoncreative.jetstories.ui.components.PasswordTextField
@@ -35,9 +37,12 @@ fun LoginBody(
 
         EmailTextField(emailState = emailState)
 
-        PasswordTextField(passwordState = passwordState, onImeAction = {
-            onSubmit()
-        })
+        PasswordTextField(
+            label = stringResource(id = R.string.password_label),
+            passwordState = passwordState,
+            onImeAction = {
+                onSubmit()
+            })
 
         Row(
             modifier = Modifier
@@ -73,8 +78,7 @@ fun LoginBody(
 @Composable
 fun LoginBodyPreview() {
     JetStoriesTheme {
-        LoginBody(
-            emailState = TextFieldState(),
+        LoginBody(emailState = TextFieldState(),
             passwordState = PasswordState(),
             onSubmit = {},
             onClickSignup = {})
