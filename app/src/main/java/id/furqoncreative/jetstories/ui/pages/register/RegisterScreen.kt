@@ -11,9 +11,13 @@ import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -33,8 +37,10 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 fun RegisterScreen(
     onNavUp: () -> Unit,
+    onSuccessRegister: () -> Unit,
     modifier: Modifier = Modifier,
     collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     registerViewModel: RegisterViewModel = hiltViewModel()
 ) {
     val uiState by registerViewModel.uiState.collectAsStateWithLifecycle()
@@ -45,6 +51,19 @@ fun RegisterScreen(
         if (uiState.emailState.isValid && uiState.passwordState.isValid && uiState.confirmPasswordState.isValid) {
             registerViewModel.registerUser()
             keyboardController?.hide()
+        }
+    }
+
+    LaunchedEffect(uiState.isSuccessRegister) {
+        if (uiState.isSuccessRegister) {
+            onSuccessRegister()
+        }
+    }
+
+    uiState.userMessage?.let { userMessage ->
+        LaunchedEffect(snackbarHostState, registerViewModel, userMessage, userMessage) {
+            snackbarHostState.showSnackbar(userMessage)
+            registerViewModel.snackbarMessageShown()
         }
     }
 
@@ -96,4 +115,6 @@ fun RegisterScreen(
             onClickSignup = onClickRegister
         )
     }
+
+    SnackbarHost(hostState = snackbarHostState, Modifier)
 }

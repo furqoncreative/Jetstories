@@ -49,6 +49,9 @@ fun JetstoriesNavGraph(
             RegisterScreen(
                 onNavUp = {
                     navAction.navigateUp()
+                },
+                onSuccessRegister = {
+                    navAction.navigateToLogin()
                 }
             )
         }

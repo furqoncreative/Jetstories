@@ -1,5 +1,6 @@
 package id.furqoncreative.jetstories.ui.pages.register
 
+import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +26,7 @@ data class RegisterUiState(
     val passwordState: PasswordState = PasswordState(),
     val confirmPasswordState: ConfirmPasswordState = ConfirmPasswordState(passwordState),
     val isLoading: Boolean = false,
-    val userMessage: Int? = null,
+    val userMessage: String? = null,
     val isSuccessRegister: Boolean = false
 )
 
@@ -48,7 +49,7 @@ class RegisterViewModel @Inject constructor(
                 uiState.value.passwordState.text
             ).collect { registerAsync ->
                 _uiState.update {
-                        produceRegisterUiState(registerAsync)
+                    produceRegisterUiState(registerAsync)
                 }
             }
         }
@@ -63,18 +64,30 @@ class RegisterViewModel @Inject constructor(
 
         is Async.Success -> {
             if (!register.data.error) {
-                RegisterUiState(isLoading = false, isSuccessRegister = true)
+                RegisterUiState(
+                    isLoading = false,
+                    isSuccessRegister = true,
+                    userMessage = "Register Berhasil"
+                )
             } else {
                 RegisterUiState(
                     emailState = uiState.value.emailState,
+                    nameState = uiState.value.nameState,
                     passwordState = uiState.value.passwordState,
                     confirmPasswordState = uiState.value.confirmPasswordState,
                     isLoading = false,
                     isSuccessRegister = false,
-                    userMessage = R.string.user_not_found
+                    userMessage = Resources.getSystem().getString(R.string.universal_error_message)
                 )
             }
         }
     }
 
+    fun snackbarMessageShown() {
+        _uiState.update {
+            it.copy(
+                userMessage = null
+            )
+        }
+    }
 }
