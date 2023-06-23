@@ -7,32 +7,47 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import id.furqoncreative.jetstories.ui.components.EmailState
-import id.furqoncreative.jetstories.ui.components.PasswordState
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RegisterScreen(
     onNavUp: () -> Unit,
     modifier: Modifier = Modifier,
     collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
+    registerViewModel: RegisterViewModel = hiltViewModel()
 ) {
+    val uiState by registerViewModel.uiState.collectAsStateWithLifecycle()
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    val onClickRegister = {
+        if (uiState.emailState.isValid && uiState.passwordState.isValid && uiState.confirmPasswordState.isValid) {
+            registerViewModel.registerUser()
+            keyboardController?.hide()
+        }
+    }
+
     CollapsingToolbarScaffold(modifier = modifier,
         state = collapsingToolbarScaffoldState,
         scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
@@ -74,8 +89,11 @@ fun RegisterScreen(
         }) {
 
         RegisterBody(
-            emailState = EmailState(),
-            passwordState = PasswordState(),
-            onClickSignup = { /*TODO*/ })
+            emailState = uiState.emailState,
+            nameState = uiState.nameState,
+            passwordState = uiState.passwordState,
+            confirmPasswordState = uiState.confirmPasswordState,
+            onClickSignup = onClickRegister
+        )
     }
 }
