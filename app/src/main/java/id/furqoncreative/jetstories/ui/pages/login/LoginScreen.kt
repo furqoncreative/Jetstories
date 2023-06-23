@@ -1,5 +1,6 @@
 package id.furqoncreative.jetstories.ui.pages.login
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,8 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.furqoncreative.jetstories.ui.pages.login.components.LoginBody
 import id.furqoncreative.jetstories.ui.pages.login.components.LoginHeader
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
+import id.furqoncreative.jetstories.util.showToast
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -34,7 +36,6 @@ fun LoginScreen(
     onSuccessLogin: () -> Unit,
     onClickSignup: () -> Unit,
     modifier: Modifier = Modifier,
-    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     val uiState by loginViewModel.uiState.collectAsStateWithLifecycle()
@@ -55,11 +56,7 @@ fun LoginScreen(
     }
 
     uiState.userMessage?.let { userMessage ->
-        val snackbarText = stringResource(userMessage)
-        LaunchedEffect(snackbarHostState, loginViewModel, userMessage, snackbarText) {
-            snackbarHostState.showSnackbar(snackbarText)
-            loginViewModel.snackbarMessageShown()
-        }
+       LocalContext.current.showToast(message = userMessage)
     }
 
     Column(
@@ -85,8 +82,6 @@ fun LoginScreen(
             modifier = modifier
         )
     }
-
-    SnackbarHost(hostState = snackbarHostState, Modifier)
 }
 
 @Preview(showBackground = true, device = Devices.PIXEL_4)
