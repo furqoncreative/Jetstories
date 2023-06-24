@@ -68,4 +68,12 @@ class DetailStoryViewModel @Inject constructor(
                 )
             }
         }
+
+    fun toastMessageShown() {
+        _uiState.update {
+            it.copy(
+                userMessage = null
+            )
+        }
+    }
 }
