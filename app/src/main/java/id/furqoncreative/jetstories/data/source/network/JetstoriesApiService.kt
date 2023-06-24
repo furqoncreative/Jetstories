@@ -2,6 +2,7 @@ package id.furqoncreative.jetstories.data.source.network
 
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.model.register.RegisterResponse
+import id.furqoncreative.jetstories.model.stories.AddStoryResponse
 import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
 import id.furqoncreative.jetstories.model.stories.GetDetailStoryResponse
 import okhttp3.MultipartBody
@@ -39,7 +40,7 @@ interface JetstoriesApiService {
         @Query("description") description: String,
         @Query("lat") latitude: Float?,
         @Query("lon") longitude: Float?,
-    ): GetAllStoriesResponse
+    ): AddStoryResponse
 
     @GET("stories")
     suspend fun getAllStories(
