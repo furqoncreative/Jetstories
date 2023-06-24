@@ -3,12 +3,14 @@ package id.furqoncreative.jetstories.data.source.network
 import com.google.gson.Gson
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.model.register.RegisterResponse
+import id.furqoncreative.jetstories.model.stories.AddStoryResponse
 import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
 import id.furqoncreative.jetstories.model.stories.GetDetailStoryResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import okhttp3.MultipartBody
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -66,6 +68,29 @@ class JestoriesNetworkDataSource @Inject constructor(
             emit(
                 GetAllStoriesResponse(
                     error = true, message = e.message, listStory = null
+                )
+            )
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun addStory(
+        token: String,
+        file: MultipartBody.Part,
+        description: String,
+        latitude: Float?,
+        longitude: Float?
+    ): Flow<AddStoryResponse> = flow {
+        try {
+            val response = apiService.addStory(token, file, description, latitude, longitude)
+            emit(response)
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, AddStoryResponse::class.java)
+            emit(errorResponse)
+        } catch (e: Exception) {
+            emit(
+                AddStoryResponse(
+                    error = true, message = e.message
                 )
             )
         }
