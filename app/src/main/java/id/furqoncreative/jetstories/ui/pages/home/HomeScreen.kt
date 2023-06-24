@@ -143,7 +143,7 @@ fun HomeScreen(
             val stories = uiState.stories
             if (stories.isNullOrEmpty()) {
                 Box(
-                    modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+                    modifier = Modifier.fillMaxSize().padding(bottom = 16.dp), contentAlignment = Alignment.Center
                 ) {
                     Text(text = "Nothing")
                 }
