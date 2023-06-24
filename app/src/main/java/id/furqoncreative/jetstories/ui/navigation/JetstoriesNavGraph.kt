@@ -60,7 +60,11 @@ fun JetstoriesNavGraph(
                 navArgument(STORY_ID) { type = NavType.StringType; nullable = false },
             )
         ) {
-            DetailStoryScreen()
+            DetailStoryScreen(
+                onNavUp = {
+                    navAction.navigateUp()
+                }
+            )
         }
 
     }
