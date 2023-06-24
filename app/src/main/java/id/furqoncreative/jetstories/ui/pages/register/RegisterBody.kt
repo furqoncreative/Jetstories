@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.ui.components.ConfirmPasswordState
 import id.furqoncreative.jetstories.ui.components.EmailTextField
+import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
 import id.furqoncreative.jetstories.ui.components.NameState
 import id.furqoncreative.jetstories.ui.components.NameTextField
 import id.furqoncreative.jetstories.ui.components.PasswordState
@@ -28,12 +29,13 @@ import id.furqoncreative.jetstories.util.TextFieldState
 
 @Composable
 fun RegisterBody(
+    modifier: Modifier = Modifier,
     emailState: TextFieldState,
     nameState: NameState,
     passwordState: PasswordState,
     confirmPasswordState: ConfirmPasswordState,
+    isLoading: Boolean = false,
     onClickSignup: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -65,7 +67,11 @@ fun RegisterBody(
             onClick = {
                 onClickSignup()
             }) {
-            Text(text = "Sign up")
+            if (!isLoading) {
+                Text(text = "Sign up")
+            } else {
+                JetstoriesProgressBar(size = 30.dp)
+            }
         }
     }
 }
