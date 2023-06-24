@@ -38,7 +38,7 @@ import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.components.MenuItem
 import id.furqoncreative.jetstories.ui.components.OptionMenu
 import id.furqoncreative.jetstories.ui.pages.home.components.StoryRow
-import id.furqoncreative.jetstories.util.showToast
+import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy

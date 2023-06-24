@@ -1,4 +1,4 @@
-package id.furqoncreative.jetstories.util
+package id.furqoncreative.jetstories.utils
 
 sealed class Async<out T> {
     object Loading : Async<Nothing>()

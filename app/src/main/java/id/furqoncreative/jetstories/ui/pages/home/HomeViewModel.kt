@@ -7,7 +7,7 @@ import id.furqoncreative.jetstories.data.repository.GetAllStoriesRepository
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
 import id.furqoncreative.jetstories.model.stories.Story
-import id.furqoncreative.jetstories.util.Async
+import id.furqoncreative.jetstories.utils.Async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

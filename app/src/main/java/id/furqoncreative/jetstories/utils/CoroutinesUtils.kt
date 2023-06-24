@@ -1,4 +1,4 @@
-package id.furqoncreative.jetstories.util
+package id.furqoncreative.jetstories.utils
 
 import kotlinx.coroutines.flow.SharingStarted
 

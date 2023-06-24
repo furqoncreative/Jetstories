@@ -1,4 +1,4 @@
-package id.furqoncreative.jetstories.util
+package id.furqoncreative.jetstories.utils
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

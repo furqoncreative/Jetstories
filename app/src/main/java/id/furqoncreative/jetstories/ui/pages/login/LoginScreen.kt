@@ -23,7 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.furqoncreative.jetstories.ui.pages.login.components.LoginBody
 import id.furqoncreative.jetstories.ui.pages.login.components.LoginHeader
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
-import id.furqoncreative.jetstories.util.showToast
+import id.furqoncreative.jetstories.utils.showToast
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

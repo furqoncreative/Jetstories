@@ -21,8 +21,8 @@ import id.furqoncreative.jetstories.ui.components.EmailTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
 import id.furqoncreative.jetstories.ui.components.PasswordTextField
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
-import id.furqoncreative.jetstories.util.PasswordState
-import id.furqoncreative.jetstories.util.TextFieldState
+import id.furqoncreative.jetstories.utils.PasswordState
+import id.furqoncreative.jetstories.utils.TextFieldState
 
 @Composable
 fun LoginBody(

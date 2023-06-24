@@ -5,11 +5,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.data.repository.RegisterRepository
 import id.furqoncreative.jetstories.model.register.RegisterResponse
-import id.furqoncreative.jetstories.util.Async
-import id.furqoncreative.jetstories.util.ConfirmPasswordState
-import id.furqoncreative.jetstories.util.EmailState
-import id.furqoncreative.jetstories.util.NameState
-import id.furqoncreative.jetstories.util.PasswordState
+import id.furqoncreative.jetstories.utils.Async
+import id.furqoncreative.jetstories.utils.ConfirmPasswordState
+import id.furqoncreative.jetstories.utils.EmailState
+import id.furqoncreative.jetstories.utils.NameState
+import id.furqoncreative.jetstories.utils.PasswordState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

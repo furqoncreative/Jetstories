@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import id.furqoncreative.jetstories.util.showToast
+import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy

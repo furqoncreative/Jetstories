@@ -2,7 +2,7 @@ package id.furqoncreative.jetstories.data.repository
 
 import id.furqoncreative.jetstories.data.source.network.NetworkDataSource
 import id.furqoncreative.jetstories.model.register.RegisterResponse
-import id.furqoncreative.jetstories.util.Async
+import id.furqoncreative.jetstories.utils.Async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
