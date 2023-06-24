@@ -20,7 +20,7 @@ class JestoriesNetworkDataSource @Inject constructor(
             val response = appService.loginUser(email, password)
             emit(response)
         } catch (e: HttpException) {
-            val errorBody = e.response()!!.errorBody()!!.string()
+            val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
             emit(errorResponse)
         } catch (e: Exception) {
@@ -35,12 +35,11 @@ class JestoriesNetworkDataSource @Inject constructor(
     override suspend fun registerUser(
         email: String, name: String, password: String
     ): Flow<RegisterResponse> = flow {
-
         try {
             val response = appService.registerUser(email, name, password)
             emit(response)
         } catch (e: HttpException) {
-            val errorBody = e.response()!!.errorBody()!!.string()
+            val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
             emit(errorResponse)
         } catch (e: Exception) {
@@ -59,7 +58,7 @@ class JestoriesNetworkDataSource @Inject constructor(
             val response = appService.getAllStories(token, page, size, location)
             emit(response)
         } catch (e: HttpException) {
-            val errorBody = e.response()!!.errorBody()!!.string()
+            val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, GetAllStoriesResponse::class.java)
             emit(errorResponse)
         } catch (e: Exception) {
