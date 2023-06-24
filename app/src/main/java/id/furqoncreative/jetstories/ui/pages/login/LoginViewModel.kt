@@ -46,7 +46,6 @@ class LoginViewModel @Inject constructor(
                 }
             }
         }
-
     }
 
     private suspend fun produceLoginUiState(loginAsync: Async<LoginResponse>) = when (loginAsync) {
@@ -78,7 +77,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun snackbarMessageShown() {
+    fun toastMessageShown() {
         _uiState.update {
             it.copy(
                 userMessage = null

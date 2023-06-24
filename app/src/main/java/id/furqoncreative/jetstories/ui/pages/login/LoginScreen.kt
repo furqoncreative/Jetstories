@@ -52,6 +52,7 @@ fun LoginScreen(
 
     uiState.userMessage?.let { userMessage ->
         LocalContext.current.showToast(message = userMessage)
+        loginViewModel.toastMessageShown()
     }
 
     Column(

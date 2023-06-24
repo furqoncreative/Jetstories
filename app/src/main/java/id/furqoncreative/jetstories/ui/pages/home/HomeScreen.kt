@@ -61,10 +61,10 @@ fun HomeScreen(
 
     uiState.userMessage?.let { userMessage ->
         LocalContext.current.showToast(userMessage)
+        homeViewModel.toastMessageShown()
     }
 
     LaunchedEffect(uiState.isUserLogout) {
-        Timber.d("${uiState.isUserLogout}")
         if (uiState.isUserLogout) {
             onUserLoggedOut()
         }
