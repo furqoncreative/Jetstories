@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface GetDetailStoryRepository {
     suspend fun getDetailStory(
@@ -15,7 +17,8 @@ interface GetDetailStoryRepository {
     ): Flow<Async<GetDetailStoryResponse>>
 }
 
-class NetworkGetDetailStoryRepository(
+@Singleton
+class NetworkGetDetailStoryRepository @Inject constructor(
     private val preferencesManager: PreferencesManager,
     private val networkDataSource: NetworkDataSource
 ) : GetDetailStoryRepository {
