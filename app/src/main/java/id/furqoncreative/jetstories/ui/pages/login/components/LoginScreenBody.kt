@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.ui.components.EmailTextField
+import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
 import id.furqoncreative.jetstories.ui.components.PasswordState
 import id.furqoncreative.jetstories.ui.components.PasswordTextField
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
@@ -25,11 +26,12 @@ import id.furqoncreative.jetstories.util.TextFieldState
 
 @Composable
 fun LoginBody(
+    modifier: Modifier = Modifier,
     emailState: TextFieldState,
     passwordState: PasswordState,
     onSubmit: () -> Unit,
     onClickSignup: () -> Unit,
-    modifier: Modifier = Modifier
+    isLoading: Boolean = false
 ) {
     Column(
         modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -37,8 +39,7 @@ fun LoginBody(
 
         EmailTextField(emailState = emailState)
 
-        PasswordTextField(
-            label = stringResource(id = R.string.password_label),
+        PasswordTextField(label = stringResource(id = R.string.password_label),
             passwordState = passwordState,
             onImeAction = {
                 onSubmit()
@@ -69,7 +70,11 @@ fun LoginBody(
             onClick = {
                 onSubmit()
             }) {
-            Text(text = "Sign in")
+            if (!isLoading) {
+                Text(text = "Sign in")
+            } else {
+                JetstoriesProgressBar(size = 30.dp)
+            }
         }
     }
 }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -64,10 +63,6 @@ fun LoginScreen(
 
         ) {
 
-        if (uiState.isLoading) {
-            LinearProgressIndicator(color = MaterialTheme.colorScheme.tertiary)
-        }
-
         LoginHeader(modifier = modifier)
 
         LoginBody(
@@ -75,6 +70,7 @@ fun LoginScreen(
             passwordState = uiState.passwordState,
             onSubmit = onSubmit,
             onClickSignup = onClickSignup,
+            isLoading = uiState.isLoading,
             modifier = modifier
         )
     }
