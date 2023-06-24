@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import id.furqoncreative.jetstories.R
+import id.furqoncreative.jetstories.util.PasswordState
 import id.furqoncreative.jetstories.util.TextFieldState
 
 @OptIn(ExperimentalMaterial3Api::class)

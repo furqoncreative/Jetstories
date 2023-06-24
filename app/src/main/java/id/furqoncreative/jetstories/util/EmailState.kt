@@ -1,6 +1,5 @@
-package id.furqoncreative.jetstories.ui.components
+package id.furqoncreative.jetstories.util
 
-import id.furqoncreative.jetstories.util.TextFieldState
 import java.util.regex.Pattern
 
 private const val EMAIL_VALIDATION_REGEX = "^[\\w\\-\\.]+@([\\w-]+\\.)+[\\w-]{2,}\$"

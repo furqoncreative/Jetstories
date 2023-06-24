@@ -1,6 +1,4 @@
-package id.furqoncreative.jetstories.ui.components
-
-import id.furqoncreative.jetstories.util.TextFieldState
+package id.furqoncreative.jetstories.util
 
 class PasswordState :
     TextFieldState(validator = ::isPasswordValid, errorFor = ::passwordValidationError)

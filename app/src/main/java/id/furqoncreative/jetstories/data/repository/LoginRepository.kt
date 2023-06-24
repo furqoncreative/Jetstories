@@ -1,8 +1,5 @@
 package id.furqoncreative.jetstories.data.repository
 
-import android.content.res.Resources
-import id.furqoncreative.jetstories.JetstoriesApplication
-import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.network.JestoriesNetworkDataSource
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.util.Async

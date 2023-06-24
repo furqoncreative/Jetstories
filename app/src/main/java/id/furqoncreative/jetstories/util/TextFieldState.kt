@@ -2,7 +2,6 @@ package id.furqoncreative.jetstories.util
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.setValue
 
 open class TextFieldState(
@@ -11,7 +10,6 @@ open class TextFieldState(
 ) {
     var text: String by mutableStateOf("")
 
-    // was the TextField ever focused
     var isFocusedDirty: Boolean by mutableStateOf(false)
     var isFocused: Boolean by mutableStateOf(false)
     private var displayErrors: Boolean by mutableStateOf(false)
@@ -25,7 +23,6 @@ open class TextFieldState(
     }
 
     fun enableShowErrors() {
-        // only show errors if the text was at least once focused
         if (isFocusedDirty) {
             displayErrors = true
         }

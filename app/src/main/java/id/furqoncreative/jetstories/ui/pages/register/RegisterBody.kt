@@ -17,14 +17,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import id.furqoncreative.jetstories.R
-import id.furqoncreative.jetstories.ui.components.ConfirmPasswordState
 import id.furqoncreative.jetstories.ui.components.EmailTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
-import id.furqoncreative.jetstories.ui.components.NameState
 import id.furqoncreative.jetstories.ui.components.NameTextField
-import id.furqoncreative.jetstories.ui.components.PasswordState
 import id.furqoncreative.jetstories.ui.components.PasswordTextField
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
+import id.furqoncreative.jetstories.util.ConfirmPasswordState
+import id.furqoncreative.jetstories.util.NameState
+import id.furqoncreative.jetstories.util.PasswordState
 import id.furqoncreative.jetstories.util.TextFieldState
 
 @Composable

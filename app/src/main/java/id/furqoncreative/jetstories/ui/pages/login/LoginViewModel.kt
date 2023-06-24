@@ -7,9 +7,9 @@ import id.furqoncreative.jetstories.data.repository.LoginRepository
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.model.login.LoginResult
-import id.furqoncreative.jetstories.ui.components.EmailState
-import id.furqoncreative.jetstories.ui.components.PasswordState
 import id.furqoncreative.jetstories.util.Async
+import id.furqoncreative.jetstories.util.EmailState
+import id.furqoncreative.jetstories.util.PasswordState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
