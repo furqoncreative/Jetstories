@@ -83,7 +83,7 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    fun snackbarMessageShown() {
+    fun toastMessageShown() {
         _uiState.update {
             it.copy(
                 userMessage = null
