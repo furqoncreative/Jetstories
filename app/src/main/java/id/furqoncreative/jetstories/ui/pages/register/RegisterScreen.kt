@@ -109,6 +109,7 @@ fun RegisterScreen(
             nameState = uiState.nameState,
             passwordState = uiState.passwordState,
             confirmPasswordState = uiState.confirmPasswordState,
+            isLoading = uiState.isLoading,
             onClickSignup = onClickRegister
         )
     }
