@@ -88,7 +88,7 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun bindGetAllRepository(repository: NetworkGetAllStoriesRepository): GetAllStoriesRepository
+    abstract fun bindGetAllStoryRepository(repository: NetworkGetAllStoriesRepository): GetAllStoriesRepository
 
     @Singleton
     @Binds
