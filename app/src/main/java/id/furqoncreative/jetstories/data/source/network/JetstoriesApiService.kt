@@ -3,6 +3,7 @@ package id.furqoncreative.jetstories.data.source.network
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.model.register.RegisterResponse
 import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
+import id.furqoncreative.jetstories.model.stories.GetDetailStoryResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -39,5 +40,5 @@ interface JetstoriesApiService {
     suspend fun getDetailStory(
         @Header("Authorization") token: String,
         @Path("id") id: String,
-    ): GetAllStoriesResponse
+    ): GetDetailStoryResponse
 }
