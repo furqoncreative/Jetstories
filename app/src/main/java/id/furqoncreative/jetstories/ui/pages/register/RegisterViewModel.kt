@@ -1,10 +1,8 @@
 package id.furqoncreative.jetstories.ui.pages.register
 
-import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.RegisterRepository
 import id.furqoncreative.jetstories.model.register.RegisterResponse
 import id.furqoncreative.jetstories.ui.components.ConfirmPasswordState
@@ -55,33 +53,36 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    private fun produceRegisterUiState(register: Async<RegisterResponse>) = when (register) {
-        Async.Loading -> RegisterUiState(isLoading = true)
+    private fun produceRegisterUiState(registerAsync: Async<RegisterResponse>) =
+        when (registerAsync) {
+            Async.Loading -> RegisterUiState(isLoading = true)
 
-        is Async.Error -> RegisterUiState(
-            userMessage = register.errorMessage, isLoading = false, isSuccessRegister = false
-        )
+            is Async.Error -> RegisterUiState(
+                userMessage = registerAsync.errorMessage,
+                isLoading = false,
+                isSuccessRegister = false
+            )
 
-        is Async.Success -> {
-            if (!register.data.error) {
-                RegisterUiState(
-                    isLoading = false,
-                    isSuccessRegister = true,
-                    userMessage = "Register Berhasil"
-                )
-            } else {
-                RegisterUiState(
-                    emailState = uiState.value.emailState,
-                    nameState = uiState.value.nameState,
-                    passwordState = uiState.value.passwordState,
-                    confirmPasswordState = uiState.value.confirmPasswordState,
-                    isLoading = false,
-                    isSuccessRegister = false,
-                    userMessage = Resources.getSystem().getString(R.string.universal_error_message)
-                )
+            is Async.Success -> {
+                if (!registerAsync.data.error) {
+                    RegisterUiState(
+                        isLoading = false,
+                        isSuccessRegister = true,
+                        userMessage = "Register Berhasil"
+                    )
+                } else {
+                    RegisterUiState(
+                        emailState = uiState.value.emailState,
+                        nameState = uiState.value.nameState,
+                        passwordState = uiState.value.passwordState,
+                        confirmPasswordState = uiState.value.confirmPasswordState,
+                        isLoading = false,
+                        isSuccessRegister = false,
+                        userMessage = registerAsync.data.message
+                    )
+                }
             }
         }
-    }
 
     fun toastMessageShown() {
         _uiState.update {
