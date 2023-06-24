@@ -1,6 +1,7 @@
 package id.furqoncreative.jetstories.ui.pages.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.components.MenuItem
 import id.furqoncreative.jetstories.ui.components.OptionMenu
@@ -49,6 +51,7 @@ fun HomeScreen(
     onClickStoryItem: () -> Unit,
     onClickAddStory: () -> Unit,
     onClickSettings: () -> Unit,
+    onClickStory: (Story) -> Unit,
     onUserLoggedOut: () -> Unit,
     modifier: Modifier = Modifier,
     collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
@@ -140,7 +143,7 @@ fun HomeScreen(
             val stories = uiState.stories
             if (stories.isNullOrEmpty()) {
                 Box(
-                    modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+                    modifier = Modifier.fillMaxSize().padding(bottom = 16.dp), contentAlignment = Alignment.Center
                 ) {
                     Text(text = "Nothing")
                 }
@@ -150,7 +153,9 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(stories, key = { it.id }) { story ->
-                        StoryRow(story = story, onClickStory = onClickStoryItem)
+                        StoryRow(modifier = Modifier.clickable {
+                            onClickStory(story)
+                        }, story = story, onClickStory = onClickStoryItem)
                     }
                 }
             }

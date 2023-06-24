@@ -74,7 +74,6 @@ fun StoryRow(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxWidth()
                     .defaultMinSize(minHeight = 150.dp)
             )
         }

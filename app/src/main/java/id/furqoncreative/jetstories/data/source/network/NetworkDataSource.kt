@@ -3,6 +3,7 @@ package id.furqoncreative.jetstories.data.source.network
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.model.register.RegisterResponse
 import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
+import id.furqoncreative.jetstories.model.stories.GetDetailStoryResponse
 import kotlinx.coroutines.flow.Flow
 
 interface NetworkDataSource {
@@ -17,4 +18,8 @@ interface NetworkDataSource {
     suspend fun getAllStories(
         token: String, page: Int?, size: Int?, location: Int?
     ): Flow<GetAllStoriesResponse>
+
+    suspend fun getDetailStory(
+        token: String, id: String
+    ): Flow<GetDetailStoryResponse>
 }
