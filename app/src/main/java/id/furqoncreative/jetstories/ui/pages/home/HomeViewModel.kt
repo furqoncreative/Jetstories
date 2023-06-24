@@ -81,7 +81,7 @@ class HomeViewModel @Inject constructor(
                 val userToken = preferencesManager.getUserToken.first()
                 if (userToken.isEmpty()) {
                     _uiState.update {
-                        HomeUiState(isUserLogout = true)
+                        HomeUiState(isUserLogout = true, userMessage = "Logout berhasil")
                     }
                 }
             }
