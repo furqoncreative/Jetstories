@@ -1,6 +1,5 @@
 package id.furqoncreative.jetstories.data.repository
 
-import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.network.JestoriesNetworkDataSource
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.util.Async
@@ -20,13 +19,13 @@ class NetworkLoginRepository @Inject constructor(
 ) : LoginRepository {
     override suspend fun loginUser(email: String, password: String): Flow<Async<LoginResponse>> {
         return networkDataSource.loginUser(email, password).map {
-            if (it.error){
-                Async.Error(R.string.universal_error_message)
+            if (it.error) {
+                Async.Error(it.message)
             } else {
                 Async.Success(it)
             }
         }.catch {
-            Async.Error(R.string.universal_error_message)
+            Async.Error(it.message)
         }
     }
 }

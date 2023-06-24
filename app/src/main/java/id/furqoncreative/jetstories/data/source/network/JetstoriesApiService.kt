@@ -1,6 +1,7 @@
 package id.furqoncreative.jetstories.data.source.network
 
 import id.furqoncreative.jetstories.model.login.LoginResponse
+import id.furqoncreative.jetstories.model.register.RegisterResponse
 import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -16,6 +17,14 @@ interface JetstoriesApiService {
     suspend fun loginUser(
         @Field("email") email: String, @Field("password") password: String
     ): LoginResponse
+
+    @FormUrlEncoded
+    @POST("register")
+    suspend fun registerUser(
+        @Field("email") email: String,
+        @Field("name") name: String,
+        @Field("password") password: String
+    ): RegisterResponse
 
     @GET("stories")
     suspend fun getAllStories(

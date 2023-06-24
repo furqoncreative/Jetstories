@@ -3,14 +3,13 @@ package id.furqoncreative.jetstories.ui.pages.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.LoginRepository
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.model.login.LoginResult
-import id.furqoncreative.jetstories.ui.components.EmailState
-import id.furqoncreative.jetstories.ui.components.PasswordState
 import id.furqoncreative.jetstories.util.Async
+import id.furqoncreative.jetstories.util.EmailState
+import id.furqoncreative.jetstories.util.PasswordState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +21,7 @@ data class LoginUiState(
     val emailState: EmailState = EmailState(),
     val passwordState: PasswordState = PasswordState(),
     val isLoading: Boolean = false,
-    val userMessage: Int? = null,
+    val userMessage: String? = null,
     val loginResult: LoginResult? = null,
     val isSuccessLogin: Boolean = false
 )
@@ -47,7 +46,6 @@ class LoginViewModel @Inject constructor(
                 }
             }
         }
-
     }
 
     private suspend fun produceLoginUiState(loginAsync: Async<LoginResponse>) = when (loginAsync) {
@@ -62,7 +60,10 @@ class LoginViewModel @Inject constructor(
             if (loginResult != null) {
                 preferencesManager.setUserToken(loginResult.token)
                 LoginUiState(
-                    loginResult = loginResult, isLoading = false, isSuccessLogin = true
+                    loginResult = loginResult,
+                    isLoading = false,
+                    isSuccessLogin = true,
+                    userMessage = "Login berhasil"
                 )
             } else {
                 LoginUiState(
@@ -70,13 +71,13 @@ class LoginViewModel @Inject constructor(
                     passwordState = uiState.value.passwordState,
                     isLoading = false,
                     isSuccessLogin = false,
-                    userMessage = R.string.user_not_found
+                    userMessage = loginAsync.data.message
                 )
             }
         }
     }
 
-    fun snackbarMessageShown() {
+    fun toastMessageShown() {
         _uiState.update {
             it.copy(
                 userMessage = null

@@ -4,8 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -19,40 +18,40 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import id.furqoncreative.jetstories.R
-import id.furqoncreative.jetstories.util.TextFieldState
+import id.furqoncreative.jetstories.util.NameState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmailTextField(
-    emailState: TextFieldState = remember { EmailState() }, onImeAction: () -> Unit = {}
+fun NameTextField(
+    nameState: NameState = remember { NameState() }, onImeAction: () -> Unit = {}
 ) {
     OutlinedTextField(
-        value = emailState.text,
+        value = nameState.text,
         onValueChange = {
-            emailState.text = it
-            emailState.enableShowErrors()
+            nameState.text = it
+            nameState.enableShowErrors()
         },
         label = {
-            Text(text = stringResource(R.string.email_label))
+            Text(text = stringResource(R.string.name_label))
         },
         placeholder = {
-            Text(text = stringResource(R.string.email_placeholder))
+            Text(text = stringResource(R.string.name_placeholder))
         },
         modifier = Modifier
             .fillMaxWidth()
             .onFocusChanged { focusState ->
-                emailState.onFocusChange(focusState.isFocused)
+                nameState.onFocusChange(focusState.isFocused)
                 if (!focusState.isFocused) {
-                    emailState.enableShowErrors()
+                    nameState.enableShowErrors()
                 }
             },
-        isError = emailState.showErrors(),
+        isError = nameState.showErrors(),
         supportingText = {
-            emailState.getError()?.let { error -> TextFieldError(textError = error) }
+            nameState.getError()?.let { error -> TextFieldError(textError = error) }
         },
         leadingIcon = {
             Icon(
-                imageVector = Icons.Filled.Email,
+                imageVector = Icons.Filled.Person,
                 contentDescription = stringResource(id = R.string.hide_password)
             )
         },
@@ -67,6 +66,6 @@ fun EmailTextField(
 
 @Preview(showBackground = true)
 @Composable
-fun EmailTextFieldPreview() {
-    EmailTextField()
+fun NameTextFieldPreview() {
+    NameTextField()
 }

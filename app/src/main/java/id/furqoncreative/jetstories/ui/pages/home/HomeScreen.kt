@@ -18,8 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,7 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -40,11 +38,11 @@ import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.components.MenuItem
 import id.furqoncreative.jetstories.ui.components.OptionMenu
 import id.furqoncreative.jetstories.ui.pages.home.components.StoryRow
+import id.furqoncreative.jetstories.util.showToast
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import timber.log.Timber
 
 @Composable
 fun HomeScreen(
@@ -53,7 +51,6 @@ fun HomeScreen(
     onClickSettings: () -> Unit,
     onUserLoggedOut: () -> Unit,
     modifier: Modifier = Modifier,
-    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
     optionMenuExpandState: MutableState<Boolean> = remember { mutableStateOf(false) },
     alertDialogState: MutableState<Boolean> = remember { mutableStateOf(false) },
@@ -62,15 +59,11 @@ fun HomeScreen(
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
 
     uiState.userMessage?.let { userMessage ->
-        val snackbarText = stringResource(userMessage)
-        LaunchedEffect(snackbarHostState, homeViewModel, userMessage, snackbarText) {
-            snackbarHostState.showSnackbar(snackbarText)
-            homeViewModel.snackbarMessageShown()
-        }
+        LocalContext.current.showToast(userMessage)
+        homeViewModel.toastMessageShown()
     }
 
     LaunchedEffect(uiState.isUserLogout) {
-        Timber.d("${uiState.isUserLogout}")
         if (uiState.isUserLogout) {
             onUserLoggedOut()
         }
@@ -163,8 +156,6 @@ fun HomeScreen(
             }
         }
     }
-
-    SnackbarHost(hostState = snackbarHostState, Modifier)
 }
 
 

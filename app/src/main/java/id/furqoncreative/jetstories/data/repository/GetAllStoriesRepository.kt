@@ -1,6 +1,5 @@
 package id.furqoncreative.jetstories.data.repository
 
-import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.data.source.network.NetworkDataSource
 import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
@@ -33,7 +32,7 @@ class NetworkGetAllStoriesRepository @Inject constructor(
         ).map {
             Async.Success(it)
         }.catch<Async<GetAllStoriesResponse>> {
-            Async.Error(R.string.universal_error_message)
+            Async.Error(it.message)
         }
     }
 }

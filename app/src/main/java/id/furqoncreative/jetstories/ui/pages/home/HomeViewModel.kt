@@ -20,7 +20,7 @@ data class HomeUiState(
     val isEmpty: Boolean = false,
     val isLoading: Boolean = false,
     val isUserLogout: Boolean = false,
-    val userMessage: Int? = null,
+    val userMessage: String? = null,
     val stories: List<Story>? = null,
 )
 
@@ -65,7 +65,7 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-    fun snackbarMessageShown() {
+    fun toastMessageShown() {
         _uiState.update {
             it.copy(
                 userMessage = null
@@ -81,7 +81,7 @@ class HomeViewModel @Inject constructor(
                 val userToken = preferencesManager.getUserToken.first()
                 if (userToken.isEmpty()) {
                     _uiState.update {
-                        HomeUiState(isUserLogout = true)
+                        HomeUiState(isUserLogout = true, userMessage = "Logout berhasil")
                     }
                 }
             }

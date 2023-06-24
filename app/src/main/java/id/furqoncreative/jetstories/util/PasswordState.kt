@@ -1,6 +1,4 @@
-package id.furqoncreative.jetstories.ui.components
-
-import id.furqoncreative.jetstories.util.TextFieldState
+package id.furqoncreative.jetstories.util
 
 class PasswordState :
     TextFieldState(validator = ::isPasswordValid, errorFor = ::passwordValidationError)
@@ -26,7 +24,7 @@ private fun isPasswordValid(password: String): Boolean {
     return password.length > 7 && password.isNotBlank()
 }
 
-private fun passwordValidationError(password: String): String {
+private fun passwordValidationError(): String {
     return "Password must be at least 8 characters long"
 }
 

@@ -16,6 +16,8 @@ import id.furqoncreative.jetstories.data.repository.GetAllStoriesRepository
 import id.furqoncreative.jetstories.data.repository.LoginRepository
 import id.furqoncreative.jetstories.data.repository.NetworkGetAllStoriesRepository
 import id.furqoncreative.jetstories.data.repository.NetworkLoginRepository
+import id.furqoncreative.jetstories.data.repository.NetworkRegisterRepository
+import id.furqoncreative.jetstories.data.repository.RegisterRepository
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.data.source.network.JestoriesNetworkDataSource
 import id.furqoncreative.jetstories.data.source.network.JetstoriesApiService
@@ -77,6 +79,10 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindLoginRepository(repository: NetworkLoginRepository): LoginRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindRegisterRepository(repository: NetworkRegisterRepository): RegisterRepository
 
     @Singleton
     @Binds
