@@ -61,7 +61,10 @@ class LoginViewModel @Inject constructor(
             if (loginResult != null) {
                 preferencesManager.setUserToken(loginResult.token)
                 LoginUiState(
-                    loginResult = loginResult, isLoading = false, isSuccessLogin = true
+                    loginResult = loginResult,
+                    isLoading = false,
+                    isSuccessLogin = true,
+                    userMessage = "Login berhasil"
                 )
             } else {
                 LoginUiState(
