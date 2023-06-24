@@ -17,4 +17,6 @@ interface NetworkDataSource {
     suspend fun getAllStories(
         token: String, page: Int?, size: Int?, location: Int?
     ): Flow<GetAllStoriesResponse>
+
+    suspend fun getDetailStory()
 }
