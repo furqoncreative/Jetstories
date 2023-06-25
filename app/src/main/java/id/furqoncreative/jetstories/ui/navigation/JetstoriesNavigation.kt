@@ -52,7 +52,10 @@ class JetstoriesNavigationActions(private val navHostController: NavHostControll
     }
 
     fun navigateToHome() {
-        navHostController.navigate(HOME_ROUTE)
+        navHostController.navigate(HOME_ROUTE) {
+            popUpTo(navHostController.graph.startDestinationId) { inclusive = true }
+        }
+        navHostController.graph.setStartDestination(HOME_ROUTE)
     }
 
     fun navigateToDetail(storyId: String) {

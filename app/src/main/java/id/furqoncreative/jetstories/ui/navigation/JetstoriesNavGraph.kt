@@ -58,7 +58,7 @@ fun JetstoriesNavGraph(
             AddStoryScreen(onNavUp = {
                 navAction.navigateUp()
             }, onSuccessAddStory = {
-
+                navAction.navigateToHome()
             })
         }
 

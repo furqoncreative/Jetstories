@@ -18,7 +18,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -78,7 +77,7 @@ class AddStoryViewModel @Inject constructor(
             is Async.Success -> {
                 if (!addStoryAsync.data.error) {
                     AddStoryUiState(
-                        isLoading = false, isSuccessAddStory = true, userMessage = "Tambah Berhasil"
+                        isLoading = false, isSuccessAddStory = true, userMessage = "Berhasil Tambah cerita"
                     )
                 } else {
                     AddStoryUiState(
