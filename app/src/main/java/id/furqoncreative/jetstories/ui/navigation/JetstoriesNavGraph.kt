@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinationsArgs.STORY_ID
+import id.furqoncreative.jetstories.ui.pages.addstory.AddStoryScreen
 import id.furqoncreative.jetstories.ui.pages.detailstory.DetailStoryScreen
 import id.furqoncreative.jetstories.ui.pages.home.HomeScreen
 import id.furqoncreative.jetstories.ui.pages.login.LoginScreen
@@ -44,15 +45,21 @@ fun JetstoriesNavGraph(
         }
 
         composable(JetstoriesDestinations.HOME_ROUTE) {
-            HomeScreen(onClickAddStory = {},
-                onClickStoryItem = {},
-                onClickSettings = {},
-                onUserLoggedOut = {
-                    navAction.navigateToLogin()
-                },
-                onClickStory = { story ->
-                    navAction.navigateToDetail(story.id)
-                })
+            HomeScreen(onClickAddStory = {
+                navAction.navigateToAddStory()
+            }, onClickSettings = {}, onUserLoggedOut = {
+                navAction.navigateToLogin()
+            }, onClickStory = { story ->
+                navAction.navigateToDetail(story.id)
+            })
+        }
+
+        composable(JetstoriesDestinations.ADD_STORY_ROUTE) {
+            AddStoryScreen(onNavUp = {
+                navAction.navigateUp()
+            }, onSuccessAddStory = {
+                navAction.navigateToHome()
+            })
         }
 
         composable(
@@ -60,11 +67,9 @@ fun JetstoriesNavGraph(
                 navArgument(STORY_ID) { type = NavType.StringType; nullable = false },
             )
         ) {
-            DetailStoryScreen(
-                onNavUp = {
-                    navAction.navigateUp()
-                }
-            )
+            DetailStoryScreen(onNavUp = {
+                navAction.navigateUp()
+            })
         }
 
     }

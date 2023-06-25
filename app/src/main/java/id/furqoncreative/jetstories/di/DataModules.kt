@@ -12,9 +12,11 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import id.furqoncreative.jetstories.BuildConfig
 import id.furqoncreative.jetstories.BuildConfig.BASE_URL
+import id.furqoncreative.jetstories.data.repository.AddStoryRepository
 import id.furqoncreative.jetstories.data.repository.GetAllStoriesRepository
 import id.furqoncreative.jetstories.data.repository.GetDetailStoryRepository
 import id.furqoncreative.jetstories.data.repository.LoginRepository
+import id.furqoncreative.jetstories.data.repository.NetworkAddStoryRepository
 import id.furqoncreative.jetstories.data.repository.NetworkGetAllStoriesRepository
 import id.furqoncreative.jetstories.data.repository.NetworkGetDetailStoryRepository
 import id.furqoncreative.jetstories.data.repository.NetworkLoginRepository
@@ -93,6 +95,10 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindGetDetailStoryRepository(repository: NetworkGetDetailStoryRepository): GetDetailStoryRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindAddStoryRepository(repository: NetworkAddStoryRepository): AddStoryRepository
 }
 
 @Module
