@@ -17,15 +17,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import id.furqoncreative.jetstories.R
+import id.furqoncreative.jetstories.ui.components.JetstoriesDescriptionTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -44,7 +42,6 @@ import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddStoryScreen(
     modifier: Modifier = Modifier,
@@ -135,13 +132,7 @@ fun AddStoryScreen(
                 }
             }
 
-            TextField(modifier = Modifier.fillMaxWidth(), value = "", onValueChange = {}, label = {
-                Text(text = "Description")
-            }, placeholder = {
-                Text("Tell your story...")
-            }, trailingIcon = {
-                Icon(Icons.Default.Clear, contentDescription = "Clear")
-            }, maxLines = 3)
+            JetstoriesDescriptionTextField()
 
             Button(modifier = Modifier
                 .height(56.dp)
