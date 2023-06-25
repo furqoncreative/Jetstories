@@ -57,6 +57,8 @@ fun JetstoriesNavGraph(
         composable(JetstoriesDestinations.ADD_STORY_ROUTE) {
             AddStoryScreen(onNavUp = {
                 navAction.navigateUp()
+            }, onSuccessAddStory = {
+
             })
         }
 

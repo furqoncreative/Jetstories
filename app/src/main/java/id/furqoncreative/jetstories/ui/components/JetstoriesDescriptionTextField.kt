@@ -10,7 +10,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import id.furqoncreative.jetstories.utils.DescriptionState
@@ -19,7 +18,7 @@ import id.furqoncreative.jetstories.utils.DescriptionState
 @Composable
 fun JetstoriesDescriptionTextField(
     modifier: Modifier = Modifier,
-    descriptionState: DescriptionState = remember { DescriptionState() },
+    descriptionState: DescriptionState,
     onImeAction: () -> Unit = {}
 ) {
     TextField(modifier = modifier
@@ -45,6 +44,7 @@ fun JetstoriesDescriptionTextField(
         }
     }, keyboardActions = KeyboardActions(onDone = {
         onImeAction()
-    }), maxLines = 3)
+    }), maxLines = 3
+    )
 
 }
