@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -76,7 +77,7 @@ class JestoriesNetworkDataSource @Inject constructor(
     override suspend fun addStory(
         token: String,
         file: MultipartBody.Part,
-        description: String,
+        description: RequestBody,
         latitude: Float?,
         longitude: Float?
     ): Flow<AddStoryResponse> = flow {

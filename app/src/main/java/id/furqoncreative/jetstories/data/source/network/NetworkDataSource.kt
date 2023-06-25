@@ -7,6 +7,7 @@ import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
 import id.furqoncreative.jetstories.model.stories.GetDetailStoryResponse
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 interface NetworkDataSource {
     suspend fun loginUser(
@@ -20,7 +21,7 @@ interface NetworkDataSource {
     suspend fun addStory(
         token: String,
         file: MultipartBody.Part,
-        description: String,
+        description: RequestBody,
         latitude: Float?,
         longitude: Float?
     ): Flow<AddStoryResponse>

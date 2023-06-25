@@ -9,13 +9,14 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
 
 interface AddStoryRepository {
     suspend fun addStory(
         file: MultipartBody.Part,
-        description: String,
+        description: RequestBody,
         latitude: Float? = 0F,
         longitude: Float? = 0F,
     ): Flow<Async<AddStoryResponse>>
@@ -28,7 +29,7 @@ class NetworkAddStoryRepository @Inject constructor(
 
 ) : AddStoryRepository {
     override suspend fun addStory(
-        file: MultipartBody.Part, description: String, latitude: Float?, longitude: Float?
+        file: MultipartBody.Part, description: RequestBody, latitude: Float?, longitude: Float?
     ): Flow<Async<AddStoryResponse>> {
         val userToken = "Bearer ${preferencesManager.getUserToken.first()}"
 
