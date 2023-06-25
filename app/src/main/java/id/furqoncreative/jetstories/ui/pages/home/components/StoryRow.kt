@@ -29,13 +29,13 @@ import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 
 @Composable
 fun StoryRow(
-    modifier: Modifier = Modifier, story: Story, onClickStory: () -> Unit
+    modifier: Modifier = Modifier, story: Story, onClickStory: (Story) -> Unit
 ) {
     Card(modifier = modifier
         .height(300.dp)
         .fillMaxWidth()
         .clickable {
-            onClickStory()
+            onClickStory(story)
         }) {
         Column(
             modifier = modifier

@@ -1,7 +1,6 @@
 package id.furqoncreative.jetstories.ui.pages.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -48,7 +47,6 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 fun HomeScreen(
-    onClickStoryItem: () -> Unit,
     onClickAddStory: () -> Unit,
     onClickSettings: () -> Unit,
     onClickStory: (Story) -> Unit,
@@ -143,7 +141,10 @@ fun HomeScreen(
             val stories = uiState.stories
             if (stories.isNullOrEmpty()) {
                 Box(
-                    modifier = Modifier.fillMaxSize().padding(bottom = 16.dp), contentAlignment = Alignment.Center
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(bottom = 16.dp),
+                    contentAlignment = Alignment.Center
                 ) {
                     Text(text = "Nothing")
                 }
@@ -153,9 +154,7 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(stories, key = { it.id }) { story ->
-                        StoryRow(modifier = Modifier.clickable {
-                            onClickStory(story)
-                        }, story = story, onClickStory = onClickStoryItem)
+                        StoryRow(story = story, onClickStory = { onClickStory(story) })
                     }
                 }
             }
