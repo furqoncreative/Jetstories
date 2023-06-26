@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 
 sealed class UiText {
-    data class DynamicString(val value: String?) : UiText()
+    data class DynamicString(val value: String) : UiText()
     class StringResource(
         @StringRes val resId: Int
     ) : UiText()
@@ -16,7 +16,7 @@ sealed class UiText {
     ) : UiText()
 
     @Composable
-    fun asString(): String? {
+    fun asString(): String {
         return when (this) {
             is DynamicString -> value
             is StringResource -> stringResource(resId)
@@ -24,7 +24,7 @@ sealed class UiText {
         }
     }
 
-    fun asString(context: Context): String? {
+    fun asString(context: Context): String {
         return when (this) {
             is DynamicString -> value
             is StringResource -> context.getString(resId)
