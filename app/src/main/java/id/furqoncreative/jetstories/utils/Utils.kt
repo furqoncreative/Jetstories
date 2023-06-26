@@ -2,6 +2,7 @@ package id.furqoncreative.jetstories.utils
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Environment
 import android.widget.Toast
@@ -38,6 +39,18 @@ fun uriToFile(selectedImg: Uri, context: Context): File {
     inputStream.close()
 
     return myFile
+}
+
+fun updateResources(context: Context, code: String) {
+    context.resources.apply {
+        val locale = Locale(code)
+        val config = Configuration(configuration)
+
+        context.createConfigurationContext(configuration)
+        Locale.setDefault(locale)
+        config.setLocale(locale)
+        context.createConfigurationContext(config)
+    }
 }
 
 fun Context.showToast(message: String) {
