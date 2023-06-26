@@ -6,12 +6,14 @@ import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.ADD_STO
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.HOME_ROUTE
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.LOGIN_ROUTE
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.REGISTER_ROUTE
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.SETTINGS_ROUTE
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinationsArgs.STORY_ID
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.ADD_STORY_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.DETAIL_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.HOME_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.LOGIN_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.REGISTER_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.SETTINGS_SCREEN
 
 
 private object JetstoriesScreens {
@@ -20,6 +22,7 @@ private object JetstoriesScreens {
     const val HOME_SCREEN = "home"
     const val DETAIL_SCREEN = "detail"
     const val ADD_STORY_SCREEN = "add-story"
+    const val SETTINGS_SCREEN = "settings"
 }
 
 object JetstoriesDestinationsArgs {
@@ -32,6 +35,7 @@ object JetstoriesDestinations {
     const val HOME_ROUTE = HOME_SCREEN
     const val ADD_STORY_ROUTE = ADD_STORY_SCREEN
     const val DETAIL_ROUTE = "$DETAIL_SCREEN/{$STORY_ID}"
+    const val SETTINGS_ROUTE = SETTINGS_SCREEN
 }
 
 class JetstoriesNavigationActions(private val navHostController: NavHostController) {
@@ -74,5 +78,11 @@ class JetstoriesNavigationActions(private val navHostController: NavHostControll
         }
     }
 
-
+    fun navigateToSettings() {
+        navHostController.navigate(SETTINGS_ROUTE) {
+            popUpTo(navHostController.graph.findStartDestination().id) {
+                saveState = true
+            }
+        }
+    }
 }
