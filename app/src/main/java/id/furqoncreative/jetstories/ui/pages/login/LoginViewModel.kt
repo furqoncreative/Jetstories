@@ -3,6 +3,7 @@ package id.furqoncreative.jetstories.ui.pages.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.LoginRepository
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.model.login.LoginResponse
@@ -10,6 +11,7 @@ import id.furqoncreative.jetstories.model.login.LoginResult
 import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.utils.EmailState
 import id.furqoncreative.jetstories.utils.PasswordState
+import id.furqoncreative.jetstories.utils.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +23,7 @@ data class LoginUiState(
     val emailState: EmailState = EmailState(),
     val passwordState: PasswordState = PasswordState(),
     val isLoading: Boolean = false,
-    val userMessage: String? = null,
+    val userMessage: UiText? = null,
     val loginResult: LoginResult? = null,
     val isSuccessLogin: Boolean = false
 )
@@ -52,7 +54,9 @@ class LoginViewModel @Inject constructor(
         Async.Loading -> LoginUiState(isLoading = true)
 
         is Async.Error -> LoginUiState(
-            userMessage = loginAsync.errorMessage, isLoading = false, isSuccessLogin = false
+            userMessage = UiText.DynamicString(loginAsync.errorMessage),
+            isLoading = false,
+            isSuccessLogin = false
         )
 
         is Async.Success -> {
@@ -63,7 +67,7 @@ class LoginViewModel @Inject constructor(
                     loginResult = loginResult,
                     isLoading = false,
                     isSuccessLogin = true,
-                    userMessage = "Login berhasil"
+                    userMessage = UiText.StringResource(R.string.logged_in)
                 )
             } else {
                 LoginUiState(
@@ -71,7 +75,7 @@ class LoginViewModel @Inject constructor(
                     passwordState = uiState.value.passwordState,
                     isLoading = false,
                     isSuccessLogin = false,
-                    userMessage = loginAsync.data.message
+                    userMessage = UiText.DynamicString(loginAsync.data.message)
                 )
             }
         }

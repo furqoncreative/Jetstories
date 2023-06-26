@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.components.MenuItem
@@ -60,9 +62,10 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     uiState.userMessage?.let { userMessage ->
-        LocalContext.current.showToast(userMessage)
+        context.showToast(userMessage.asString(context))
         homeViewModel.toastMessageShown()
     }
 
@@ -73,9 +76,9 @@ fun HomeScreen(
     }
 
     JetstoriesAlertDialog(openDialog = alertDialogState,
-        title = "Logout",
-        confirmText = "Yes",
-        dismissText = "No",
+        title = stringResource(R.string.logout),
+        confirmText = stringResource(R.string.yes),
+        dismissText = stringResource(R.string.no),
         confirmAction = {
             homeViewModel.userLogout()
         },
@@ -85,7 +88,7 @@ fun HomeScreen(
         content = {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Are you sure you want to logout?",
+                text = stringResource(R.string.logout_confirmation),
                 textAlign = TextAlign.Center
             )
         })
@@ -122,10 +125,16 @@ fun HomeScreen(
                 )
             ) {
                 IconButton(onClick = { onClickAddStory() }) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add Story")
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = stringResource(R.string.add_story)
+                    )
                 }
                 IconButton(onClick = { optionMenuExpandState.value = true }) {
-                    Icon(imageVector = Icons.Default.MoreVert, contentDescription = "More Menu")
+                    Icon(
+                        imageVector = Icons.Default.MoreVert,
+                        contentDescription = stringResource(R.string.more_menu)
+                    )
                 }
                 OptionMenu(
                     expanded = optionMenuExpandState,
@@ -155,7 +164,7 @@ fun HomeScreen(
                         .padding(bottom = 16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "Nothing")
+                    Text(text = stringResource(R.string.there_is_no_story))
                 }
             } else {
                 LazyColumn(

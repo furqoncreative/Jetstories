@@ -3,6 +3,7 @@ package id.furqoncreative.jetstories.ui.pages.register
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.RegisterRepository
 import id.furqoncreative.jetstories.model.register.RegisterResponse
 import id.furqoncreative.jetstories.utils.Async
@@ -10,6 +11,7 @@ import id.furqoncreative.jetstories.utils.ConfirmPasswordState
 import id.furqoncreative.jetstories.utils.EmailState
 import id.furqoncreative.jetstories.utils.NameState
 import id.furqoncreative.jetstories.utils.PasswordState
+import id.furqoncreative.jetstories.utils.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,7 +26,7 @@ data class RegisterUiState(
     val passwordState: PasswordState = PasswordState(),
     val confirmPasswordState: ConfirmPasswordState = ConfirmPasswordState(passwordState),
     val isLoading: Boolean = false,
-    val userMessage: String? = null,
+    val userMessage: UiText? = null,
     val isSuccessRegister: Boolean = false
 )
 
@@ -58,7 +60,7 @@ class RegisterViewModel @Inject constructor(
             Async.Loading -> RegisterUiState(isLoading = true)
 
             is Async.Error -> RegisterUiState(
-                userMessage = registerAsync.errorMessage,
+                userMessage = UiText.DynamicString(registerAsync.errorMessage),
                 isLoading = false,
                 isSuccessRegister = false
             )
@@ -68,7 +70,7 @@ class RegisterViewModel @Inject constructor(
                     RegisterUiState(
                         isLoading = false,
                         isSuccessRegister = true,
-                        userMessage = "Register Berhasil"
+                        userMessage = UiText.StringResource(R.string.signed_up)
                     )
                 } else {
                     RegisterUiState(
@@ -78,7 +80,7 @@ class RegisterViewModel @Inject constructor(
                         confirmPasswordState = uiState.value.confirmPasswordState,
                         isLoading = false,
                         isSuccessRegister = false,
-                        userMessage = registerAsync.data.message
+                        userMessage = UiText.DynamicString(registerAsync.data.message)
                     )
                 }
             }

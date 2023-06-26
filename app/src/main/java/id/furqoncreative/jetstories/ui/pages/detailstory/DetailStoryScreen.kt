@@ -46,10 +46,11 @@ fun DetailStoryScreen(
     storyViewModel: DetailStoryViewModel = hiltViewModel()
 ) {
     val uiState by storyViewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
     val story = uiState.story
 
     uiState.userMessage?.let { userMessage ->
-        LocalContext.current.showToast(userMessage)
+        context.showToast(userMessage.asString(context))
         storyViewModel.toastMessageShown()
     }
 

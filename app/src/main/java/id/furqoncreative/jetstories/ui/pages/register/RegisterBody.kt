@@ -50,11 +50,13 @@ fun RegisterBody(
 
         PasswordTextField(
             label = stringResource(id = R.string.password_label),
+            placeholder = stringResource(id = R.string.password_placeholder),
             passwordState = passwordState,
             imeAction = ImeAction.Next
         )
 
         PasswordTextField(label = stringResource(id = R.string.confirmation_password_label),
+            placeholder = stringResource(id = R.string.confirm_password_placeholder),
             passwordState = confirmPasswordState,
             onImeAction = {
                 onClickSignup()
@@ -68,7 +70,7 @@ fun RegisterBody(
                 onClickSignup()
             }) {
             if (!isLoading) {
-                Text(text = "Sign up")
+                Text(text = stringResource(R.string.sign_up))
             } else {
                 JetstoriesProgressBar(size = 30.dp)
             }

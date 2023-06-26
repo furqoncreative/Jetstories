@@ -111,7 +111,7 @@ class AddStoryViewModel @Inject constructor(
         }
     }
 
-    fun setUserMessage(message: String?) {
+    fun setUserMessage(message: String) {
         _uiState.update {
             it.copy(
                 userMessage = UiText.DynamicString(message)

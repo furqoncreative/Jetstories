@@ -3,11 +3,13 @@ package id.furqoncreative.jetstories.ui.pages.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.GetAllStoriesRepository
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
 import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.utils.Async
+import id.furqoncreative.jetstories.utils.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +22,7 @@ data class HomeUiState(
     val isEmpty: Boolean = false,
     val isLoading: Boolean = false,
     val isUserLogout: Boolean = false,
-    val userMessage: String? = null,
+    val userMessage: UiText? = null,
     val stories: List<Story>? = null,
 )
 
@@ -54,7 +56,9 @@ class HomeViewModel @Inject constructor(
             Async.Loading -> HomeUiState(isLoading = true, isEmpty = true)
 
             is Async.Error -> HomeUiState(
-                isEmpty = true, isLoading = false, userMessage = storiesAsync.errorMessage
+                isEmpty = true,
+                isLoading = false,
+                userMessage = UiText.DynamicString(storiesAsync.errorMessage)
             )
 
             is Async.Success -> {
@@ -81,7 +85,10 @@ class HomeViewModel @Inject constructor(
                 val userToken = preferencesManager.getUserToken.first()
                 if (userToken.isEmpty()) {
                     _uiState.update {
-                        HomeUiState(isUserLogout = true, userMessage = "Logout berhasil")
+                        HomeUiState(
+                            isUserLogout = true,
+                            userMessage = UiText.StringResource(R.string.logged_out)
+                        )
                     }
                 }
             }

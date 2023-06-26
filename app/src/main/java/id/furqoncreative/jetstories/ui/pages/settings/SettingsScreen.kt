@@ -31,6 +31,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
@@ -44,6 +45,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
+import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
@@ -60,9 +62,13 @@ fun SettingsScreen(
 
 ) {
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
-
+    val context = LocalContext.current
     val languageOption = LanguageEnum.values()
     val (selectedLanguage, onSelectedLanguage) = remember { mutableStateOf(uiState.selectedLanguageEnum) }
+
+    uiState.userMessage?.let { userMessage ->
+        context.showToast(message = userMessage.asString(context))
+    }
 
     CollapsingToolbarScaffold(modifier = modifier,
         state = collapsingToolbarScaffoldState,
@@ -105,9 +111,9 @@ fun SettingsScreen(
         }) {
 
         JetstoriesAlertDialog(openDialog = alertDialogState,
-            title = "Change Language",
-            confirmText = "Confirm",
-            dismissText = "Cancel",
+            title = stringResource(R.string.change_language),
+            confirmText = stringResource(R.string.confirm),
+            dismissText = stringResource(R.string.cancel),
             confirmAction = {
                 settingsViewModel.setAppLanguage()
             },
