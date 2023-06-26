@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -70,16 +72,23 @@ fun HomeScreen(
         }
     }
 
-    JetstoriesAlertDialog(
-        openDialog = alertDialogState,
+    JetstoriesAlertDialog(openDialog = alertDialogState,
         title = "Logout",
-        text = "Are you sure you want to logout?",
         confirmText = "Yes",
         dismissText = "No",
         confirmAction = {
             homeViewModel.userLogout()
         },
-    )
+        icon = {
+            Icon(Icons.Filled.Logout, contentDescription = null)
+        },
+        content = {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Are you sure you want to logout?",
+                textAlign = TextAlign.Center
+            )
+        })
 
     CollapsingToolbarScaffold(modifier = modifier,
         state = collapsingToolbarScaffoldState,
