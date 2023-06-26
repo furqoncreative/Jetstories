@@ -31,7 +31,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -59,7 +60,6 @@ fun SettingsScreen(
 
 ) {
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
-    val context = LocalContext.current
 
     val languageOption = LanguageEnum.values()
     val (selectedLanguage, onSelectedLanguage) = remember { mutableStateOf(uiState.selectedLanguageEnum) }
@@ -109,7 +109,7 @@ fun SettingsScreen(
             confirmText = "Confirm",
             dismissText = "Cancel",
             confirmAction = {
-                settingsViewModel.setAppLanguage(context)
+                settingsViewModel.setAppLanguage()
             },
             icon = {
                 Icon(Icons.Filled.Language, contentDescription = null)
@@ -165,6 +165,7 @@ fun SettingsScreen(
                 colors = CardDefaults.cardColors(MaterialTheme.colorScheme.secondaryContainer),
                 onClick = {
                     alertDialogState.value = true
+//                    context.startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
                 },
             ) {
                 Row(
@@ -175,15 +176,21 @@ fun SettingsScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column {
-                        Text(text = "Language", style = MaterialTheme.typography.titleLarge)
                         Text(
-                            text = "Change the app language",
+                            text = stringResource(id = R.string.language),
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                        Text(
+                            text = stringResource(id = R.string.choose_language),
                             style = MaterialTheme.typography.titleSmall.copy(
                                 fontWeight = FontWeight.Normal
                             )
                         )
                     }
-                    Text(text = uiState.selectedLanguageEnum.icon, style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = uiState.selectedLanguageEnum.icon,
+                        style = MaterialTheme.typography.titleMedium
+                    )
                 }
             }
         }

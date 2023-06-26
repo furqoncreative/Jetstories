@@ -1,11 +1,11 @@
 package id.furqoncreative.jetstories.ui.pages.settings
 
-import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
-import id.furqoncreative.jetstories.utils.updateResources
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -37,12 +37,14 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setAppLanguage(context: Context) {
+    fun setAppLanguage() {
         val selectedLanguage = uiState.value.selectedLanguageEnum
         viewModelScope.launch {
             try {
-                updateResources(context, selectedLanguage.code)
                 preferencesManager.setAppLanguage(selectedLanguage.name)
+                AppCompatDelegate.setApplicationLocales(
+                    LocaleListCompat.forLanguageTags(selectedLanguage.code)
+                )
             } finally {
                 setSelectedLanguageFromAppLanguage()
             }
@@ -61,5 +63,4 @@ class SettingsViewModel @Inject constructor(
             )
         }
     }
-
 }
