@@ -31,6 +31,7 @@ import id.furqoncreative.jetstories.utils.TextFieldState
 @Composable
 fun PasswordTextField(
     label: String,
+    placeholder: String,
     passwordState: TextFieldState,
     imeAction: ImeAction = ImeAction.Done,
     onImeAction: () -> Unit = {}
@@ -47,7 +48,7 @@ fun PasswordTextField(
             Text(text = label)
         },
         placeholder = {
-            Text(text = stringResource(R.string.password_placeholder))
+            Text(text = placeholder)
         },
         modifier = Modifier
             .fillMaxWidth()
@@ -102,7 +103,7 @@ fun PasswordTextField(
 @Preview
 @Composable
 fun PasswordTextFieldPreview() {
-    PasswordTextField(label = "Password", passwordState = rememberSaveable {
+    PasswordTextField(label = "Password", placeholder = "Enter your pasword", passwordState = rememberSaveable {
         PasswordState()
     })
 }

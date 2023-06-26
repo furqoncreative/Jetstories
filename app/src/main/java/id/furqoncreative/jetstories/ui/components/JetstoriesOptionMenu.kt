@@ -1,5 +1,6 @@
 package id.furqoncreative.jetstories.ui.components
 
+import android.content.Context
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
@@ -8,8 +9,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import id.furqoncreative.jetstories.utils.getMenuItemStringResource
 
 enum class MenuItem(val title: String) {
     LOGOUT("Logout"), SETTINGS("Settings")
@@ -17,6 +20,7 @@ enum class MenuItem(val title: String) {
 
 @Composable
 fun OptionMenu(
+    context: Context,
     modifier: Modifier = Modifier,
     onClickMenu: Map<MenuItem, () -> Unit>,
     expanded: MutableState<Boolean> = remember { mutableStateOf(false) }
@@ -38,7 +42,7 @@ fun OptionMenu(
                 }
                 expanded.value = false
             }, text = {
-                Text(text = menuItem.title)
+                Text(text = getMenuItemStringResource(context, menuItem))
             })
         }
     }

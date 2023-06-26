@@ -137,6 +137,7 @@ fun HomeScreen(
                     )
                 }
                 OptionMenu(
+                    context = context,
                     expanded = optionMenuExpandState,
                     onClickMenu = mapOf(Pair(first = MenuItem.LOGOUT, second = {
                         alertDialogState.value = true
