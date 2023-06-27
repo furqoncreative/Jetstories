@@ -20,8 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import id.furqoncreative.jetstories.ui.pages.login.components.LoginBody
-import id.furqoncreative.jetstories.ui.pages.login.components.LoginHeader
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import id.furqoncreative.jetstories.utils.showToast
 
@@ -66,14 +64,14 @@ fun LoginScreen(
 
         LoginHeader(modifier = modifier)
 
-        LoginBody(
+        LoginContent(
+            modifier = modifier,
             context = context,
             emailState = uiState.emailState,
             passwordState = uiState.passwordState,
             onSubmit = onSubmit,
             onClickSignup = onClickSignup,
             isLoading = uiState.isLoading,
-            modifier = modifier
         )
     }
 }
