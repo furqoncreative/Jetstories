@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Jetstories</string>
-    <string name="app_tagline">Dengar, lihat, jadilah dirimu sendiri!</string>
+    <string name="app_tagline">Didengar, dilihat, jadilah dirimu sendiri!</string>
     <string name="email_label">Email</string>
     <string name="email_placeholder">Masukkan alamat email Anda</string>
     <string name="name_label">Nama</string>
