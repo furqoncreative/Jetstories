@@ -40,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -59,7 +60,6 @@ import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import timber.log.Timber
 import java.io.File
 import java.util.Date
 
@@ -91,7 +91,7 @@ fun AddStoryScreen(
                     )
                 )
             } else {
-                addStoryViewModel.setUserMessage("No image selected!")
+                addStoryViewModel.setUserMessage(context.getString(R.string.no_image_selected))
             }
         }
 
@@ -100,7 +100,7 @@ fun AddStoryScreen(
             if (permissionGranted) {
                 imageSelectorLauncher.launch("image/*")
             } else {
-                addStoryViewModel.setUserMessage("Please allow storage permission for select image.")
+                addStoryViewModel.setUserMessage(context.getString(R.string.allow_storage_permission))
             }
         }
 
@@ -120,8 +120,7 @@ fun AddStoryScreen(
     }
 
     uiState.userMessage?.let { userMessage ->
-        Timber.e(userMessage)
-        context.showToast(message = userMessage)
+        context.showToast(message = userMessage.asString(context))
         addStoryViewModel.toastMessageShown()
     }
 
@@ -140,11 +139,14 @@ fun AddStoryScreen(
                     .background(color = MaterialTheme.colorScheme.background)
             )
             Text(
-                text = "Add Story", textAlign = TextAlign.Center, style = TextStyle(
+                text = stringResource(R.string.add_story),
+                textAlign = TextAlign.Center,
+                style = TextStyle(
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = textSize,
                     fontWeight = FontWeight.Medium
-                ), modifier = Modifier
+                ),
+                modifier = Modifier
                     .padding(
                         top = 10.dp, start = 40.dp, bottom = 16.dp, end = 40.dp
                     )
@@ -158,7 +160,12 @@ fun AddStoryScreen(
                 IconButton(onClick = {
                     onNavUp()
                 }) {
-                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = "Back")
+                    Icon(
+                        imageVector = Icons.Default.ChevronLeft,
+                        contentDescription = stringResource(
+                            R.string.back
+                        )
+                    )
                 }
             }
         }) {
@@ -184,13 +191,13 @@ fun AddStoryScreen(
                     Image(
                         modifier = Modifier.fillMaxSize(), painter = rememberAsyncImagePainter(
                             model = uiState.imageUri
-                        ), contentDescription = "Add Story"
+                        ), contentDescription = stringResource(id = R.string.add_story)
                     )
                 } else {
                     Image(
                         modifier = Modifier.size(150.dp), painter = painterResource(
                             id = R.drawable.img_add_story_placeholder
-                        ), contentDescription = "Add Story"
+                        ), contentDescription = stringResource(id = R.string.add_story)
                     )
                 }
 
@@ -212,19 +219,21 @@ fun AddStoryScreen(
                 ) {
                     Icon(
                         Icons.Default.FileUpload,
-                        contentDescription = "Upload",
+                        contentDescription = stringResource(R.string.add_image),
                         tint = MaterialTheme.colorScheme.primary
                     )
 
                     Text(
                         style = MaterialTheme.typography.labelLarge,
-                        text = if (uiState.imageUri == null) "ADD MEDIA" else "REPLACE MEDIA",
+                        text = if (uiState.imageUri == null) stringResource(id = R.string.add_image) else stringResource(
+                            R.string.replace_media
+                        ),
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
             }
 
-            JetstoriesDescriptionTextField(onImeAction = {
+            JetstoriesDescriptionTextField(context = context, onImeAction = {
                 onSubmit()
             }, descriptionState = uiState.descriptionState)
 
@@ -236,7 +245,7 @@ fun AddStoryScreen(
                     onSubmit()
                 }) {
                 if (!uiState.isLoading) {
-                    Text(text = "Submit")
+                    Text(text = stringResource(R.string.submit))
                 } else {
                     JetstoriesProgressBar(size = 30.dp)
                 }

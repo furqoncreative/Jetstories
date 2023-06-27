@@ -34,7 +34,7 @@ fun LoginScreen(
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     val uiState by loginViewModel.uiState.collectAsStateWithLifecycle()
-
+    val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val onSubmit = {
@@ -51,7 +51,7 @@ fun LoginScreen(
     }
 
     uiState.userMessage?.let { userMessage ->
-        LocalContext.current.showToast(message = userMessage)
+        context.showToast(message = userMessage.asString(context))
         loginViewModel.toastMessageShown()
     }
 
@@ -67,6 +67,7 @@ fun LoginScreen(
         LoginHeader(modifier = modifier)
 
         LoginBody(
+            context = context,
             emailState = uiState.emailState,
             passwordState = uiState.passwordState,
             onSubmit = onSubmit,

@@ -20,12 +20,14 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
@@ -42,7 +44,7 @@ fun RegisterScreen(
     registerViewModel: RegisterViewModel = hiltViewModel()
 ) {
     val uiState by registerViewModel.uiState.collectAsStateWithLifecycle()
-
+    val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val onClickRegister = {
@@ -59,7 +61,7 @@ fun RegisterScreen(
     }
 
     uiState.userMessage?.let { userMessage ->
-        LocalContext.current.showToast(message = userMessage)
+        context.showToast(message = userMessage.asString(context))
         registerViewModel.toastMessageShown()
     }
 
@@ -78,7 +80,7 @@ fun RegisterScreen(
                     .background(color = MaterialTheme.colorScheme.background)
             )
             Text(
-                "Register", style = TextStyle(
+                stringResource(R.string.register), style = TextStyle(
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = textSize,
                     fontWeight = FontWeight.Medium
@@ -97,13 +99,19 @@ fun RegisterScreen(
                 IconButton(onClick = {
                     onNavUp()
                 }) {
-                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = "Back")
+                    Icon(
+                        imageVector = Icons.Default.ChevronLeft,
+                        contentDescription = stringResource(
+                            id = R.string.back
+                        )
+                    )
                 }
             }
 
         }) {
 
         RegisterBody(
+            context = context,
             emailState = uiState.emailState,
             nameState = uiState.nameState,
             passwordState = uiState.passwordState,

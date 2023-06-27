@@ -41,8 +41,8 @@ class NetworkAddStoryRepository @Inject constructor(
             longitude = longitude
         ).map {
             Async.Success(it)
-        }.catch<Async<AddStoryResponse>> {
-            Async.Error(it.message)
+        }.catch<Async<AddStoryResponse>> { throwable ->
+            throwable.message?.let { Async.Error(it) }
         }
     }
 }

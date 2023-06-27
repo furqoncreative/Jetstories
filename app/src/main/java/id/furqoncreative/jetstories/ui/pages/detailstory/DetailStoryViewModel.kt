@@ -9,6 +9,7 @@ import id.furqoncreative.jetstories.model.stories.GetDetailStoryResponse
 import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinationsArgs
 import id.furqoncreative.jetstories.utils.Async
+import id.furqoncreative.jetstories.utils.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +20,7 @@ import javax.inject.Inject
 data class DetailStoryUiState(
     val isLoading: Boolean = false,
     val isUserLogout: Boolean = false,
-    val userMessage: String? = null,
+    val userMessage: UiText? = null,
     val story: Story? = null,
 )
 
@@ -58,7 +59,7 @@ class DetailStoryViewModel @Inject constructor(
             Async.Loading -> DetailStoryUiState(isLoading = true)
 
             is Async.Error -> DetailStoryUiState(
-                isLoading = false, userMessage = storyAsync.errorMessage
+                isLoading = false, userMessage = UiText.DynamicString(storyAsync.errorMessage)
             )
 
             is Async.Success -> {

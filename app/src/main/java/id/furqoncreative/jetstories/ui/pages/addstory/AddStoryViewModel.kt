@@ -5,10 +5,12 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.AddStoryRepository
 import id.furqoncreative.jetstories.model.stories.AddStoryResponse
 import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.utils.DescriptionState
+import id.furqoncreative.jetstories.utils.UiText
 import id.furqoncreative.jetstories.utils.uriToFile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,7 +28,7 @@ data class AddStoryUiState(
     val descriptionState: DescriptionState = DescriptionState(),
     val isLoading: Boolean = false,
     val imageUri: Uri? = null,
-    val userMessage: String? = null,
+    val userMessage: UiText? = null,
     val isSuccessAddStory: Boolean = false
 )
 
@@ -63,13 +65,12 @@ class AddStoryViewModel @Inject constructor(
         }
     }
 
-
     private fun produceAddStoryUiState(addStoryAsync: Async<AddStoryResponse>) =
         when (addStoryAsync) {
             Async.Loading -> AddStoryUiState(isLoading = true)
 
             is Async.Error -> AddStoryUiState(
-                userMessage = addStoryAsync.errorMessage,
+                userMessage = UiText.DynamicString(addStoryAsync.errorMessage),
                 isLoading = false,
                 isSuccessAddStory = false
             )
@@ -77,14 +78,18 @@ class AddStoryViewModel @Inject constructor(
             is Async.Success -> {
                 if (!addStoryAsync.data.error) {
                     AddStoryUiState(
-                        isLoading = false, isSuccessAddStory = true, userMessage = "Berhasil Tambah cerita"
+                        isLoading = false,
+                        isSuccessAddStory = true,
+                        userMessage = UiText.StringResource(
+                            resId = R.string.success_added_story
+                        )
                     )
                 } else {
                     AddStoryUiState(
                         descriptionState = uiState.value.descriptionState,
                         isLoading = false,
                         isSuccessAddStory = false,
-                        userMessage = addStoryAsync.data.message
+                        userMessage = UiText.DynamicString(addStoryAsync.data.message)
                     )
                 }
             }
@@ -106,10 +111,10 @@ class AddStoryViewModel @Inject constructor(
         }
     }
 
-    fun setUserMessage(message: String?) {
+    fun setUserMessage(message: String) {
         _uiState.update {
             it.copy(
-                userMessage = message
+                userMessage = UiText.DynamicString(message)
             )
         }
     }

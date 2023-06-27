@@ -5,6 +5,8 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import android.widget.Toast
+import id.furqoncreative.jetstories.R
+import id.furqoncreative.jetstories.ui.components.MenuItem
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -14,7 +16,6 @@ import java.util.Locale
 
 
 private const val FILENAME_FORMAT = "dd-MMM-yyyy"
-private const val MAXIMAL_SIZE = 1000000
 
 val timeStamp: String = SimpleDateFormat(
     FILENAME_FORMAT, Locale.US
@@ -38,6 +39,11 @@ fun uriToFile(selectedImg: Uri, context: Context): File {
     inputStream.close()
 
     return myFile
+}
+
+fun getMenuItemStringResource(context: Context, menuItem: MenuItem) = when (menuItem) {
+    MenuItem.LOGOUT -> context.getString(R.string.logout)
+    MenuItem.SETTINGS -> context.getString(R.string.settings)
 }
 
 fun Context.showToast(message: String) {

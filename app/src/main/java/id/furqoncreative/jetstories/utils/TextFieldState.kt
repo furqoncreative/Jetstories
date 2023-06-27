@@ -1,12 +1,13 @@
 package id.furqoncreative.jetstories.utils
 
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
 open class TextFieldState(
     private val validator: (String) -> Boolean = { true },
-    private val errorFor: () -> String = { "" }
+    private val errorFor: (Context) -> String = { "" }
 ) {
     var text: String by mutableStateOf("")
 
@@ -30,9 +31,9 @@ open class TextFieldState(
 
     fun showErrors() = !isValid && displayErrors
 
-    open fun getError(): String? {
+    open fun getError(context: Context): String? {
         return if (showErrors()) {
-            errorFor()
+            errorFor(context)
         } else {
             null
         }

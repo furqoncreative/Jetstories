@@ -15,6 +15,7 @@ import id.furqoncreative.jetstories.ui.pages.detailstory.DetailStoryScreen
 import id.furqoncreative.jetstories.ui.pages.home.HomeScreen
 import id.furqoncreative.jetstories.ui.pages.login.LoginScreen
 import id.furqoncreative.jetstories.ui.pages.register.RegisterScreen
+import id.furqoncreative.jetstories.ui.pages.settings.SettingsScreen
 
 @Composable
 fun JetstoriesNavGraph(
@@ -47,7 +48,9 @@ fun JetstoriesNavGraph(
         composable(JetstoriesDestinations.HOME_ROUTE) {
             HomeScreen(onClickAddStory = {
                 navAction.navigateToAddStory()
-            }, onClickSettings = {}, onUserLoggedOut = {
+            }, onClickSettings = {
+                navAction.navigateToSettings()
+            }, onUserLoggedOut = {
                 navAction.navigateToLogin()
             }, onClickStory = { story ->
                 navAction.navigateToDetail(story.id)
@@ -72,5 +75,11 @@ fun JetstoriesNavGraph(
             })
         }
 
+
+        composable(JetstoriesDestinations.SETTINGS_ROUTE) {
+            SettingsScreen(onNavUp = {
+                navAction.navigateUp()
+            })
+        }
     }
 }

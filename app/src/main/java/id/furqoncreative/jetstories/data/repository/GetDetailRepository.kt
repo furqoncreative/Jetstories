@@ -29,8 +29,8 @@ class NetworkGetDetailStoryRepository @Inject constructor(
             token = userToken, id = id
         ).map {
             Async.Success(it)
-        }.catch<Async<GetDetailStoryResponse>> {
-            Async.Error(it.message)
+        }.catch<Async<GetDetailStoryResponse>> { throwable ->
+            throwable.message?.let { Async.Error(it) }
         }
     }
 }

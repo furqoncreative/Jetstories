@@ -24,8 +24,8 @@ class NetworkLoginRepository @Inject constructor(
             } else {
                 Async.Success(it)
             }
-        }.catch {
-            Async.Error(it.message)
+        }.catch { throwable ->
+            throwable.message?.let { Async.Error(it) }
         }
     }
 }
