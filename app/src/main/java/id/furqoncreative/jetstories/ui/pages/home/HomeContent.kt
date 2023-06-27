@@ -43,7 +43,7 @@ fun HomeContent(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(stories, key = { it }) { story ->
+                items(stories, key = { it.id }) { story ->
                     StoryRow(story = story, onClickStory = { onClickStory(story) })
                 }
             }
