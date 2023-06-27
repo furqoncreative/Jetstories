@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.ui.pages.settings.LanguageEnum
-import id.furqoncreative.jetstories.utils.WhileUiSubscribed
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -29,7 +29,7 @@ class JetstoriesViewModel @Inject constructor(
     val isLoggedIn = preferencesManager.getUserToken.map {
         it.isNotEmpty()
     }.stateIn(
-        scope = viewModelScope, started = WhileUiSubscribed, initialValue = false
+        scope = viewModelScope, started = SharingStarted.WhileSubscribed(5000), initialValue = false
     )
 
     init {
