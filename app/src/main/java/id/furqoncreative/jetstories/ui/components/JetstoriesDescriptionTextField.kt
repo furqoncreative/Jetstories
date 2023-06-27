@@ -20,8 +20,10 @@ import id.furqoncreative.jetstories.utils.DescriptionState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JetstoriesDescriptionTextField(
+    modifier: Modifier = Modifier,
     context: Context,
-    modifier: Modifier = Modifier, descriptionState: DescriptionState, onImeAction: () -> Unit = {}
+    descriptionState: DescriptionState,
+    onImeAction: () -> Unit = {}
 ) {
     TextField(modifier = modifier
         .fillMaxWidth()
