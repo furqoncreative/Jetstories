@@ -51,4 +51,5 @@
     <string name="confirm_password_invalid_message">Kata sandi tidak cocok</string>
     <string name="password_invalid_message">Kata sandi minimal 8 karakter</string>
     <string name="description_invalid_message">Deskripsi tidak boleh kosong</string>
+    <string name="detail_story">Cerita %s</string>
 </resources>

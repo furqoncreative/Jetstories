@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
@@ -70,7 +72,8 @@ fun DetailStoryScreen(
                         .background(color = MaterialTheme.colorScheme.background)
                 )
                 Text(
-                    text = StringBuilder("${story.name.replaceFirstChar { it.uppercase() }}'s Story").toString(),
+                    text = stringResource(id = R.string.detail_story,
+                        story.name.replaceFirstChar { it.uppercase() }),
                     textAlign = TextAlign.Center,
                     style = TextStyle(
                         color = MaterialTheme.colorScheme.onBackground,
