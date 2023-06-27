@@ -107,7 +107,7 @@ fun JetstoriesPasswordTextField(
 fun JetstoriesPasswordTextFieldPreview() {
     JetstoriesPasswordTextField(context = LocalContext.current,
         label = "Password",
-        placeholder = "Enter your pasword",
+        placeholder = "Enter your password",
         passwordState = rememberSaveable {
             PasswordState()
         })
