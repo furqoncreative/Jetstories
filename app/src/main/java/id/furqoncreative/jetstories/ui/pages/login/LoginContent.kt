@@ -19,9 +19,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import id.furqoncreative.jetstories.R
-import id.furqoncreative.jetstories.ui.components.EmailTextField
+import id.furqoncreative.jetstories.ui.components.JetstoriesEmailTextField
+import id.furqoncreative.jetstories.ui.components.JetstoriesPasswordTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
-import id.furqoncreative.jetstories.ui.components.PasswordTextField
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import id.furqoncreative.jetstories.utils.PasswordState
 import id.furqoncreative.jetstories.utils.TextFieldState
@@ -41,9 +41,13 @@ fun LoginContent(
     ) {
         val commonModifier = Modifier.fillMaxWidth()
 
-        EmailTextField(modifier = commonModifier, context = context, emailState = emailState)
+        JetstoriesEmailTextField(
+            modifier = commonModifier,
+            context = context,
+            emailState = emailState
+        )
 
-        PasswordTextField(modifier = commonModifier,
+        JetstoriesPasswordTextField(modifier = commonModifier,
             context = context,
             label = stringResource(id = R.string.password_label),
             placeholder = stringResource(id = R.string.password_placeholder),
