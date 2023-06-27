@@ -44,10 +44,10 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 fun DetailStoryScreen(
     modifier: Modifier = Modifier,
     onNavUp: () -> Unit,
-    collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
     storyViewModel: DetailStoryViewModel = hiltViewModel()
 ) {
     val uiState by storyViewModel.uiState.collectAsStateWithLifecycle()
+    val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
     val context = LocalContext.current
     val story = uiState.story
 
@@ -99,37 +99,7 @@ fun DetailStoryScreen(
                 }
             }) {
 
-            if (uiState.isLoading) {
-                LinearProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    color = MaterialTheme.colorScheme.tertiary
-                )
-            } else {
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxSize()
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    AsyncImage(
-                        model = story.photoUrl,
-                        contentDescription = story.description,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .defaultMinSize(minWidth = 300.dp, minHeight = 300.dp)
-                    )
-                    Text(
-                        text = story.description,
-                        style = MaterialTheme.typography.bodyLarge,
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
+            DetailStoryContent(isLoading = uiState.isLoading, story = uiState.story)
         }
     }
 }
