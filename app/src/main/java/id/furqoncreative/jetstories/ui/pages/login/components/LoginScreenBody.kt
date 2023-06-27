@@ -1,5 +1,6 @@
 package id.furqoncreative.jetstories.ui.pages.login.components
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,6 +28,7 @@ import id.furqoncreative.jetstories.utils.TextFieldState
 
 @Composable
 fun LoginBody(
+    context: Context,
     modifier: Modifier = Modifier,
     emailState: TextFieldState,
     passwordState: PasswordState,
@@ -37,9 +40,11 @@ fun LoginBody(
         modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        EmailTextField(emailState = emailState)
+        EmailTextField(context = context, emailState = emailState)
 
-        PasswordTextField(label = stringResource(id = R.string.password_label),
+        PasswordTextField(context = context,
+            label = stringResource(id = R.string.password_label),
+            placeholder = stringResource(id = R.string.password_placeholder),
             passwordState = passwordState,
             onImeAction = {
                 onSubmit()
@@ -52,9 +57,9 @@ fun LoginBody(
             horizontalArrangement = Arrangement.End,
         ) {
             Text(
-                text = "Don't have an account?"
+                text = stringResource(R.string.dont_have_an_account)
             )
-            Text(text = "Sign up",
+            Text(text = stringResource(id = R.string.sign_up),
                 color = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier
                     .padding(start = 8.dp)
@@ -71,7 +76,7 @@ fun LoginBody(
                 onSubmit()
             }) {
             if (!isLoading) {
-                Text(text = "Sign in")
+                Text(text = stringResource(id = R.string.sign_in))
             } else {
                 JetstoriesProgressBar(size = 30.dp)
             }
@@ -83,7 +88,8 @@ fun LoginBody(
 @Composable
 fun LoginBodyPreview() {
     JetStoriesTheme {
-        LoginBody(emailState = TextFieldState(),
+        LoginBody(context = LocalContext.current,
+            emailState = TextFieldState(),
             passwordState = PasswordState(),
             onSubmit = {},
             onClickSignup = {})

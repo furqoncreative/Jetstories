@@ -1,5 +1,6 @@
 package id.furqoncreative.jetstories.ui.pages.register
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +32,7 @@ import id.furqoncreative.jetstories.utils.TextFieldState
 @Composable
 fun RegisterBody(
     modifier: Modifier = Modifier,
+    context: Context,
     emailState: TextFieldState,
     nameState: NameState,
     passwordState: PasswordState,
@@ -44,18 +47,20 @@ fun RegisterBody(
             .padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        EmailTextField(emailState = emailState)
+        EmailTextField(context = context, emailState = emailState)
 
-        NameTextField(nameState = nameState)
+        NameTextField(context = context, nameState = nameState)
 
         PasswordTextField(
+            context = context,
             label = stringResource(id = R.string.password_label),
             placeholder = stringResource(id = R.string.password_placeholder),
             passwordState = passwordState,
             imeAction = ImeAction.Next
         )
 
-        PasswordTextField(label = stringResource(id = R.string.confirmation_password_label),
+        PasswordTextField(context = context,
+            label = stringResource(id = R.string.confirmation_password_label),
             placeholder = stringResource(id = R.string.confirm_password_placeholder),
             passwordState = confirmPasswordState,
             onImeAction = {
@@ -82,7 +87,8 @@ fun RegisterBody(
 @Composable
 fun RegisterBodyPreview() {
     JetStoriesTheme {
-        RegisterBody(emailState = TextFieldState(),
+        RegisterBody(context = LocalContext.current,
+            emailState = TextFieldState(),
             nameState = NameState(),
             passwordState = PasswordState(),
             confirmPasswordState = ConfirmPasswordState(PasswordState()),

@@ -1,5 +1,6 @@
 package id.furqoncreative.jetstories.ui.components
 
+import android.content.Context
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -24,6 +26,7 @@ import id.furqoncreative.jetstories.utils.TextFieldState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailTextField(
+    context: Context,
     emailState: TextFieldState = remember { EmailState() }, onImeAction: () -> Unit = {}
 ) {
     OutlinedTextField(
@@ -48,7 +51,7 @@ fun EmailTextField(
             },
         isError = emailState.showErrors(),
         supportingText = {
-            emailState.getError()?.let { error -> TextFieldError(textError = error) }
+            emailState.getError(context)?.let { error -> TextFieldError(textError = error) }
         },
         leadingIcon = {
             Icon(
@@ -68,5 +71,5 @@ fun EmailTextField(
 @Preview(showBackground = true)
 @Composable
 fun EmailTextFieldPreview() {
-    EmailTextField()
+    EmailTextField(context = LocalContext.current)
 }

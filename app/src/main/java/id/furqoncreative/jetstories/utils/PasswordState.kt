@@ -1,5 +1,8 @@
 package id.furqoncreative.jetstories.utils
 
+import android.content.Context
+import id.furqoncreative.jetstories.R
+
 class PasswordState :
     TextFieldState(validator = ::isPasswordValid, errorFor = ::passwordValidationError)
 
@@ -7,9 +10,9 @@ class ConfirmPasswordState(private val passwordState: PasswordState) : TextField
     override val isValid
         get() = passwordAndConfirmationValid(passwordState.text, text)
 
-    override fun getError(): String? {
+    override fun getError(context: Context): String? {
         return if (showErrors()) {
-            passwordConfirmationError()
+            passwordConfirmationError(context)
         } else {
             null
         }
@@ -24,10 +27,10 @@ private fun isPasswordValid(password: String): Boolean {
     return password.length > 7 && password.isNotBlank()
 }
 
-private fun passwordValidationError(): String {
-    return "Password must be at least 8 characters long"
+private fun passwordValidationError(context: Context): String {
+    return context.getString(R.string.password_invalid_message)
 }
 
-private fun passwordConfirmationError(): String {
-    return "Passwords don't match"
+private fun passwordConfirmationError(context: Context): String {
+    return context.getString(R.string.confirm_password_invalid_message)
 }

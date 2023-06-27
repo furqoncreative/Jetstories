@@ -60,7 +60,6 @@ import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import timber.log.Timber
 import java.io.File
 import java.util.Date
 
@@ -234,7 +233,7 @@ fun AddStoryScreen(
                 }
             }
 
-            JetstoriesDescriptionTextField(onImeAction = {
+            JetstoriesDescriptionTextField(context = context, onImeAction = {
                 onSubmit()
             }, descriptionState = uiState.descriptionState)
 

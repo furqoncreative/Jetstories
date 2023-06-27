@@ -111,6 +111,7 @@ fun RegisterScreen(
         }) {
 
         RegisterBody(
+            context = context,
             emailState = uiState.emailState,
             nameState = uiState.nameState,
             passwordState = uiState.passwordState,

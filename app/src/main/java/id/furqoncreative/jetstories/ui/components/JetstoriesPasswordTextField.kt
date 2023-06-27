@@ -1,5 +1,6 @@
 package id.furqoncreative.jetstories.ui.components
 
+import android.content.Context
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -30,6 +32,7 @@ import id.furqoncreative.jetstories.utils.TextFieldState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordTextField(
+    context: Context,
     label: String,
     placeholder: String,
     passwordState: TextFieldState,
@@ -88,7 +91,7 @@ fun PasswordTextField(
         },
         isError = passwordState.showErrors(),
         supportingText = {
-            passwordState.getError()?.let { error -> TextFieldError(textError = error) }
+            passwordState.getError(context)?.let { error -> TextFieldError(textError = error) }
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = imeAction, keyboardType = KeyboardType.Password
@@ -103,7 +106,11 @@ fun PasswordTextField(
 @Preview
 @Composable
 fun PasswordTextFieldPreview() {
-    PasswordTextField(label = "Password", placeholder = "Enter your pasword", passwordState = rememberSaveable {
-        PasswordState()
-    })
+    PasswordTextField(
+        context = LocalContext.current,
+        label = "Password",
+        placeholder = "Enter your pasword",
+        passwordState = rememberSaveable {
+            PasswordState()
+        })
 }

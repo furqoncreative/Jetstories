@@ -30,7 +30,7 @@ class JestoriesNetworkDataSource @Inject constructor(
         } catch (e: Exception) {
             emit(
                 LoginResponse(
-                    error = true, message = e.message, loginResult = null
+                    error = true, message = e.message.toString(), loginResult = null
                 )
             )
         }
@@ -49,7 +49,7 @@ class JestoriesNetworkDataSource @Inject constructor(
         } catch (e: Exception) {
             emit(
                 RegisterResponse(
-                    error = true, message = e.message
+                    error = true, message = e.message.toString()
                 )
             )
         }
@@ -91,7 +91,7 @@ class JestoriesNetworkDataSource @Inject constructor(
         } catch (e: Exception) {
             emit(
                 AddStoryResponse(
-                    error = true, message = e.message
+                    error = true, message = e.message.toString()
                 )
             )
         }

@@ -67,6 +67,7 @@ fun LoginScreen(
         LoginHeader(modifier = modifier)
 
         LoginBody(
+            context = context,
             emailState = uiState.emailState,
             passwordState = uiState.passwordState,
             onSubmit = onSubmit,
