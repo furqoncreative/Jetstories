@@ -40,10 +40,11 @@ fun RegisterScreen(
     onNavUp: () -> Unit,
     onSuccessRegister: () -> Unit,
     modifier: Modifier = Modifier,
-    collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
     registerViewModel: RegisterViewModel = hiltViewModel()
 ) {
     val uiState by registerViewModel.uiState.collectAsStateWithLifecycle()
+    val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =
+        rememberCollapsingToolbarScaffoldState()
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 

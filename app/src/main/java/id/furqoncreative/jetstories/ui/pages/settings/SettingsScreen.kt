@@ -56,12 +56,13 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 fun SettingsScreen(
     modifier: Modifier = Modifier,
     onNavUp: () -> Unit,
-    collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
     alertDialogState: MutableState<Boolean> = remember { mutableStateOf(false) },
     settingsViewModel: SettingsViewModel = hiltViewModel()
 
 ) {
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
+    val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =
+        rememberCollapsingToolbarScaffoldState()
     val context = LocalContext.current
     val languageOption = LanguageEnum.values()
     val (selectedLanguage, onSelectedLanguage) = remember { mutableStateOf(uiState.selectedLanguageEnum) }
