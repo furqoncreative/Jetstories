@@ -1,23 +1,17 @@
 package id.furqoncreative.jetstories.ui.pages.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,9 +34,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
+import id.furqoncreative.jetstories.ui.components.JetstoriesOptionMenu
 import id.furqoncreative.jetstories.ui.components.MenuItem
-import id.furqoncreative.jetstories.ui.components.OptionMenu
-import id.furqoncreative.jetstories.ui.pages.home.components.StoryRow
 import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
@@ -51,17 +44,18 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 fun HomeScreen(
+    modifier: Modifier = Modifier,
     onClickAddStory: () -> Unit,
     onClickSettings: () -> Unit,
     onClickStory: (Story) -> Unit,
     onUserLoggedOut: () -> Unit,
-    modifier: Modifier = Modifier,
-    collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
-    optionMenuExpandState: MutableState<Boolean> = remember { mutableStateOf(false) },
-    alertDialogState: MutableState<Boolean> = remember { mutableStateOf(false) },
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+    val optionMenuExpandState: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val alertDialogState: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =
+        rememberCollapsingToolbarScaffoldState()
     val context = LocalContext.current
 
     uiState.userMessage?.let { userMessage ->
@@ -136,7 +130,7 @@ fun HomeScreen(
                         contentDescription = stringResource(R.string.more_menu)
                     )
                 }
-                OptionMenu(
+                JetstoriesOptionMenu(
                     context = context,
                     expanded = optionMenuExpandState,
                     onClickMenu = mapOf(Pair(first = MenuItem.LOGOUT, second = {
@@ -149,35 +143,12 @@ fun HomeScreen(
 
         }) {
 
-        if (uiState.isLoading) {
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                color = MaterialTheme.colorScheme.tertiary
-            )
-        } else {
-            val stories = uiState.stories
-            if (stories.isNullOrEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(bottom = 16.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = stringResource(R.string.there_is_no_story))
-                }
-            } else {
-                LazyColumn(
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    items(stories, key = { it.id }) { story ->
-                        StoryRow(story = story, onClickStory = { onClickStory(story) })
-                    }
-                }
-            }
-        }
+        HomeContent(
+            isLoading = uiState.isLoading,
+            stories = uiState.stories,
+            onClickStory = { story ->
+                onClickStory(story)
+            })
     }
 }
 

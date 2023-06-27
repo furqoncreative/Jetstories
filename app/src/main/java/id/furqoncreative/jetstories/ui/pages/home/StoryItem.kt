@@ -1,4 +1,4 @@
-package id.furqoncreative.jetstories.ui.pages.home.components
+package id.furqoncreative.jetstories.ui.pages.home
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import androidx.compose.foundation.background
