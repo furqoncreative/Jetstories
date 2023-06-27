@@ -1,7 +1,6 @@
 package id.furqoncreative.jetstories.ui.components
 
 import android.content.Context
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -24,11 +23,19 @@ import id.furqoncreative.jetstories.utils.NameState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NameTextField(
+fun JetstoriesNameTextField(
+    modifier: Modifier = Modifier,
     context: Context,
-    nameState: NameState = remember { NameState() }, onImeAction: () -> Unit = {}
+    nameState: NameState = remember { NameState() },
+    onImeAction: () -> Unit = {}
 ) {
     OutlinedTextField(
+        modifier = modifier.onFocusChanged { focusState ->
+            nameState.onFocusChange(focusState.isFocused)
+            if (!focusState.isFocused) {
+                nameState.enableShowErrors()
+            }
+        },
         value = nameState.text,
         onValueChange = {
             nameState.text = it
@@ -40,17 +47,10 @@ fun NameTextField(
         placeholder = {
             Text(text = stringResource(R.string.name_placeholder))
         },
-        modifier = Modifier
-            .fillMaxWidth()
-            .onFocusChanged { focusState ->
-                nameState.onFocusChange(focusState.isFocused)
-                if (!focusState.isFocused) {
-                    nameState.enableShowErrors()
-                }
-            },
         isError = nameState.showErrors(),
         supportingText = {
-            nameState.getError(context)?.let { error -> TextFieldError(textError = error) }
+            nameState.getError(context)
+                ?.let { error -> JetstoriesTextFieldError(textError = error) }
         },
         leadingIcon = {
             Icon(
@@ -69,6 +69,6 @@ fun NameTextField(
 
 @Preview(showBackground = true)
 @Composable
-fun NameTextFieldPreview() {
-    NameTextField(context = LocalContext.current)
+fun JetstoriesNameTextFieldPreview() {
+    JetstoriesNameTextField(context = LocalContext.current)
 }

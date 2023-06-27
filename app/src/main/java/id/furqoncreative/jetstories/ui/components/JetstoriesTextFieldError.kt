@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun TextFieldError(textError: String) {
-    Row(modifier = Modifier.fillMaxWidth()) {
+fun JetstoriesTextFieldError(
+    modifier: Modifier = Modifier, textError: String
+) {
+    Row(modifier = modifier) {
         Text(
             text = textError,
             modifier = Modifier.fillMaxWidth(),

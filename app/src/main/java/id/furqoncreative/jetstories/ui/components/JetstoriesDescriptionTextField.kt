@@ -20,8 +20,10 @@ import id.furqoncreative.jetstories.utils.DescriptionState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JetstoriesDescriptionTextField(
+    modifier: Modifier = Modifier,
     context: Context,
-    modifier: Modifier = Modifier, descriptionState: DescriptionState, onImeAction: () -> Unit = {}
+    descriptionState: DescriptionState,
+    onImeAction: () -> Unit = {}
 ) {
     TextField(modifier = modifier
         .fillMaxWidth()
@@ -39,7 +41,7 @@ fun JetstoriesDescriptionTextField(
     }, placeholder = {
         Text(stringResource(R.string.description_placeholder))
     }, isError = descriptionState.showErrors(), supportingText = {
-        descriptionState.getError(context)?.let { error -> TextFieldError(textError = error) }
+        descriptionState.getError(context)?.let { error -> JetstoriesTextFieldError(textError = error) }
     }, trailingIcon = {
         IconButton(onClick = { descriptionState.text = "" }) {
             Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.clear_text))

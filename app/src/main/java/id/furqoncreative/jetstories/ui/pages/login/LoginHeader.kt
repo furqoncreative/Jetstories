@@ -1,4 +1,4 @@
-package id.furqoncreative.jetstories.ui.pages.login.components
+package id.furqoncreative.jetstories.ui.pages.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

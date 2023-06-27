@@ -9,19 +9,18 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import id.furqoncreative.jetstories.utils.getMenuItemStringResource
 
-enum class MenuItem(val title: String) {
-    LOGOUT("Logout"), SETTINGS("Settings")
+enum class MenuItem {
+    LOGOUT, SETTINGS
 }
 
 @Composable
-fun OptionMenu(
-    context: Context,
+fun JetstoriesOptionMenu(
     modifier: Modifier = Modifier,
+    context: Context,
     onClickMenu: Map<MenuItem, () -> Unit>,
     expanded: MutableState<Boolean> = remember { mutableStateOf(false) }
 ) {

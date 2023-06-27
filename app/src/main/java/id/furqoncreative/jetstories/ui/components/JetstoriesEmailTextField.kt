@@ -1,7 +1,6 @@
 package id.furqoncreative.jetstories.ui.components
 
 import android.content.Context
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -25,11 +24,19 @@ import id.furqoncreative.jetstories.utils.TextFieldState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmailTextField(
+fun JetstoriesEmailTextField(
+    modifier: Modifier = Modifier,
     context: Context,
-    emailState: TextFieldState = remember { EmailState() }, onImeAction: () -> Unit = {}
+    emailState: TextFieldState = remember { EmailState() },
+    onImeAction: () -> Unit = {}
 ) {
     OutlinedTextField(
+        modifier = modifier.onFocusChanged { focusState ->
+            emailState.onFocusChange(focusState.isFocused)
+            if (!focusState.isFocused) {
+                emailState.enableShowErrors()
+            }
+        },
         value = emailState.text,
         onValueChange = {
             emailState.text = it
@@ -41,17 +48,10 @@ fun EmailTextField(
         placeholder = {
             Text(text = stringResource(R.string.email_placeholder))
         },
-        modifier = Modifier
-            .fillMaxWidth()
-            .onFocusChanged { focusState ->
-                emailState.onFocusChange(focusState.isFocused)
-                if (!focusState.isFocused) {
-                    emailState.enableShowErrors()
-                }
-            },
         isError = emailState.showErrors(),
         supportingText = {
-            emailState.getError(context)?.let { error -> TextFieldError(textError = error) }
+            emailState.getError(context)
+                ?.let { error -> JetstoriesTextFieldError(textError = error) }
         },
         leadingIcon = {
             Icon(
@@ -70,6 +70,6 @@ fun EmailTextField(
 
 @Preview(showBackground = true)
 @Composable
-fun EmailTextFieldPreview() {
-    EmailTextField(context = LocalContext.current)
+fun JetstoriesEmailTextFieldPreview() {
+    JetstoriesEmailTextField(context = LocalContext.current)
 }

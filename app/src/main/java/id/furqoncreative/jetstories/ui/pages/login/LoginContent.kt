@@ -1,4 +1,4 @@
-package id.furqoncreative.jetstories.ui.pages.login.components
+package id.furqoncreative.jetstories.ui.pages.login
 
 import android.content.Context
 import androidx.compose.foundation.clickable
@@ -19,17 +19,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import id.furqoncreative.jetstories.R
-import id.furqoncreative.jetstories.ui.components.EmailTextField
+import id.furqoncreative.jetstories.ui.components.JetstoriesEmailTextField
+import id.furqoncreative.jetstories.ui.components.JetstoriesPasswordTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
-import id.furqoncreative.jetstories.ui.components.PasswordTextField
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import id.furqoncreative.jetstories.utils.PasswordState
 import id.furqoncreative.jetstories.utils.TextFieldState
 
 @Composable
-fun LoginBody(
-    context: Context,
+fun LoginContent(
     modifier: Modifier = Modifier,
+    context: Context,
     emailState: TextFieldState,
     passwordState: PasswordState,
     onSubmit: () -> Unit,
@@ -39,10 +39,16 @@ fun LoginBody(
     Column(
         modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        val commonModifier = Modifier.fillMaxWidth()
 
-        EmailTextField(context = context, emailState = emailState)
+        JetstoriesEmailTextField(
+            modifier = commonModifier,
+            context = context,
+            emailState = emailState
+        )
 
-        PasswordTextField(context = context,
+        JetstoriesPasswordTextField(modifier = commonModifier,
+            context = context,
             label = stringResource(id = R.string.password_label),
             placeholder = stringResource(id = R.string.password_placeholder),
             passwordState = passwordState,
@@ -51,9 +57,7 @@ fun LoginBody(
             })
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.End),
+            modifier = commonModifier.align(Alignment.End),
             horizontalArrangement = Arrangement.End,
         ) {
             Text(
@@ -68,9 +72,7 @@ fun LoginBody(
                     })
         }
 
-        Button(modifier = Modifier
-            .height(56.dp)
-            .fillMaxWidth(),
+        Button(modifier = commonModifier.height(56.dp),
             enabled = emailState.isValid && passwordState.isValid,
             onClick = {
                 onSubmit()
@@ -88,7 +90,7 @@ fun LoginBody(
 @Composable
 fun LoginBodyPreview() {
     JetStoriesTheme {
-        LoginBody(context = LocalContext.current,
+        LoginContent(context = LocalContext.current,
             emailState = TextFieldState(),
             passwordState = PasswordState(),
             onSubmit = {},

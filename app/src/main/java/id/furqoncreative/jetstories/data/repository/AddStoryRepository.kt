@@ -26,7 +26,6 @@ interface AddStoryRepository {
 class NetworkAddStoryRepository @Inject constructor(
     private val preferencesManager: PreferencesManager,
     private val networkDataSource: NetworkDataSource
-
 ) : AddStoryRepository {
     override suspend fun addStory(
         file: MultipartBody.Part, description: RequestBody, latitude: Float?, longitude: Float?

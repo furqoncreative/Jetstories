@@ -21,16 +21,13 @@ class NetworkRegisterRepository @Inject constructor(
 ) : RegisterRepository {
     override suspend fun registerUser(
         email: String, name: String, password: String
-    ): Flow<Async<RegisterResponse>> {
-        return networkDataSource.registerUser(email, name, password).map {
-            if (it.error) {
-                Async.Error(it.message)
-            } else {
-                Async.Success(it)
-            }
-        }.catch { throwable ->
-            throwable.message?.let { Async.Error(it) }
+    ): Flow<Async<RegisterResponse>> = networkDataSource.registerUser(email, name, password).map {
+        if (it.error) {
+            Async.Error(it.message)
+        } else {
+            Async.Success(it)
         }
+    }.catch { throwable ->
+        throwable.message?.let { Async.Error(it) }
     }
-
 }

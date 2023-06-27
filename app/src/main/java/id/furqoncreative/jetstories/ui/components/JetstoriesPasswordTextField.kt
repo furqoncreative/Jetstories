@@ -1,7 +1,6 @@
 package id.furqoncreative.jetstories.ui.components
 
 import android.content.Context
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -31,7 +30,8 @@ import id.furqoncreative.jetstories.utils.TextFieldState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextField(
+fun JetstoriesPasswordTextField(
+    modifier: Modifier = Modifier,
     context: Context,
     label: String,
     placeholder: String,
@@ -42,6 +42,12 @@ fun PasswordTextField(
     val showPassword = rememberSaveable { mutableStateOf(false) }
 
     OutlinedTextField(
+        modifier = modifier.onFocusChanged { focusState ->
+            passwordState.onFocusChange(focusState.isFocused)
+            if (!focusState.isFocused) {
+                passwordState.enableShowErrors()
+            }
+        },
         value = passwordState.text,
         onValueChange = {
             passwordState.text = it
@@ -53,14 +59,6 @@ fun PasswordTextField(
         placeholder = {
             Text(text = placeholder)
         },
-        modifier = Modifier
-            .fillMaxWidth()
-            .onFocusChanged { focusState ->
-                passwordState.onFocusChange(focusState.isFocused)
-                if (!focusState.isFocused) {
-                    passwordState.enableShowErrors()
-                }
-            },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Filled.Password,
@@ -91,7 +89,8 @@ fun PasswordTextField(
         },
         isError = passwordState.showErrors(),
         supportingText = {
-            passwordState.getError(context)?.let { error -> TextFieldError(textError = error) }
+            passwordState.getError(context)
+                ?.let { error -> JetstoriesTextFieldError(textError = error) }
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = imeAction, keyboardType = KeyboardType.Password
@@ -105,9 +104,8 @@ fun PasswordTextField(
 
 @Preview
 @Composable
-fun PasswordTextFieldPreview() {
-    PasswordTextField(
-        context = LocalContext.current,
+fun JetstoriesPasswordTextFieldPreview() {
+    JetstoriesPasswordTextField(context = LocalContext.current,
         label = "Password",
         placeholder = "Enter your pasword",
         passwordState = rememberSaveable {

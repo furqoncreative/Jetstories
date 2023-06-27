@@ -1,6 +1,6 @@
 package id.furqoncreative.jetstories.data.repository
 
-import id.furqoncreative.jetstories.data.source.network.JestoriesNetworkDataSource
+import id.furqoncreative.jetstories.data.source.network.NetworkDataSource
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.utils.Async
 import kotlinx.coroutines.flow.Flow
@@ -15,17 +15,17 @@ interface LoginRepository {
 
 @Singleton
 class NetworkLoginRepository @Inject constructor(
-    private val networkDataSource: JestoriesNetworkDataSource
+    private val networkDataSource: NetworkDataSource
 ) : LoginRepository {
-    override suspend fun loginUser(email: String, password: String): Flow<Async<LoginResponse>> {
-        return networkDataSource.loginUser(email, password).map {
-            if (it.error) {
-                Async.Error(it.message)
-            } else {
-                Async.Success(it)
-            }
-        }.catch { throwable ->
-            throwable.message?.let { Async.Error(it) }
+    override suspend fun loginUser(
+        email: String, password: String
+    ): Flow<Async<LoginResponse>> = networkDataSource.loginUser(email, password).map {
+        if (it.error) {
+            Async.Error(it.message)
+        } else {
+            Async.Success(it)
         }
+    }.catch { throwable ->
+        throwable.message?.let { Async.Error(it) }
     }
 }

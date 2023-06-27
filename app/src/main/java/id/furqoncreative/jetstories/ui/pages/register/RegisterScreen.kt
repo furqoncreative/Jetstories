@@ -40,10 +40,11 @@ fun RegisterScreen(
     onNavUp: () -> Unit,
     onSuccessRegister: () -> Unit,
     modifier: Modifier = Modifier,
-    collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState(),
     registerViewModel: RegisterViewModel = hiltViewModel()
 ) {
     val uiState by registerViewModel.uiState.collectAsStateWithLifecycle()
+    val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =
+        rememberCollapsingToolbarScaffoldState()
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -79,6 +80,7 @@ fun RegisterScreen(
                     .pin()
                     .background(color = MaterialTheme.colorScheme.background)
             )
+
             Text(
                 stringResource(R.string.register), style = TextStyle(
                     color = MaterialTheme.colorScheme.onBackground,
@@ -110,7 +112,7 @@ fun RegisterScreen(
 
         }) {
 
-        RegisterBody(
+        RegisterContent(
             context = context,
             emailState = uiState.emailState,
             nameState = uiState.nameState,
