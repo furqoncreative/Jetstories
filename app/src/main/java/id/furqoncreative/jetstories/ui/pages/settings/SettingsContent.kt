@@ -3,6 +3,7 @@ package id.furqoncreative.jetstories.ui.pages.settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -97,6 +98,7 @@ fun SettingsContent(
 
     Column(
         modifier = commonModifier
+            .fillMaxHeight()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
@@ -106,8 +108,7 @@ fun SettingsContent(
                 alertDialogState.value = true
             }) {
             Row(
-                modifier = commonModifier
-                    .padding(vertical = 8.dp, horizontal = 16.dp),
+                modifier = commonModifier.padding(vertical = 8.dp, horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {

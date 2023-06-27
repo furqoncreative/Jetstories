@@ -3,6 +3,7 @@ package id.furqoncreative.jetstories.ui.pages.detailstory
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -30,9 +31,8 @@ fun DetailStoryContent(
         )
     } else {
         Column(
-            modifier = commonModifier
+            modifier = commonModifier.fillMaxHeight()
                 .padding(horizontal = 16.dp)
-                .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally

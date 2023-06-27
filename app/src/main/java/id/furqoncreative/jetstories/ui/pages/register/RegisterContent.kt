@@ -3,6 +3,7 @@ package id.furqoncreative.jetstories.ui.pages.register
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -42,7 +43,7 @@ fun RegisterContent(
     val commonModifier = modifier.fillMaxWidth()
 
     Column(
-        modifier = commonModifier
+        modifier = commonModifier.fillMaxHeight()
             .verticalScroll(state = rememberScrollState())
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)

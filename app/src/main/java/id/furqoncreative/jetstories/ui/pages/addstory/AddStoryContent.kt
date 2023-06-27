@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -58,6 +59,7 @@ fun AddStoryContent(
     val commonModifier = modifier.fillMaxWidth()
     Column(
         modifier = commonModifier
+            .fillMaxHeight()
             .padding(16.dp)
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -121,9 +123,7 @@ fun AddStoryContent(
             onSubmit()
         }, descriptionState = descriptionState)
 
-        Button(modifier = Modifier
-            .height(56.dp)
-            .fillMaxWidth(),
+        Button(modifier = commonModifier.height(56.dp),
             enabled = descriptionState.isValid && imageUri != null,
             onClick = {
                 onSubmit()
