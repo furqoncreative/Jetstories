@@ -31,8 +31,8 @@ class NetworkGetAllStoriesRepository @Inject constructor(
             token = userToken, page = page, size = size, location = location
         ).map {
             Async.Success(it)
-        }.catch<Async<GetAllStoriesResponse>> {
-            Async.Error(it.message)
+        }.catch<Async<GetAllStoriesResponse>> { throwable ->
+            throwable.message?.let { Async.Error(it) }
         }
     }
 }
