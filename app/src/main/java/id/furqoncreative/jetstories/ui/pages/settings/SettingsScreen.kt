@@ -68,6 +68,7 @@ fun SettingsScreen(
 
     uiState.userMessage?.let { userMessage ->
         context.showToast(message = userMessage.asString(context))
+        settingsViewModel.toastMessageShown()
     }
 
     CollapsingToolbarScaffold(modifier = modifier,
@@ -85,7 +86,7 @@ fun SettingsScreen(
                     .background(color = MaterialTheme.colorScheme.background)
             )
             Text(
-                "Settings", style = TextStyle(
+                stringResource(id = R.string.settings), style = TextStyle(
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = textSize,
                     fontWeight = FontWeight.Medium
@@ -104,7 +105,12 @@ fun SettingsScreen(
                 IconButton(onClick = {
                     onNavUp()
                 }) {
-                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = "Back")
+                    Icon(
+                        imageVector = Icons.Default.ChevronLeft,
+                        contentDescription = stringResource(
+                            id = R.string.back
+                        )
+                    )
                 }
             }
 
@@ -171,7 +177,6 @@ fun SettingsScreen(
                 colors = CardDefaults.cardColors(MaterialTheme.colorScheme.secondaryContainer),
                 onClick = {
                     alertDialogState.value = true
-//                    context.startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
                 },
             ) {
                 Row(

@@ -35,36 +35,58 @@ class SettingsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            setSelectedLanguageFromAppLanguage()
+            setSelectedLanguage(getAppLanguage())
         }
     }
 
     fun setAppLanguage() {
-        val selectedLanguage = uiState.value.selectedLanguageEnum
         viewModelScope.launch {
             try {
-                preferencesManager.setAppLanguage(selectedLanguage.name)
-                AppCompatDelegate.setApplicationLocales(
-                    LocaleListCompat.forLanguageTags(selectedLanguage.code)
-                )
-            } finally {
-                setSelectedLanguageFromAppLanguage()
+                val appLanguage = getAppLanguage()
+                val selectedLanguage = uiState.value.selectedLanguageEnum
+                if (appLanguage != selectedLanguage) {
+                    preferencesManager.setAppLanguage(
+                        selectedLanguage.name
+                    )
+                    AppCompatDelegate.setApplicationLocales(
+                        LocaleListCompat.forLanguageTags(selectedLanguage.code)
+                    )
+                    _uiState.update {
+                        it.copy(
+                            userMessage = UiText.StringResourceWithArgs(
+                                R.string.language_changed_to,
+                                uiState.value.selectedLanguageEnum.title
+                            )
+                        )
+                    }
+                }
+                setSelectedLanguage(selectedLanguage)
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        userMessage = UiText.StringResource(
+                            R.string.universal_error_message
+                        )
+                    )
+                }
             }
         }
     }
 
-    private suspend fun setSelectedLanguageFromAppLanguage() {
-        val appLanguage = LanguageEnum.valueOf(preferencesManager.getAppLanguage.first())
-        setSelectedLanguage(appLanguage)
-    }
-
     fun setSelectedLanguage(languageEnum: LanguageEnum) {
         _uiState.update {
-            SettingsUiState(
-                userMessage = UiText.StringResourceWithArgs(
-                    R.string.language_changed_to,
-                    languageEnum.title
-                ), selectedLanguageEnum = languageEnum
+            it.copy(
+                selectedLanguageEnum = languageEnum
+            )
+        }
+    }
+
+    suspend fun getAppLanguage() = LanguageEnum.valueOf(preferencesManager.getAppLanguage.first())
+
+    fun toastMessageShown() {
+        _uiState.update {
+            it.copy(
+                userMessage = null
             )
         }
     }

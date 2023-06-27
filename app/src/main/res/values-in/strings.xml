@@ -40,7 +40,7 @@
     <string name="sign_up">Daftar</string>
     <string name="register">Daftar</string>
     <string name="signed_up">Anda terdaftar</string>
-    <string name="language_changed_to">Bahasa diubah menjadi %d"</string>
+    <string name="language_changed_to">Bahasa diubah menjadi: %s"</string>
     <string name="change_language">Ubah Bahasa</string>
     <string name="confirm">Konfirmasi</string>
     <string name="cancel">Batal</string>

@@ -39,7 +39,7 @@
     <string name="sign_up">Sign up</string>
     <string name="register">Register</string>
     <string name="signed_up">You are signed up</string>
-    <string name="language_changed_to">"Language changed to %d"</string>
+    <string name="language_changed_to">"Language changed to: %s"</string>
     <string name="change_language">Change Language</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
