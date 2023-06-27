@@ -2,7 +2,6 @@ package id.furqoncreative.jetstories.ui.pages.home
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,16 +27,19 @@ import coil.compose.AsyncImage
 import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StoryRow(
     modifier: Modifier = Modifier, story: Story, onClickStory: (Story) -> Unit
 ) {
-    Card(modifier = modifier
+    Card(
+        modifier = modifier
         .height(300.dp)
-        .fillMaxWidth()
-        .clickable {
+        .fillMaxWidth(),
+        onClick = {
             onClickStory(story)
-        }) {
+        }
+    ) {
         Column(
             modifier = modifier
         ) {
