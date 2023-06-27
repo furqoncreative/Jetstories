@@ -39,7 +39,6 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
     onNavUp: () -> Unit,
     settingsViewModel: SettingsViewModel = hiltViewModel()
-
 ) {
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
     val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =

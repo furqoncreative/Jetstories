@@ -6,7 +6,7 @@ import java.util.regex.Pattern
 
 private const val EMAIL_VALIDATION_REGEX = "^[\\w\\-\\.]+@([\\w-]+\\.)+[\\w-]{2,}\$"
 
-class EmailState() : TextFieldState(validator = ::isEmailValid, errorFor = ::emailValidationError)
+class EmailState : TextFieldState(validator = ::isEmailValid, errorFor = ::emailValidationError)
 
 private fun emailValidationError(context: Context): String {
     return context.getString(R.string.email_invalid_message)

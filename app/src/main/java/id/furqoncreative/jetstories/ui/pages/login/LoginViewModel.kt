@@ -75,7 +75,7 @@ class LoginViewModel @Inject constructor(
                     passwordState = uiState.value.passwordState,
                     isLoading = false,
                     isSuccessLogin = false,
-                    userMessage = UiText.DynamicString(loginAsync.data.message)
+                    userMessage = UiText.StringResource(R.string.user_not_found)
                 )
             }
         }
