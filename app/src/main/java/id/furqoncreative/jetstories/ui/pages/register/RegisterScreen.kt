@@ -79,6 +79,7 @@ fun RegisterScreen(
                     .pin()
                     .background(color = MaterialTheme.colorScheme.background)
             )
+
             Text(
                 stringResource(R.string.register), style = TextStyle(
                     color = MaterialTheme.colorScheme.onBackground,
@@ -110,7 +111,7 @@ fun RegisterScreen(
 
         }) {
 
-        RegisterBody(
+        RegisterContent(
             context = context,
             emailState = uiState.emailState,
             nameState = uiState.nameState,
