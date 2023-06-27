@@ -24,20 +24,19 @@ import id.furqoncreative.jetstories.utils.TextFieldState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmailTextField(
+fun JetstoriesEmailTextField(
     modifier: Modifier = Modifier,
     context: Context,
     emailState: TextFieldState = remember { EmailState() },
     onImeAction: () -> Unit = {}
 ) {
     OutlinedTextField(
-        modifier = modifier
-            .onFocusChanged { focusState ->
-                emailState.onFocusChange(focusState.isFocused)
-                if (!focusState.isFocused) {
-                    emailState.enableShowErrors()
-                }
-            },
+        modifier = modifier.onFocusChanged { focusState ->
+            emailState.onFocusChange(focusState.isFocused)
+            if (!focusState.isFocused) {
+                emailState.enableShowErrors()
+            }
+        },
         value = emailState.text,
         onValueChange = {
             emailState.text = it
@@ -51,7 +50,8 @@ fun EmailTextField(
         },
         isError = emailState.showErrors(),
         supportingText = {
-            emailState.getError(context)?.let { error -> TextFieldError(textError = error) }
+            emailState.getError(context)
+                ?.let { error -> JetstoriesTextFieldError(textError = error) }
         },
         leadingIcon = {
             Icon(
@@ -70,6 +70,6 @@ fun EmailTextField(
 
 @Preview(showBackground = true)
 @Composable
-fun EmailTextFieldPreview() {
-    EmailTextField(context = LocalContext.current)
+fun JetstoriesEmailTextFieldPreview() {
+    JetstoriesEmailTextField(context = LocalContext.current)
 }

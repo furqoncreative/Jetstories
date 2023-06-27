@@ -41,7 +41,7 @@ fun JetstoriesDescriptionTextField(
     }, placeholder = {
         Text(stringResource(R.string.description_placeholder))
     }, isError = descriptionState.showErrors(), supportingText = {
-        descriptionState.getError(context)?.let { error -> TextFieldError(textError = error) }
+        descriptionState.getError(context)?.let { error -> JetstoriesTextFieldError(textError = error) }
     }, trailingIcon = {
         IconButton(onClick = { descriptionState.text = "" }) {
             Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.clear_text))

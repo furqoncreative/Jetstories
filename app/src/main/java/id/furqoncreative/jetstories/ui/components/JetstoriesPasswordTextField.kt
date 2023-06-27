@@ -30,7 +30,7 @@ import id.furqoncreative.jetstories.utils.TextFieldState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextField(
+fun JetstoriesPasswordTextField(
     modifier: Modifier = Modifier,
     context: Context,
     label: String,
@@ -43,11 +43,11 @@ fun PasswordTextField(
 
     OutlinedTextField(
         modifier = modifier.onFocusChanged { focusState ->
-                passwordState.onFocusChange(focusState.isFocused)
-                if (!focusState.isFocused) {
-                    passwordState.enableShowErrors()
-                }
-            },
+            passwordState.onFocusChange(focusState.isFocused)
+            if (!focusState.isFocused) {
+                passwordState.enableShowErrors()
+            }
+        },
         value = passwordState.text,
         onValueChange = {
             passwordState.text = it
@@ -89,7 +89,8 @@ fun PasswordTextField(
         },
         isError = passwordState.showErrors(),
         supportingText = {
-            passwordState.getError(context)?.let { error -> TextFieldError(textError = error) }
+            passwordState.getError(context)
+                ?.let { error -> JetstoriesTextFieldError(textError = error) }
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = imeAction, keyboardType = KeyboardType.Password
@@ -103,8 +104,8 @@ fun PasswordTextField(
 
 @Preview
 @Composable
-fun PasswordTextFieldPreview() {
-    PasswordTextField(context = LocalContext.current,
+fun JetstoriesPasswordTextFieldPreview() {
+    JetstoriesPasswordTextField(context = LocalContext.current,
         label = "Password",
         placeholder = "Enter your pasword",
         passwordState = rememberSaveable {
