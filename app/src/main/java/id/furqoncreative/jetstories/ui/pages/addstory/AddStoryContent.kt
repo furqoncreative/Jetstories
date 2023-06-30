@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -66,7 +67,7 @@ fun AddStoryContent(
             .fillMaxHeight()
             .padding(16.dp)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.Top
     ) {
         Box(
             modifier = commonModifier
@@ -118,6 +119,8 @@ fun AddStoryContent(
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         JetstoriesDescriptionTextField(context = context, onImeAction = {
             onSubmit()
