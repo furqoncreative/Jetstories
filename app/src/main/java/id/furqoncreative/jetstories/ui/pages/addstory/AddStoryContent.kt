@@ -1,12 +1,7 @@
 package id.furqoncreative.jetstories.ui.pages.addstory
 
-import android.Manifest
 import android.content.Context
 import android.net.Uri
-import android.os.Build
-import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,8 +27,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,23 +48,19 @@ fun AddStoryContent(
     imageUri: Uri?,
     isLoading: Boolean,
     descriptionState: DescriptionState,
-    requestStoragePermission: ManagedActivityResultLauncher<String, Boolean> = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = {}),
+    onCameraOptionClick: () -> Unit,
+    onGalleryOptionClick: () -> Unit,
+    bottomSheetState: MutableState<Boolean>,
     onSubmit: () -> Unit
 ) {
-    val bottomSheetState: MutableState<Boolean> = remember { mutableStateOf(false) }
     val commonModifier = modifier.fillMaxWidth()
 
     JetstoriesBottomSheet(openBottomSheet = bottomSheetState, onCameraOptionClick = {
-
+        onCameraOptionClick()
     }, onGalleryOptionClick = {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestStoragePermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
-        } else {
-            requestStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-        }
+        onGalleryOptionClick()
     })
+
     Column(
         modifier = commonModifier
             .fillMaxHeight()
