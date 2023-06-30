@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -17,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.utils.DescriptionState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JetstoriesDescriptionTextField(
     modifier: Modifier = Modifier,
@@ -41,7 +39,8 @@ fun JetstoriesDescriptionTextField(
     }, placeholder = {
         Text(stringResource(R.string.description_placeholder))
     }, isError = descriptionState.showErrors(), supportingText = {
-        descriptionState.getError(context)?.let { error -> JetstoriesTextFieldError(textError = error) }
+        descriptionState.getError(context)
+            ?.let { error -> JetstoriesTextFieldError(textError = error) }
     }, trailingIcon = {
         IconButton(onClick = { descriptionState.text = "" }) {
             Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.clear_text))

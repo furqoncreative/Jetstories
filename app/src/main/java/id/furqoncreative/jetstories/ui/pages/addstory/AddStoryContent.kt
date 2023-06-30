@@ -66,8 +66,7 @@ fun AddStoryContent(
         modifier = commonModifier
             .fillMaxHeight()
             .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top
+            .verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.Top
     ) {
         Box(
             modifier = commonModifier

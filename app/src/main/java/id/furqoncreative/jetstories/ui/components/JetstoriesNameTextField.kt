@@ -5,7 +5,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -21,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.utils.NameState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JetstoriesNameTextField(
     modifier: Modifier = Modifier,

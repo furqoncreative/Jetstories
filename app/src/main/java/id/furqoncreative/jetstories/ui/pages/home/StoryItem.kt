@@ -32,14 +32,11 @@ import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 fun StoryRow(
     modifier: Modifier = Modifier, story: Story, onClickStory: (Story) -> Unit
 ) {
-    Card(
-        modifier = modifier
+    Card(modifier = modifier
         .height(300.dp)
-        .fillMaxWidth(),
-        onClick = {
-            onClickStory(story)
-        }
-    ) {
+        .fillMaxWidth(), onClick = {
+        onClickStory(story)
+    }) {
         Column(
             modifier = modifier
         ) {

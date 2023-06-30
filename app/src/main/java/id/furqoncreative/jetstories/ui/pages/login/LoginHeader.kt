@@ -52,8 +52,7 @@ fun LoginHeader(
             }
 
             AnimatedVisibility(
-                visible = visible,
-                enter = slideInVertically(
+                visible = visible, enter = slideInVertically(
                     animationSpec = tween(1500)
                 ) + fadeIn(initialAlpha = 0.3f)
             ) {
@@ -65,10 +64,8 @@ fun LoginHeader(
             }
 
             AnimatedVisibility(
-                visible = visible,
-                enter = scaleIn(
-                    initialScale = 0.3f,
-                    animationSpec = tween(1500)
+                visible = visible, enter = scaleIn(
+                    initialScale = 0.3f, animationSpec = tween(1500)
                 ) + fadeIn(initialAlpha = 0.3f)
             ) {
                 Column(

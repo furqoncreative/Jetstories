@@ -5,7 +5,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -22,7 +21,6 @@ import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.utils.EmailState
 import id.furqoncreative.jetstories.utils.TextFieldState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JetstoriesEmailTextField(
     modifier: Modifier = Modifier,

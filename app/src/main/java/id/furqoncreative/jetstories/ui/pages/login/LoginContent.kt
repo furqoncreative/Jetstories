@@ -42,9 +42,7 @@ fun LoginContent(
         val commonModifier = Modifier.fillMaxWidth()
 
         JetstoriesEmailTextField(
-            modifier = commonModifier,
-            context = context,
-            emailState = emailState
+            modifier = commonModifier, context = context, emailState = emailState
         )
 
         JetstoriesPasswordTextField(modifier = commonModifier,

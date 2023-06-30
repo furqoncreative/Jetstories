@@ -65,7 +65,8 @@ fun DetailStoryScreen(
                         .background(color = MaterialTheme.colorScheme.background)
                 )
                 Text(
-                    text = stringResource(id = R.string.detail_story,
+                    text = stringResource(
+                        id = R.string.detail_story,
                         story.name.replaceFirstChar { it.uppercase() }),
                     textAlign = TextAlign.Center,
                     style = TextStyle(
