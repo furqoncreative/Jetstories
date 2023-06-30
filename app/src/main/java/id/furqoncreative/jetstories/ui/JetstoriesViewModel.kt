@@ -34,7 +34,7 @@ class JetstoriesViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            delay(1000)
+            delay(1800)
             _isLoading.value = false
         }
     }
