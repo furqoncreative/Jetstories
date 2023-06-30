@@ -53,4 +53,5 @@
     <string name="detail_story">%s\'s Story</string>
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
+    <string name="cannot_save_the_image">Cannot save the image!</string>
 </resources>

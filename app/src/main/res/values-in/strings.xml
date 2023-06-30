@@ -54,4 +54,5 @@
     <string name="detail_story">Cerita %s</string>
     <string name="gallery">Galeri</string>
     <string name="camera">Kamera</string>
+    <string name="cannot_save_the_image">Tidak bisa menyimpan gambar!</string>
 </resources>
