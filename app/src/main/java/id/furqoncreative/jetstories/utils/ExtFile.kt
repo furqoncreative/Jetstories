@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.net.Uri
 import androidx.core.content.FileProvider
 import id.furqoncreative.jetstories.BuildConfig
@@ -16,18 +15,6 @@ import java.io.OutputStream
 
 private const val MAXIMAL_SIZE = 1000000
 
-fun File.rotate(isBackCamera: Boolean = false) {
-    val matrix = Matrix()
-    val bitmap = BitmapFactory.decodeFile(this.path)
-    val rotation = if (isBackCamera) 90f else -90f
-    matrix.postRotate(rotation)
-    if (!isBackCamera) {
-        matrix.postScale(-1f, 1f, bitmap.width / 2f, bitmap.height / 2f)
-    }
-    val result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-    result.compress(Bitmap.CompressFormat.JPEG, 100, FileOutputStream(this))
-}
-
 fun File.getUriForFile(context: Context): Uri {
     return FileProvider.getUriForFile(
         context, "${BuildConfig.APPLICATION_ID}.fileprovider", this
@@ -36,17 +23,17 @@ fun File.getUriForFile(context: Context): Uri {
 
 fun File.reduceFileImage(): File {
     val file = this
-    val bitmap = BitmapFactory.decodeFile(file.path)
+    val bitmap = BitmapFactory.decodeFile(file.path).getRotatedBitmap(file)
     var compressQuality = 100
     var streamLength: Int
     do {
         val bmpStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
         val bmpPicByteArray = bmpStream.toByteArray()
         streamLength = bmpPicByteArray.size
         compressQuality -= 5
     } while (streamLength > MAXIMAL_SIZE)
-    bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
+    bitmap?.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
     return file
 }
 
