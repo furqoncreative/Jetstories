@@ -52,4 +52,6 @@
     <string name="password_invalid_message">Kata sandi minimal 8 karakter</string>
     <string name="description_invalid_message">Deskripsi tidak boleh kosong</string>
     <string name="detail_story">Cerita %s</string>
+    <string name="gallery">Galeri</string>
+    <string name="camera">Kamera</string>
 </resources>

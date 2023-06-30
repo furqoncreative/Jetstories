@@ -51,4 +51,6 @@
     <string name="password_invalid_message">Password must be at least 8 characters long</string>
     <string name="description_invalid_message">Description must not empty</string>
     <string name="detail_story">%s\'s Story</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
 </resources>
