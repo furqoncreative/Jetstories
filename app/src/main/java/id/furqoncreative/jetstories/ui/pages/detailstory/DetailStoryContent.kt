@@ -31,7 +31,8 @@ fun DetailStoryContent(
         )
     } else {
         Column(
-            modifier = commonModifier.fillMaxHeight()
+            modifier = commonModifier
+                .fillMaxHeight()
                 .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(8.dp),

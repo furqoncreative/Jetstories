@@ -143,8 +143,7 @@ fun HomeScreen(
 
         }) {
 
-        HomeContent(
-            isLoading = uiState.isLoading,
+        HomeContent(isLoading = uiState.isLoading,
             stories = uiState.stories,
             onClickStory = { story ->
                 onClickStory(story)

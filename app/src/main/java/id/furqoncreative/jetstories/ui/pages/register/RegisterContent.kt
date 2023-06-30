@@ -43,16 +43,14 @@ fun RegisterContent(
     val commonModifier = modifier.fillMaxWidth()
 
     Column(
-        modifier = commonModifier.fillMaxHeight()
+        modifier = commonModifier
+            .fillMaxHeight()
             .verticalScroll(state = rememberScrollState())
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
         JetstoriesEmailTextField(
-            modifier = commonModifier,
-            context = context,
-            emailState = emailState
+            modifier = commonModifier, context = context, emailState = emailState
         )
 
         JetstoriesNameTextField(modifier = commonModifier, context = context, nameState = nameState)

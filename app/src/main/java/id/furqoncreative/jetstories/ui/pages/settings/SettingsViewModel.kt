@@ -81,7 +81,8 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getAppLanguage() = LanguageEnum.valueOf(preferencesManager.getAppLanguage.first())
+    private suspend fun getAppLanguage() =
+        LanguageEnum.valueOf(preferencesManager.getAppLanguage.first())
 
     fun toastMessageShown() {
         _uiState.update {

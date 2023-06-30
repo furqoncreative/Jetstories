@@ -7,7 +7,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -28,7 +27,6 @@ import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.utils.PasswordState
 import id.furqoncreative.jetstories.utils.TextFieldState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JetstoriesPasswordTextField(
     modifier: Modifier = Modifier,

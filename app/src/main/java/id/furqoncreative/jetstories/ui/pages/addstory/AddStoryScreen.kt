@@ -1,6 +1,8 @@
 package id.furqoncreative.jetstories.ui.pages.addstory
 
+import android.Manifest
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -17,7 +19,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -35,6 +40,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import id.furqoncreative.jetstories.utils.SquireCropImage
+import id.furqoncreative.jetstories.utils.createImageFile
+import id.furqoncreative.jetstories.utils.getUriForFile
 import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
@@ -54,12 +61,15 @@ fun AddStoryScreen(
     val uiState by addStoryViewModel.uiState.collectAsStateWithLifecycle()
     val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =
         rememberCollapsingToolbarScaffoldState()
+    val bottomSheetState: MutableState<Boolean> = remember { mutableStateOf(false) }
+
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val uCropLauncher = rememberLauncherForActivityResult(SquireCropImage()) { uri ->
         addStoryViewModel.setImageUri(uri)
     }
+
 
     val imageSelectorLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -74,6 +84,27 @@ fun AddStoryScreen(
             } else {
                 addStoryViewModel.setUserMessage(context.getString(R.string.no_image_selected))
             }
+
+            bottomSheetState.value = false
+        }
+
+    val cameraLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success) {
+                uiState.imageUri?.let { uri ->
+                    uCropLauncher.launch(
+                        Pair(
+                            first = uri, second = Uri.fromFile(
+                                File(context.cacheDir, "temp_image_file_${Date().time}")
+                            )
+                        )
+                    )
+                }
+            } else {
+                addStoryViewModel.setUserMessage(context.getString(R.string.cannot_save_the_image))
+            }
+
+            bottomSheetState.value = false
         }
 
     val requestStoragePermission =
@@ -155,7 +186,21 @@ fun AddStoryScreen(
             imageUri = uiState.imageUri,
             isLoading = uiState.isLoading,
             descriptionState = uiState.descriptionState,
-            requestStoragePermission = requestStoragePermission,
+            bottomSheetState = bottomSheetState,
+            onCameraOptionClick = {
+                val newPhotoUri = context.createImageFile().getUriForFile(context)
+
+                addStoryViewModel.setImageUri(newPhotoUri)
+
+                cameraLauncher.launch(newPhotoUri)
+            },
+            onGalleryOptionClick = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    requestStoragePermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                } else {
+                    requestStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
+            },
             onSubmit = {
                 onSubmit()
             })

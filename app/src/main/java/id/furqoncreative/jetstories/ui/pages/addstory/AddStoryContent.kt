@@ -1,12 +1,7 @@
 package id.furqoncreative.jetstories.ui.pages.addstory
 
-import android.Manifest
 import android.content.Context
 import android.net.Uri
-import android.os.Build
-import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +27,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import id.furqoncreative.jetstories.R
+import id.furqoncreative.jetstories.ui.components.JetstoriesBottomSheet
 import id.furqoncreative.jetstories.ui.components.JetstoriesDescriptionTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
 import id.furqoncreative.jetstories.utils.DescriptionState
@@ -51,18 +49,24 @@ fun AddStoryContent(
     imageUri: Uri?,
     isLoading: Boolean,
     descriptionState: DescriptionState,
-    requestStoragePermission: ManagedActivityResultLauncher<String, Boolean> = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = {}),
+    onCameraOptionClick: () -> Unit,
+    onGalleryOptionClick: () -> Unit,
+    bottomSheetState: MutableState<Boolean>,
     onSubmit: () -> Unit
 ) {
     val commonModifier = modifier.fillMaxWidth()
+
+    JetstoriesBottomSheet(openBottomSheet = bottomSheetState, onCameraOptionClick = {
+        onCameraOptionClick()
+    }, onGalleryOptionClick = {
+        onGalleryOptionClick()
+    })
+
     Column(
         modifier = commonModifier
             .fillMaxHeight()
             .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.Top
     ) {
         Box(
             modifier = commonModifier
@@ -94,11 +98,7 @@ fun AddStoryContent(
                     .background(MaterialTheme.colorScheme.background)
                     .clip(RoundedCornerShape(16.dp))
                     .clickable {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            requestStoragePermission.launch(Manifest.permission.READ_MEDIA_IMAGES)
-                        } else {
-                            requestStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        }
+                        bottomSheetState.value = true
                     },
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -118,6 +118,8 @@ fun AddStoryContent(
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         JetstoriesDescriptionTextField(context = context, onImeAction = {
             onSubmit()
