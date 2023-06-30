@@ -11,6 +11,7 @@ import id.furqoncreative.jetstories.model.stories.AddStoryResponse
 import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.utils.DescriptionState
 import id.furqoncreative.jetstories.utils.UiText
+import id.furqoncreative.jetstories.utils.reduceFileImage
 import id.furqoncreative.jetstories.utils.toFile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -45,7 +46,7 @@ class AddStoryViewModel @Inject constructor(
         viewModelScope.launch {
             val imageUri = uiState.value.imageUri
             if (imageUri != null) {
-                val file: File = imageUri.toFile(context)
+                val file: File = imageUri.toFile(context).reduceFileImage()
                 val description =
                     uiState.value.descriptionState.text.toRequestBody("text/plain".toMediaType())
                 val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
