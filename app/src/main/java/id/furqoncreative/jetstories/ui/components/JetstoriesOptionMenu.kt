@@ -39,7 +39,7 @@ fun JetstoriesOptionMenu(
                 }
                 expanded.value = false
             }, text = {
-                Text(text = getMenuItemStringResource(context, menuItem))
+                Text(text = context.getMenuItemStringResource(menuItem))
             })
         }
     }

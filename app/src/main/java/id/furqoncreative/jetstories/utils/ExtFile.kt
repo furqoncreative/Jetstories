@@ -4,43 +4,28 @@ import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.net.Uri
-import android.os.Environment
-import android.widget.Toast
 import androidx.core.content.FileProvider
 import id.furqoncreative.jetstories.BuildConfig
-import id.furqoncreative.jetstories.R
-import id.furqoncreative.jetstories.ui.components.MenuItem
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
-
-private const val FILENAME_FORMAT = "dd-MMM-yyyy"
 private const val MAXIMAL_SIZE = 1000000
 
-val timeStamp: String = SimpleDateFormat(
-    FILENAME_FORMAT, Locale.US
-).format(System.currentTimeMillis())
-
-fun Context.createCustomTempFile(): File {
-    val storageDir: File? = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-    return File.createTempFile(timeStamp, ".jpg", storageDir)
-}
-
-fun Context.createImageFile(): File {
-    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
-    val storageDir = cacheDir
-    return File.createTempFile(
-        "JPEG_${timeStamp}_", ".jpg", storageDir
-    ).apply {
-        deleteOnExit()
+fun File.rotate(isBackCamera: Boolean = false) {
+    val matrix = Matrix()
+    val bitmap = BitmapFactory.decodeFile(this.path)
+    val rotation = if (isBackCamera) 90f else -90f
+    matrix.postRotate(rotation)
+    if (!isBackCamera) {
+        matrix.postScale(-1f, 1f, bitmap.width / 2f, bitmap.height / 2f)
     }
+    val result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    result.compress(Bitmap.CompressFormat.JPEG, 100, FileOutputStream(this))
 }
 
 fun File.getUriForFile(context: Context): Uri {
@@ -78,13 +63,4 @@ fun Uri.toFile(context: Context): File {
     inputStream.close()
 
     return myFile
-}
-
-fun getMenuItemStringResource(context: Context, menuItem: MenuItem) = when (menuItem) {
-    MenuItem.LOGOUT -> context.getString(R.string.logout)
-    MenuItem.SETTINGS -> context.getString(R.string.settings)
-}
-
-fun Context.showToast(message: String) {
-    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
