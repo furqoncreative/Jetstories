@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -122,6 +123,12 @@ fun HomeScreen(
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = stringResource(R.string.add_story)
+                    )
+                }
+                IconButton(onClick = { onClickAddStory() }) {
+                    Icon(
+                        imageVector = Icons.Default.Map,
+                        contentDescription = stringResource(R.string.map_view)
                     )
                 }
                 IconButton(onClick = { optionMenuExpandState.value = true }) {
