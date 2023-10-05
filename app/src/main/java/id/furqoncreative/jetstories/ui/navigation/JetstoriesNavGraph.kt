@@ -49,6 +49,8 @@ fun JetstoriesNavGraph(
         composable(JetstoriesDestinations.HOME_ROUTE) {
             HomeScreen(onClickAddStory = {
                 navAction.navigateToAddStory()
+            }, onClickMapView = {
+                navAction.navigateToMapView()
             }, onClickSettings = {
                 navAction.navigateToSettings()
             }, onUserLoggedOut = {
@@ -60,11 +62,9 @@ fun JetstoriesNavGraph(
 
 
         composable(JetstoriesDestinations.MAP_VIEW_ROUTE) {
-            MapViewScreen(
-                onNavUp = {
-                    navAction.navigateUp()
-                }
-            )
+            MapViewScreen(onNavUp = {
+                navAction.navigateUp()
+            })
         }
 
         composable(JetstoriesDestinations.ADD_STORY_ROUTE) {

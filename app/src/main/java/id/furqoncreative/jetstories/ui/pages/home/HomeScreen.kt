@@ -47,6 +47,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 fun HomeScreen(
     modifier: Modifier = Modifier,
     onClickAddStory: () -> Unit,
+    onClickMapView: () -> Unit,
     onClickSettings: () -> Unit,
     onClickStory: (Story) -> Unit,
     onUserLoggedOut: () -> Unit,
@@ -125,7 +126,7 @@ fun HomeScreen(
                         contentDescription = stringResource(R.string.add_story)
                     )
                 }
-                IconButton(onClick = { onClickAddStory() }) {
+                IconButton(onClick = { onClickMapView() }) {
                     Icon(
                         imageVector = Icons.Default.Map,
                         contentDescription = stringResource(R.string.map_view)
