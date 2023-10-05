@@ -64,6 +64,8 @@ fun JetstoriesNavGraph(
         composable(JetstoriesDestinations.MAP_VIEW_ROUTE) {
             MapViewScreen(onNavUp = {
                 navAction.navigateUp()
+            }, onClickStory = {
+
             })
         }
 
