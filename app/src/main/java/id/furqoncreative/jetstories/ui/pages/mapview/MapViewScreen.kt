@@ -59,12 +59,9 @@ fun MapViewScreen(
                     .background(color = MaterialTheme.colorScheme.background)
             )
             Text(
-                "Map View Stories",
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 18.sp
-                ),
-                modifier = Modifier
+                "Map View Stories", style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.ExtraBold, fontSize = 18.sp
+                ), modifier = Modifier
                     .padding(
                         top = 10.dp, start = 40.dp, bottom = 16.dp
                     )
@@ -87,8 +84,17 @@ fun MapViewScreen(
 
         MapViewContent(isLoading = uiState.isLoading,
             stories = uiState.stories,
+            selectedStory = uiState.selectedStory,
+            isMyLocationEnabled = mapViewViewModel.hasLocationPermission(context = context),
             onClickStory = { story ->
                 onClickStory(story)
+            },
+            setSelectedStory = { story ->
+                mapViewViewModel.setSelectedMapStory(story)
+            },
+            clearSelectedStory = {
+                mapViewViewModel.clearSelectedMapStory()
             })
+
     }
 }

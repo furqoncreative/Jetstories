@@ -1,5 +1,9 @@
 package id.furqoncreative.jetstories.ui.pages.mapview
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +24,8 @@ data class MapViewUiState(
     val isUserLogout: Boolean = false,
     val userMessage: UiText? = null,
     val stories: List<Story>? = null,
+    val selectedStory: Story? = null
+
 )
 
 @HiltViewModel
@@ -65,6 +71,18 @@ class MapViewViewModel @Inject constructor(
             }
         }
 
+    fun setSelectedMapStory(story: Story?) {
+        _uiState.update {
+            it.copy(selectedStory = story)
+        }
+    }
+
+    fun clearSelectedMapStory() {
+        _uiState.update {
+            it.copy(selectedStory = null)
+        }
+    }
+
     fun toastMessageShown() {
         _uiState.update {
             it.copy(
@@ -72,4 +90,12 @@ class MapViewViewModel @Inject constructor(
             )
         }
     }
+
+    fun hasLocationPermission(context: Context) = ActivityCompat.checkSelfPermission(
+        context,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        context,
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED
 }
