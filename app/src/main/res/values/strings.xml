@@ -55,5 +55,4 @@
     <string name="camera">Camera</string>
     <string name="cannot_save_the_image">Cannot save the image!</string>
     <string name="map_view">Map View</string>
-    <string name="mapsAPIKey" translatable="false">AIzaSyC5RQGys8uK8kpCPM3VfNXwaxyfuBISkRU</string>
 </resources>
