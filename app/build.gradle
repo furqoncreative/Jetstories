@@ -4,6 +4,8 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.10'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -78,8 +80,13 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
     // Google Maps
-    implementation 'com.google.maps.android:maps-compose:2.15.0'
+    implementation 'com.google.maps.android:maps-compose:2.11.4'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // Hilt
     implementation "com.google.dagger:hilt-android:2.46.1"
