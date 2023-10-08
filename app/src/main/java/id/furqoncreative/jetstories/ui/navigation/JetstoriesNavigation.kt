@@ -67,11 +67,7 @@ class JetstoriesNavigationActions(private val navHostController: NavHostControll
     }
 
     fun navigateToDetail(storyId: String) {
-        navHostController.navigate("$DETAIL_SCREEN/$storyId") {
-            popUpTo(navHostController.graph.findStartDestination().id) {
-                saveState = true
-            }
-        }
+        navHostController.navigate("$DETAIL_SCREEN/$storyId")
     }
 
     fun navigateToMapView() {
