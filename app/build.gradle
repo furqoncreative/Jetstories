@@ -6,6 +6,7 @@ plugins {
     id 'com.google.dagger.hilt.android'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -23,7 +24,6 @@ android {
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
         buildConfigField "String", "BASE_URL", "\"https://story-api.dicoding.dev/v1/\""
-        buildConfigField "String", "MAPS_API_KEY", "\"${properties.getProperty('MAPS_API_KEY')}\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
@@ -117,4 +117,8 @@ dependencies {
     // Debug
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+}
+
+secrets {
+    defaultPropertiesFileName 'local.properties'
 }
