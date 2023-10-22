@@ -82,7 +82,7 @@ fun MapViewScreen(
 
         }) {
 
-        MapViewContent(isLoading = uiState.isLoading,
+        MapViewContent(
             stories = uiState.stories,
             selectedStory = uiState.selectedStory,
             isMyLocationEnabled = mapViewViewModel.hasLocationPermission(context = context),
