@@ -24,13 +24,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import id.furqoncreative.jetstories.model.stories.Story
+import id.furqoncreative.jetstories.data.source.local.StoryItem
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StoryRow(
-    modifier: Modifier = Modifier, story: Story, onClickStory: (Story) -> Unit
+    modifier: Modifier = Modifier, story: StoryItem, onClickStory: (StoryItem) -> Unit
 ) {
     Card(modifier = modifier
         .height(300.dp)
@@ -85,7 +85,7 @@ fun StoryRow(
 @Composable
 fun StoryRowPreview() {
     JetStoriesTheme {
-        StoryRow(story = Story(
+        StoryRow(story = StoryItem(
             id = "",
             name = "user10",
             description = "tes",
