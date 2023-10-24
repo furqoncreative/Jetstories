@@ -2,12 +2,12 @@ package id.furqoncreative.jetstories.ui.pages.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.R
-import id.furqoncreative.jetstories.data.repository.GetAllStoriesRepository
+import id.furqoncreative.jetstories.data.repository.GetAllStoriesWithPaginationRepository
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
-import id.furqoncreative.jetstories.model.stories.GetAllStoriesResponse
-import id.furqoncreative.jetstories.model.stories.Story
+import id.furqoncreative.jetstories.data.source.local.StoryItem
 import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.utils.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,12 +23,12 @@ data class HomeUiState(
     val isLoading: Boolean = false,
     val isUserLogout: Boolean = false,
     val userMessage: UiText? = null,
-    val stories: List<Story>? = null,
+    val stories: Pager<Int, StoryItem>? = null,
 )
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val storiesRepository: GetAllStoriesRepository,
+    private val storiesRepository: GetAllStoriesWithPaginationRepository,
     private val preferencesManager: PreferencesManager
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -43,7 +43,7 @@ class HomeViewModel @Inject constructor(
             _uiState.update {
                 it.copy(isLoading = true)
             }
-            storiesRepository.getAllStories().collect { storiesAsync ->
+            storiesRepository.getAllStoriesWithPagination().collect { storiesAsync ->
                 _uiState.update {
                     produceHomeUiState(storiesAsync)
                 }
@@ -51,7 +51,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun produceHomeUiState(storiesAsync: Async<GetAllStoriesResponse>) =
+    private fun produceHomeUiState(storiesAsync: Async<Pager<Int, StoryItem>>) =
         when (storiesAsync) {
             Async.Loading -> HomeUiState(isLoading = true, isEmpty = true)
 
@@ -62,9 +62,9 @@ class HomeViewModel @Inject constructor(
             )
 
             is Async.Success -> {
-                val stories = storiesAsync.data.listStory
+                val stories = storiesAsync.data
                 HomeUiState(
-                    isEmpty = stories?.isEmpty() ?: false, isLoading = false, stories = stories
+                    isEmpty = false, isLoading = false, stories = stories
                 )
             }
         }
