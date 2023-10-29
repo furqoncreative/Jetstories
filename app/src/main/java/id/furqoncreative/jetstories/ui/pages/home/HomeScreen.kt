@@ -34,7 +34,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.local.StoryItem
-import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.components.JetstoriesOptionMenu
 import id.furqoncreative.jetstories.ui.components.MenuItem

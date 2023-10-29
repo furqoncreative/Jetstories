@@ -6,7 +6,7 @@ import androidx.exifinterface.media.ExifInterface
 import java.io.File
 
 
-fun Bitmap.getRotatedBitmap(file: File): Bitmap? {
+fun Bitmap.getRotatedBitmap(file: File): Bitmap {
     val orientation = ExifInterface(file).getAttributeInt(
         ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED
     )
@@ -20,7 +20,7 @@ fun Bitmap.getRotatedBitmap(file: File): Bitmap? {
 }
 
 
-fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
+fun rotateImage(source: Bitmap, angle: Float): Bitmap {
     val matrix = Matrix()
     matrix.postRotate(angle)
     return Bitmap.createBitmap(

@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase
     version = 2,
     exportSchema = false
 )
-abstract class StoryDatabase(): RoomDatabase() {
+abstract class StoryDatabase: RoomDatabase() {
 
     abstract fun storyDao(): StoryDao
 

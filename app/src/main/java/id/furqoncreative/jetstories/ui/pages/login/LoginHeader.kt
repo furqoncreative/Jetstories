@@ -1,7 +1,6 @@
 package id.furqoncreative.jetstories.ui.pages.login
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
@@ -30,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import id.furqoncreative.jetstories.R
 import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun LoginHeader(
     modifier: Modifier = Modifier

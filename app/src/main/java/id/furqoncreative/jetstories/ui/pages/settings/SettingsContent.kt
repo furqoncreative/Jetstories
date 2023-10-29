@@ -42,7 +42,7 @@ fun SettingsContent(
     onSetAppLanguage: () -> Unit,
     onSetSelectedLanguage: (LanguageEnum) -> Unit,
 ) {
-    val languageOption = LanguageEnum.values()
+    val languageOption = LanguageEnum.entries.toTypedArray()
     val (selectedLanguage, onSelectedLanguage) = remember { mutableStateOf(selectedLanguageEnum) }
     val commonModifier = modifier.fillMaxWidth()
 
