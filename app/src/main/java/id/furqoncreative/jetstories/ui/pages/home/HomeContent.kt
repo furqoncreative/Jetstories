@@ -73,7 +73,11 @@ fun HomeContent(
                 lazyPagingItems.apply {
                     when {
                         loadState.refresh is LoadState.Loading -> {
-                            item { CircularProgressIndicator() }
+                            item {
+                                LinearProgressIndicator(
+                                    modifier = commonModifier.padding(16.dp), color = MaterialTheme.colorScheme.tertiary
+                                )
+                            }
                         }
 
                         loadState.refresh is LoadState.Error -> {
@@ -87,7 +91,11 @@ fun HomeContent(
                         }
 
                         loadState.append is LoadState.Loading -> {
-                            item { CircularProgressIndicator() }
+                            item {
+                                LinearProgressIndicator(
+                                    modifier = commonModifier.padding(16.dp), color = MaterialTheme.colorScheme.tertiary
+                                )
+                            }
                         }
 
                         loadState.append is LoadState.Error -> {
