@@ -41,7 +41,7 @@ class HomeViewModelTest {
     private lateinit var preferencesManager: PreferencesManager
 
     @Test
-    fun `when get story should not null and return data`() = runTest {
+    fun `when get story then should not null and return data`() = runTest {
         val dummyStory = DataDummy.generateDummyStory()
 
         val data: PagingData<StoryItem> = StoryPagingResource.snapshot(dummyStory)
@@ -58,6 +58,23 @@ class HomeViewModelTest {
         assertNotNull(itemsSnapshot)
         assertEquals(dummyStory.size, itemsSnapshot.size)
         assertEquals(dummyStory[0], itemsSnapshot[0])
+    }
+
+    @Test
+    fun `when get empty story then should return no data`() = runTest {
+        val data: PagingData<StoryItem> = StoryPagingResource.snapshot(emptyList())
+        val expectedStory = flowOf(Async.Success(data))
+        Mockito.`when`(storyRepository.getAllStoriesWithPagination()).thenReturn(expectedStory)
+
+        val homeViewModel = HomeViewModel(storyRepository, preferencesManager)
+        val actualStory: Flow<PagingData<StoryItem>> = homeViewModel.uiState.value.stories!!
+
+        val itemsSnapshot: List<StoryItem> = actualStory.asSnapshot {
+            scrollTo(index = 100)
+        }
+
+        assertNotNull(itemsSnapshot)
+        assertEquals(0, itemsSnapshot.size)
     }
 }
 
