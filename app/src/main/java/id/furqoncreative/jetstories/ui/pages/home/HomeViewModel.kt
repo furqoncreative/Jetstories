@@ -2,7 +2,7 @@ package id.furqoncreative.jetstories.ui.pages.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
+import androidx.paging.PagingData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.GetAllStoriesWithPaginationRepository
@@ -10,10 +10,12 @@ import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.data.source.local.StoryItem
 import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.utils.UiText
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,7 +25,7 @@ data class HomeUiState(
     val isLoading: Boolean = false,
     val isUserLogout: Boolean = false,
     val userMessage: UiText? = null,
-    val stories: Pager<Int, StoryItem>? = null,
+    val stories: Flow<PagingData<StoryItem>>? = null,
 )
 
 @HiltViewModel
@@ -51,7 +53,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun produceHomeUiState(storiesAsync: Async<Pager<Int, StoryItem>>) =
+    private fun produceHomeUiState(storiesAsync: Async<PagingData<StoryItem>>) =
         when (storiesAsync) {
             Async.Loading -> HomeUiState(isLoading = true, isEmpty = true)
 
@@ -64,7 +66,7 @@ class HomeViewModel @Inject constructor(
             is Async.Success -> {
                 val stories = storiesAsync.data
                 HomeUiState(
-                    isEmpty = false, isLoading = false, stories = stories
+                    isEmpty = false, isLoading = false, stories = flowOf(stories)
                 )
             }
         }

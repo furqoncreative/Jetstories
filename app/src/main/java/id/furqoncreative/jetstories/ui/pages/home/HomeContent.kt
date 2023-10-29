@@ -17,18 +17,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import androidx.paging.Pager
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.local.StoryItem
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun HomeContent(
     modifier: Modifier = Modifier,
     isLoading: Boolean,
-    stories: Pager<Int, StoryItem>?,
-    onClickStory: (StoryItem) -> Unit
+    stories: Flow<PagingData<StoryItem>>?,
+    onClickStory: (StoryItem?) -> Unit
 ) {
     val commonModifier = modifier.fillMaxWidth()
     if (isLoading) {
@@ -45,14 +46,14 @@ fun HomeContent(
             }
         } else {
             val lazyPagingItems: LazyPagingItems<StoryItem> =
-                stories.flow.collectAsLazyPagingItems()
+                stories.collectAsLazyPagingItems()
 
             LazyColumn(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(lazyPagingItems.itemCount) { index ->
-                    val story = lazyPagingItems[index]!!
+                    val story = lazyPagingItems[index]
                     StoryRow(story = story, onClickStory = { onClickStory(story) })
                 }
 
