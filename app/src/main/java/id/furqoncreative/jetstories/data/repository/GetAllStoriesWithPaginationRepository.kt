@@ -3,8 +3,6 @@ package id.furqoncreative.jetstories.data.repository
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import dagger.Provides
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.data.source.local.StoryDatabase
 import id.furqoncreative.jetstories.data.source.local.StoryItem
@@ -15,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,7 +35,7 @@ class NetworkGetAllStoriesWithPaginationRepository @Inject constructor(
     ): Flow<Async<Pager<Int, StoryItem>>> {
 
         val storyPager = Pager(config = PagingConfig(
-            pageSize = 10
+            pageSize = size ?: 10
         ), remoteMediator = StoryRemoteMediator(
             preferencesManager, storyDatabase, apiService
         ), pagingSourceFactory = {
