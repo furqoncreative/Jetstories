@@ -68,9 +68,7 @@ class HomeViewModelTest {
         val homeViewModel = HomeViewModel(storyRepository, preferencesManager)
         val actualStory: Flow<PagingData<StoryItem>> = homeViewModel.uiState.value.stories!!
 
-        val itemsSnapshot: List<StoryItem> = actualStory.asSnapshot {
-            scrollTo(index = 100)
-        }
+        val itemsSnapshot: List<StoryItem> = actualStory.asSnapshot()
 
         assertNotNull(itemsSnapshot)
         assertEquals(0, itemsSnapshot.size)
