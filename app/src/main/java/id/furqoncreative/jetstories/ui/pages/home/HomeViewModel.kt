@@ -3,6 +3,7 @@ package id.furqoncreative.jetstories.ui.pages.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.GetAllStoriesWithPaginationRepository
@@ -66,7 +67,7 @@ class HomeViewModel @Inject constructor(
             is Async.Success -> {
                 val stories = storiesAsync.data
                 HomeUiState(
-                    isEmpty = false, isLoading = false, stories = flowOf(stories)
+                    isEmpty = false, isLoading = false, stories = flowOf(stories).cachedIn(viewModelScope)
                 )
             }
         }

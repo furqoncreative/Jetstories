@@ -20,6 +20,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.local.StoryItem
 import kotlinx.coroutines.flow.Flow
@@ -52,7 +53,7 @@ fun HomeContent(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(lazyPagingItems.itemCount) { index ->
+                items(key = lazyPagingItems.itemKey { it.id }, count = lazyPagingItems.itemCount) { index ->
                     val story = lazyPagingItems[index]
                     StoryRow(story = story, onClickStory = { onClickStory(story) })
                 }

@@ -35,7 +35,8 @@ class NetworkGetAllStoriesWithPaginationRepository @Inject constructor(
     ): Flow<Async<PagingData<StoryItem>>> {
 
         return Pager(config = PagingConfig(
-            pageSize = size ?: 10
+            pageSize = size ?: 10,
+            initialLoadSize = 1
         ), remoteMediator = StoryRemoteMediator(
             preferencesManager, storyDatabase, apiService
         ), pagingSourceFactory = {
