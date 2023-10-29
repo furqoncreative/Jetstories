@@ -68,7 +68,7 @@ class JestoriesNetworkDataSource @Inject constructor(
         } catch (e: Exception) {
             emit(
                 GetAllStoriesResponse(
-                    error = true, message = e.message, listStory = null
+                    error = true, message = e.message, listStory = listOf()
                 )
             )
         }

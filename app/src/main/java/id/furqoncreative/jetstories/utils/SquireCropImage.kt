@@ -9,6 +9,7 @@ import com.yalantis.ucrop.UCrop
 import id.furqoncreative.jetstories.BuildConfig
 import timber.log.Timber
 
+@Suppress("KotlinConstantConditions")
 class SquireCropImage : ActivityResultContract<Pair<Uri, Uri>, Uri?>() {
     override fun createIntent(context: Context, input: Pair<Uri, Uri>): Intent =
         UCrop.of(input.first, input.second).getIntent(context)
