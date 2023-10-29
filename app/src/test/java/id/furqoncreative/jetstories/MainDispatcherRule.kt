@@ -1,4 +1,4 @@
-package com.dicoding.myunlimitedquotes
+package id.furqoncreative.jetstories
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

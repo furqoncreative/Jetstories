@@ -14,15 +14,3 @@ fun Story.toStoryItem(): StoryItem {
         photoUrl = photoUrl
     )
 }
-
-fun StoryItem.toStory(): Story {
-    return Story(
-        id = id,
-        createdAt = createdAt,
-        description = description,
-        lat = lat,
-        lon = lon,
-        name = name,
-        photoUrl = photoUrl
-    )
-}
