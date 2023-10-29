@@ -2,15 +2,11 @@ package id.furqoncreative.jetstories.ui.pages.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -26,7 +22,6 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.local.StoryItem
-import id.furqoncreative.jetstories.model.stories.Story
 
 @Composable
 fun HomeContent(
@@ -49,15 +44,6 @@ fun HomeContent(
                 Text(text = stringResource(R.string.there_is_no_story))
             }
         } else {
-//            LazyColumn(
-//                contentPadding = PaddingValues(16.dp),
-//                verticalArrangement = Arrangement.spacedBy(16.dp)
-//            ) {
-//                items(stories, key = { it.id }) { story ->
-//                    StoryRow(story = story, onClickStory = { onClickStory(story) })
-//                }
-//            }
-
             val lazyPagingItems: LazyPagingItems<StoryItem> =
                 stories.flow.collectAsLazyPagingItems()
 
@@ -75,7 +61,8 @@ fun HomeContent(
                         loadState.refresh is LoadState.Loading -> {
                             item {
                                 LinearProgressIndicator(
-                                    modifier = commonModifier.padding(16.dp), color = MaterialTheme.colorScheme.tertiary
+                                    modifier = commonModifier.padding(16.dp),
+                                    color = MaterialTheme.colorScheme.tertiary
                                 )
                             }
                         }
@@ -93,7 +80,8 @@ fun HomeContent(
                         loadState.append is LoadState.Loading -> {
                             item {
                                 LinearProgressIndicator(
-                                    modifier = commonModifier.padding(16.dp), color = MaterialTheme.colorScheme.tertiary
+                                    modifier = commonModifier.padding(16.dp),
+                                    color = MaterialTheme.colorScheme.tertiary
                                 )
                             }
                         }
