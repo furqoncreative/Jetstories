@@ -56,7 +56,7 @@ fun JetstoriesNavGraph(
             }, onUserLoggedOut = {
                 navAction.navigateToLogin()
             }, onClickStory = { story ->
-                navAction.navigateToDetail(story.id)
+                story?.let { navAction.navigateToDetail(it.id) }
             })
         }
 

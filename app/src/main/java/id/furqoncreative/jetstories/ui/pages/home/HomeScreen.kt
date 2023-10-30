@@ -49,7 +49,7 @@ fun HomeScreen(
     onClickAddStory: () -> Unit,
     onClickMapView: () -> Unit,
     onClickSettings: () -> Unit,
-    onClickStory: (StoryItem) -> Unit,
+    onClickStory: (StoryItem?) -> Unit,
     onUserLoggedOut: () -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {

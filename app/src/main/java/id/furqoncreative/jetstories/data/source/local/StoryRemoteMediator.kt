@@ -55,7 +55,7 @@ class StoryRemoteMediator(
                 token = userToken,
                 page = page,
                 size = state.config.pageSize,
-                location = 1
+                location = 0
             ).listStory
 
             val storyItemList = storyList.map { it.toStoryItem() }
