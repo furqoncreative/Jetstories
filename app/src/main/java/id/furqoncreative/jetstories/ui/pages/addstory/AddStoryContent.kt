@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -46,12 +47,14 @@ import id.furqoncreative.jetstories.utils.DescriptionState
 fun AddStoryContent(
     modifier: Modifier = Modifier,
     context: Context,
-    imageUri: Uri?,
     isLoading: Boolean,
+    imageUri: Uri?,
     descriptionState: DescriptionState,
+    bottomSheetState: MutableState<Boolean>,
+    shareLocationState: MutableState<Boolean>,
     onCameraOptionClick: () -> Unit,
     onGalleryOptionClick: () -> Unit,
-    bottomSheetState: MutableState<Boolean>,
+    onLocationEnable: (Boolean) -> Unit,
     onSubmit: () -> Unit
 ) {
     val commonModifier = modifier.fillMaxWidth()
@@ -124,6 +127,24 @@ fun AddStoryContent(
         JetstoriesDescriptionTextField(context = context, onImeAction = {
             onSubmit()
         }, descriptionState = descriptionState)
+
+        Row(
+            modifier = Modifier.align(Alignment.End),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.padding(end = 8.dp),
+                text = "Share Location",
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Switch(
+                checked = shareLocationState.value,
+                onCheckedChange = { isChecked ->
+                    shareLocationState.value = isChecked
+                    onLocationEnable(isChecked)
+                }
+            )
+        }
 
         Button(modifier = commonModifier.height(56.dp),
             enabled = descriptionState.isValid && imageUri != null,

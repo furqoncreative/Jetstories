@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.AddStoryRepository
@@ -29,6 +30,7 @@ data class AddStoryUiState(
     val descriptionState: DescriptionState = DescriptionState(),
     val isLoading: Boolean = false,
     val imageUri: Uri? = null,
+    val location: LatLng? = null,
     val userMessage: UiText? = null,
     val isSuccessAddStory: Boolean = false
 )

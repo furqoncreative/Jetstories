@@ -62,6 +62,7 @@ fun AddStoryScreen(
     val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =
         rememberCollapsingToolbarScaffoldState()
     val bottomSheetState: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val shareLocationState: MutableState<Boolean> = remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -182,10 +183,12 @@ fun AddStoryScreen(
             }
         }) {
 
-        AddStoryContent(context = context,
-            imageUri = uiState.imageUri,
+        AddStoryContent(
+            context = context,
             isLoading = uiState.isLoading,
+            imageUri = uiState.imageUri,
             descriptionState = uiState.descriptionState,
+            shareLocationState = shareLocationState,
             bottomSheetState = bottomSheetState,
             onCameraOptionClick = {
                 val newPhotoUri = context.createImageFile().getUriForFile(context)
@@ -201,9 +204,13 @@ fun AddStoryScreen(
                     requestStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 }
             },
+            onLocationEnable = {
+                addStoryViewModel.setUserMessage("Switch is $it")
+            },
             onSubmit = {
                 onSubmit()
-            })
+            }
+        )
     }
 }
 
