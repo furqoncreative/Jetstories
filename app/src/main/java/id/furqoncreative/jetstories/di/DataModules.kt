@@ -34,6 +34,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -61,7 +62,11 @@ object NetworkDataModules {
 
     @Provides
     @Singleton
-    fun okHttpCallFactory(): Call.Factory = OkHttpClient.Builder().addInterceptor(
+    fun okHttpCallFactory(): Call.Factory = OkHttpClient.Builder()
+        .connectTimeout(5, TimeUnit.MINUTES)
+        .readTimeout(5, TimeUnit.MINUTES)
+        .writeTimeout(5, TimeUnit.MINUTES)
+        .addInterceptor(
         HttpLoggingInterceptor().apply {
             if (BuildConfig.DEBUG) {
                 setLevel(HttpLoggingInterceptor.Level.BODY)
