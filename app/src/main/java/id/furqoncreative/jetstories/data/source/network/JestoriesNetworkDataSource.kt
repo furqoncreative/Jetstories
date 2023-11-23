@@ -78,8 +78,8 @@ class JestoriesNetworkDataSource @Inject constructor(
         token: String,
         file: MultipartBody.Part,
         description: RequestBody,
-        latitude: Float?,
-        longitude: Float?
+        latitude: Double?,
+        longitude: Double?
     ): Flow<AddStoryResponse> = flow {
         try {
             val response = apiService.addStory(token, file, description, latitude, longitude)

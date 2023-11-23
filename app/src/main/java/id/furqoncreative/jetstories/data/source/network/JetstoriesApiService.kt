@@ -39,8 +39,8 @@ interface JetstoriesApiService {
         @Header("Authorization") token: String,
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
-        @Part("lat") latitude: Float?,
-        @Part("lon") longitude: Float?,
+        @Part("lat") latitude: Double?,
+        @Part("lon") longitude: Double?,
     ): AddStoryResponse
 
     @GET("stories")

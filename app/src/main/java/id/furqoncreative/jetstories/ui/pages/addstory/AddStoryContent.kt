@@ -1,6 +1,7 @@
 package id.furqoncreative.jetstories.ui.pages.addstory
 
 import android.content.Context
+import android.location.Location
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -134,7 +135,7 @@ fun AddStoryContent(
         ) {
             Text(
                 modifier = Modifier.padding(end = 8.dp),
-                text = "Share Location",
+                text = stringResource(R.string.share_location),
                 style = MaterialTheme.typography.bodyLarge
             )
             Switch(

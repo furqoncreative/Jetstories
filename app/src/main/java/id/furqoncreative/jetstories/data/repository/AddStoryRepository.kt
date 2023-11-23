@@ -17,8 +17,8 @@ interface AddStoryRepository {
     suspend fun addStory(
         file: MultipartBody.Part,
         description: RequestBody,
-        latitude: Float? = 0F,
-        longitude: Float? = 0F,
+        latitude: Double? = 0.0,
+        longitude: Double? = 0.0,
     ): Flow<Async<AddStoryResponse>>
 }
 
@@ -28,7 +28,7 @@ class NetworkAddStoryRepository @Inject constructor(
     private val networkDataSource: NetworkDataSource
 ) : AddStoryRepository {
     override suspend fun addStory(
-        file: MultipartBody.Part, description: RequestBody, latitude: Float?, longitude: Float?
+        file: MultipartBody.Part, description: RequestBody, latitude: Double?, longitude: Double?
     ): Flow<Async<AddStoryResponse>> {
         val userToken = "Bearer ${preferencesManager.getUserToken.first()}"
 

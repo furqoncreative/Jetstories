@@ -1,10 +1,10 @@
 package id.furqoncreative.jetstories.ui.pages.addstory
 
 import android.content.Context
+import android.location.Location
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.AddStoryRepository
@@ -30,7 +30,7 @@ data class AddStoryUiState(
     val descriptionState: DescriptionState = DescriptionState(),
     val isLoading: Boolean = false,
     val imageUri: Uri? = null,
-    val location: LatLng? = null,
+    val location: Location? = null,
     val userMessage: UiText? = null,
     val isSuccessAddStory: Boolean = false
 )
@@ -47,6 +47,7 @@ class AddStoryViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             val imageUri = uiState.value.imageUri
+            val location = uiState.value.location
             if (imageUri != null) {
                 val file: File = imageUri.toFile(context).reduceFileImage()
                 val description =
@@ -57,7 +58,12 @@ class AddStoryViewModel @Inject constructor(
                 )
 
                 _uiState.update { AddStoryUiState(isLoading = true) }
-                addStoryRepository.addStory(imageMultipart, description).collect { addStoryAsync ->
+                addStoryRepository.addStory(
+                    file = imageMultipart,
+                    description = description,
+                    latitude = location?.latitude,
+                    longitude = location?.longitude
+                ).collect { addStoryAsync ->
                     _uiState.update {
                         produceAddStoryUiState(addStoryAsync)
                     }
@@ -110,6 +116,14 @@ class AddStoryViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 imageUri = imageUri
+            )
+        }
+    }
+
+    fun setLocation(location: Location?) {
+        _uiState.update {
+            it.copy(
+                location = location
             )
         }
     }

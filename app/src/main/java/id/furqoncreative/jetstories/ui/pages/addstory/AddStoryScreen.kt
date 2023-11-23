@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -37,12 +38,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import id.furqoncreative.jetstories.utils.SquireCropImage
 import id.furqoncreative.jetstories.utils.createImageFile
 import id.furqoncreative.jetstories.utils.getUriForFile
 import id.furqoncreative.jetstories.utils.showToast
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
@@ -71,6 +76,10 @@ fun AddStoryScreen(
         addStoryViewModel.setImageUri(uri)
     }
 
+    val scope = rememberCoroutineScope()
+
+    val fusedLocationClient: FusedLocationProviderClient =
+        LocationServices.getFusedLocationProviderClient(context)
 
     val imageSelectorLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -114,6 +123,21 @@ fun AddStoryScreen(
                 imageSelectorLauncher.launch("image/*")
             } else {
                 addStoryViewModel.setUserMessage(context.getString(R.string.allow_storage_permission))
+            }
+        }
+
+    val requestLocationPermission =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissionGranted ->
+            val isGranted =
+                permissionGranted.containsKey(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    .or(permissionGranted.containsKey(Manifest.permission.ACCESS_FINE_LOCATION))
+            if (isGranted) {
+                scope.launch {
+                    val location = fusedLocationClient.lastLocation.await()
+                    addStoryViewModel.setLocation(location)
+                }
+            } else {
+                addStoryViewModel.setUserMessage(context.getString(R.string.allow_location_permission))
             }
         }
 
@@ -204,8 +228,15 @@ fun AddStoryScreen(
                     requestStoragePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 }
             },
-            onLocationEnable = {
-                addStoryViewModel.setUserMessage("Switch is $it")
+            onLocationEnable = { isChecked ->
+                if (isChecked) {
+                    requestLocationPermission.launch(
+                        arrayOf(
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        )
+                    )
+                }
             },
             onSubmit = {
                 onSubmit()

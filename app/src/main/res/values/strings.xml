@@ -56,4 +56,6 @@
     <string name="cannot_save_the_image">Cannot save the image!</string>
     <string name="map_view">Map View</string>
     <string name="strRetry">Retry</string>
+    <string name="allow_location_permission">Please allow location permission for share location</string>
+    <string name="share_location">Share Location</string>
 </resources>

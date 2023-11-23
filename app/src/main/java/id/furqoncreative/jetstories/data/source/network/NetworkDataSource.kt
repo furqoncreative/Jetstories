@@ -22,8 +22,8 @@ interface NetworkDataSource {
         token: String,
         file: MultipartBody.Part,
         description: RequestBody,
-        latitude: Float?,
-        longitude: Float?
+        latitude: Double?,
+        longitude: Double?
     ): Flow<AddStoryResponse>
 
     suspend fun getAllStories(
