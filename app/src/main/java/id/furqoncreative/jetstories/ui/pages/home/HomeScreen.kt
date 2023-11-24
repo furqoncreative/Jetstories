@@ -51,7 +51,7 @@ fun HomeScreen(
     onClickSettings: () -> Unit,
     onClickStory: (StoryItem?) -> Unit,
     onUserLoggedOut: () -> Unit,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val optionMenuExpandState: MutableState<Boolean> = remember { mutableStateOf(false) }

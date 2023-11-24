@@ -61,7 +61,7 @@ fun AddStoryScreen(
     modifier: Modifier = Modifier,
     onNavUp: () -> Unit,
     onSuccessAddStory: () -> Unit,
-    addStoryViewModel: AddStoryViewModel = hiltViewModel()
+    addStoryViewModel: AddStoryViewModel
 ) {
     val uiState by addStoryViewModel.uiState.collectAsStateWithLifecycle()
     val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =
@@ -250,6 +250,6 @@ fun AddStoryScreen(
 @Composable
 fun AddStoryScreenPreview() {
     JetStoriesTheme {
-        AddStoryScreen(onNavUp = { /*TODO*/ }, onSuccessAddStory = {})
+        AddStoryScreen(onNavUp = { }, onSuccessAddStory = {}, addStoryViewModel = hiltViewModel())
     }
 }
