@@ -45,9 +45,9 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RegisterScreen(
+    registerViewModel: RegisterViewModel,
     onNavUp: () -> Unit,
     onSuccessRegister: () -> Unit,
-    registerViewModel: RegisterViewModel,
     modifier: Modifier = Modifier
 ) {
     val uiState by registerViewModel.uiState.collectAsStateWithLifecycle()
