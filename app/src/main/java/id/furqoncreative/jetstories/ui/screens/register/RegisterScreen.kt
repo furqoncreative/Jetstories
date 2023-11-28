@@ -1,49 +1,58 @@
 package id.furqoncreative.jetstories.ui.screens.register
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import android.content.Context
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.furqoncreative.jetstories.R
+import id.furqoncreative.jetstories.ui.components.JetstoriesEmailTextField
+import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
+import id.furqoncreative.jetstories.ui.components.JetstoriesNameTextField
+import id.furqoncreative.jetstories.ui.components.JetstoriesPasswordTextField
+import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
+import id.furqoncreative.jetstories.ui.components.TitleToolbar
+import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
+import id.furqoncreative.jetstories.utils.ConfirmPasswordState
+import id.furqoncreative.jetstories.utils.NameState
+import id.furqoncreative.jetstories.utils.PasswordState
+import id.furqoncreative.jetstories.utils.TextFieldState
 import id.furqoncreative.jetstories.utils.showToast
-import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RegisterScreen(
+    modifier: Modifier = Modifier,
     onNavUp: () -> Unit,
     onSuccessRegister: () -> Unit,
-    modifier: Modifier = Modifier,
     registerViewModel: RegisterViewModel
 ) {
     val uiState by registerViewModel.uiState.collectAsStateWithLifecycle()
-    val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =
-        rememberCollapsingToolbarScaffoldState()
+    val collapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -65,52 +74,31 @@ fun RegisterScreen(
         registerViewModel.toastMessageShown()
     }
 
-    CollapsingToolbarScaffold(modifier = modifier,
+    JetstoriesHeader(
+        modifier = modifier,
         state = collapsingToolbarScaffoldState,
-        scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
-        toolbar = {
-            val textSize =
-                (20 + (30 - 12) * collapsingToolbarScaffoldState.toolbarState.progress).sp
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-                    .pin()
-                    .background(color = MaterialTheme.colorScheme.background)
-            )
-
-            Text(
-                stringResource(R.string.register), style = TextStyle(
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontSize = textSize,
-                    fontWeight = FontWeight.Medium
-                ), modifier = Modifier
-                    .padding(
-                        top = 10.dp, start = 40.dp, bottom = 16.dp, end = 40.dp
+        startToolbarContent = {
+            IconButton(onClick = {
+                onNavUp()
+            }) {
+                Icon(
+                    imageVector = Icons.Default.ChevronLeft,
+                    contentDescription = stringResource(
+                        id = R.string.back
                     )
-                    .road(whenCollapsed = Alignment.TopStart, whenExpanded = Alignment.Center)
-            )
-
-            Row(
-                modifier = Modifier.road(
-                    whenExpanded = Alignment.BottomStart, whenCollapsed = Alignment.TopStart
                 )
-            ) {
-                IconButton(onClick = {
-                    onNavUp()
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.ChevronLeft,
-                        contentDescription = stringResource(
-                            id = R.string.back
-                        )
-                    )
-                }
             }
-
-        }) {
-
+        },
+        titleToolbarContent = {
+            TitleToolbar(
+                modifier = Modifier.padding(
+                    top = 10.dp, start = 40.dp, bottom = 16.dp, end = 40.dp
+                ),
+                title = stringResource(id = R.string.register),
+                textSize = it
+            )
+        }
+    ) {
         RegisterContent(
             context = context,
             emailState = uiState.emailState,
@@ -120,5 +108,76 @@ fun RegisterScreen(
             isLoading = uiState.isLoading,
             onClickSignup = onClickRegister
         )
+    }
+}
+
+@Composable
+fun RegisterContent(
+    modifier: Modifier = Modifier,
+    context: Context,
+    emailState: TextFieldState,
+    nameState: NameState,
+    passwordState: PasswordState,
+    confirmPasswordState: ConfirmPasswordState,
+    isLoading: Boolean = false,
+    onClickSignup: () -> Unit,
+) {
+    val commonModifier = modifier.fillMaxWidth()
+
+    Column(
+        modifier = commonModifier
+            .fillMaxHeight()
+            .verticalScroll(state = rememberScrollState())
+            .padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+
+        JetstoriesEmailTextField(
+            modifier = commonModifier, context = context, emailState = emailState
+        )
+
+        JetstoriesNameTextField(modifier = commonModifier, context = context, nameState = nameState)
+
+        JetstoriesPasswordTextField(
+            modifier = commonModifier,
+            context = context,
+            label = stringResource(id = R.string.password_label),
+            placeholder = stringResource(id = R.string.password_placeholder),
+            passwordState = passwordState,
+            imeAction = ImeAction.Next
+        )
+
+        JetstoriesPasswordTextField(modifier = commonModifier,
+            context = context,
+            label = stringResource(id = R.string.confirmation_password_label),
+            placeholder = stringResource(id = R.string.confirm_password_placeholder),
+            passwordState = confirmPasswordState,
+            onImeAction = {
+                onClickSignup()
+            })
+
+        Button(modifier = commonModifier.height(56.dp),
+            enabled = emailState.isValid && nameState.isValid && passwordState.isValid && confirmPasswordState.isValid,
+            onClick = {
+                onClickSignup()
+            }) {
+            if (!isLoading) {
+                Text(text = stringResource(R.string.sign_up))
+            } else {
+                JetstoriesProgressBar(size = 30.dp)
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RegisterBodyPreview() {
+    JetStoriesTheme {
+        RegisterContent(context = LocalContext.current,
+            emailState = TextFieldState(),
+            nameState = NameState(),
+            passwordState = PasswordState(),
+            confirmPasswordState = ConfirmPasswordState(PasswordState()),
+            onClickSignup = {})
     }
 }
