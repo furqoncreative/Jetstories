@@ -11,20 +11,20 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinationsArgs.STORY_ID
-import id.furqoncreative.jetstories.ui.pages.addstory.AddStoryScreen
-import id.furqoncreative.jetstories.ui.pages.addstory.AddStoryViewModel
-import id.furqoncreative.jetstories.ui.pages.detailstory.DetailStoryScreen
-import id.furqoncreative.jetstories.ui.pages.detailstory.DetailStoryViewModel
-import id.furqoncreative.jetstories.ui.pages.home.HomeScreen
-import id.furqoncreative.jetstories.ui.pages.home.HomeViewModel
-import id.furqoncreative.jetstories.ui.pages.login.LoginScreen
-import id.furqoncreative.jetstories.ui.pages.login.LoginViewModel
-import id.furqoncreative.jetstories.ui.pages.mapview.MapViewScreen
-import id.furqoncreative.jetstories.ui.pages.mapview.MapViewViewModel
-import id.furqoncreative.jetstories.ui.pages.register.RegisterScreen
-import id.furqoncreative.jetstories.ui.pages.register.RegisterViewModel
-import id.furqoncreative.jetstories.ui.pages.settings.SettingsScreen
-import id.furqoncreative.jetstories.ui.pages.settings.SettingsViewModel
+import id.furqoncreative.jetstories.ui.screens.addstory.AddStoryScreen
+import id.furqoncreative.jetstories.ui.screens.addstory.AddStoryViewModel
+import id.furqoncreative.jetstories.ui.screens.detailstory.DetailStoryScreen
+import id.furqoncreative.jetstories.ui.screens.detailstory.DetailStoryViewModel
+import id.furqoncreative.jetstories.ui.screens.home.HomeScreen
+import id.furqoncreative.jetstories.ui.screens.home.HomeViewModel
+import id.furqoncreative.jetstories.ui.screens.login.LoginScreen
+import id.furqoncreative.jetstories.ui.screens.login.LoginViewModel
+import id.furqoncreative.jetstories.ui.screens.mapview.MapViewScreen
+import id.furqoncreative.jetstories.ui.screens.mapview.MapViewViewModel
+import id.furqoncreative.jetstories.ui.screens.register.RegisterScreen
+import id.furqoncreative.jetstories.ui.screens.register.RegisterViewModel
+import id.furqoncreative.jetstories.ui.screens.settings.SettingsScreen
+import id.furqoncreative.jetstories.ui.screens.settings.SettingsViewModel
 
 @Composable
 fun JetstoriesNavGraph(
