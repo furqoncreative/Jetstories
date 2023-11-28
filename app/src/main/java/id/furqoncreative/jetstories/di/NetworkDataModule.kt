@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkDataModules {
+object NetworkDataModule {
     @Provides
     @Singleton
     fun okHttpCallFactory(): Call.Factory = OkHttpClient.Builder().addInterceptor(
