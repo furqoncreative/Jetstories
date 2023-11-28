@@ -35,10 +35,10 @@ import id.furqoncreative.jetstories.ui.components.JetstoriesPasswordTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
 import id.furqoncreative.jetstories.ui.components.TitleToolbar
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
-import id.furqoncreative.jetstories.utils.ConfirmPasswordState
-import id.furqoncreative.jetstories.utils.NameState
-import id.furqoncreative.jetstories.utils.PasswordState
-import id.furqoncreative.jetstories.utils.TextFieldState
+import id.furqoncreative.jetstories.ui.components.states.ConfirmPasswordState
+import id.furqoncreative.jetstories.ui.components.states.NameState
+import id.furqoncreative.jetstories.ui.components.states.PasswordState
+import id.furqoncreative.jetstories.ui.components.states.TextFieldState
 import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 

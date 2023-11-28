@@ -46,8 +46,8 @@ import id.furqoncreative.jetstories.ui.components.JetstoriesEmailTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesPasswordTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
-import id.furqoncreative.jetstories.utils.PasswordState
-import id.furqoncreative.jetstories.utils.TextFieldState
+import id.furqoncreative.jetstories.ui.components.states.PasswordState
+import id.furqoncreative.jetstories.ui.components.states.TextFieldState
 import id.furqoncreative.jetstories.utils.showToast
 import kotlinx.coroutines.delay
 

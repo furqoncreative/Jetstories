@@ -61,7 +61,7 @@ import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
 import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
 import id.furqoncreative.jetstories.ui.components.TitleToolbar
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
-import id.furqoncreative.jetstories.utils.DescriptionState
+import id.furqoncreative.jetstories.ui.components.states.DescriptionState
 import id.furqoncreative.jetstories.utils.SquireCropImage
 import id.furqoncreative.jetstories.utils.createImageFile
 import id.furqoncreative.jetstories.utils.getUriForFile

@@ -1,4 +1,4 @@
-package id.furqoncreative.jetstories.utils
+package id.furqoncreative.jetstories.ui.components.states
 
 import android.content.Context
 import androidx.compose.runtime.getValue

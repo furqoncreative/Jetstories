@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import id.furqoncreative.jetstories.R
-import id.furqoncreative.jetstories.utils.DescriptionState
+import id.furqoncreative.jetstories.ui.components.states.DescriptionState
 
 @Composable
 fun JetstoriesDescriptionTextField(

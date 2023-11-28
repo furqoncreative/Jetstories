@@ -7,10 +7,10 @@ import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.RegisterRepository
 import id.furqoncreative.jetstories.model.register.RegisterResponse
 import id.furqoncreative.jetstories.utils.Async
-import id.furqoncreative.jetstories.utils.ConfirmPasswordState
-import id.furqoncreative.jetstories.utils.EmailState
-import id.furqoncreative.jetstories.utils.NameState
-import id.furqoncreative.jetstories.utils.PasswordState
+import id.furqoncreative.jetstories.ui.components.states.ConfirmPasswordState
+import id.furqoncreative.jetstories.ui.components.states.EmailState
+import id.furqoncreative.jetstories.ui.components.states.NameState
+import id.furqoncreative.jetstories.ui.components.states.PasswordState
 import id.furqoncreative.jetstories.utils.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
