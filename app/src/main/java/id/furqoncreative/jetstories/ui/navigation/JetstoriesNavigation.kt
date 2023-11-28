@@ -16,7 +16,7 @@ import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.REGISTER_SCR
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.SETTINGS_SCREEN
 
 
-private object JetstoriesScreens {
+object JetstoriesScreens {
     const val LOGIN_SCREEN = "login"
     const val REGISTER_SCREEN = "register"
     const val HOME_SCREEN = "home"
