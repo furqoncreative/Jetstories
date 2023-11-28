@@ -58,4 +58,5 @@
     <string name="strRetry">Retry</string>
     <string name="allow_location_permission">Please allow location permission for share location</string>
     <string name="share_location">Share Location</string>
+    <string name="map_view_stories">Map View Stories</string>
 </resources>
