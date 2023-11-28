@@ -50,6 +50,7 @@ fun DetailStoryScreen(
 
     if (story != null) {
         JetstoriesHeader(
+            modifier = modifier,
             state = collapsingToolbarScaffoldState,
             titleToolbarContent = { textSize ->
                 TitleToolbar(

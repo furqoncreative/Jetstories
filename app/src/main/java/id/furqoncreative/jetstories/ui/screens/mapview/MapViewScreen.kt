@@ -75,6 +75,7 @@ fun MapViewScreen(
     }
 
     JetstoriesHeader(
+        modifier = modifier,
         state = collapsingToolbarScaffoldState,
         titleToolbarContent = {
             TitleToolbar(

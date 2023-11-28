@@ -82,7 +82,7 @@ fun LoginScreen(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .verticalScroll(state = rememberScrollState())
             .fillMaxSize()
             .padding(16.dp),

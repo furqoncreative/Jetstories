@@ -96,6 +96,7 @@ fun HomeScreen(
         })
 
     JetstoriesHeader(
+        modifier = modifier,
         state = collapsingToolbarScaffoldState,
         scrollStrategy = ScrollStrategy.EnterAlways,
         titleToolbarContent = {

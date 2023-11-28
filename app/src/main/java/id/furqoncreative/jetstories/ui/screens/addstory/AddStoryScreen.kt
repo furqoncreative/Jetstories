@@ -176,6 +176,7 @@ fun AddStoryScreen(
     }
 
     JetstoriesHeader(
+        modifier = modifier,
         state = collapsingToolbarScaffoldState,
         titleToolbarContent = {
             TitleToolbar(
