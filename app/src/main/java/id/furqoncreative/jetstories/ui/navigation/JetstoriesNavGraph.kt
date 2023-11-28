@@ -80,7 +80,7 @@ fun JetstoriesNavGraph(
             val mapViewModel = hiltViewModel<MapViewViewModel>()
             MapViewScreen(onNavUp = {
                 navAction.navigateUp()
-            }, onClickStory = { story ->
+            }, onNavigateToDetail = { story ->
                 navAction.navigateToDetail(story.id)
             },
                 mapViewViewModel = mapViewModel
