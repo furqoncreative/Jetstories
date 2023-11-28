@@ -40,16 +40,15 @@ import id.furqoncreative.jetstories.utils.NameState
 import id.furqoncreative.jetstories.utils.PasswordState
 import id.furqoncreative.jetstories.utils.TextFieldState
 import id.furqoncreative.jetstories.utils.showToast
-import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RegisterScreen(
-    modifier: Modifier = Modifier,
     onNavUp: () -> Unit,
     onSuccessRegister: () -> Unit,
-    registerViewModel: RegisterViewModel
+    registerViewModel: RegisterViewModel,
+    modifier: Modifier = Modifier
 ) {
     val uiState by registerViewModel.uiState.collectAsStateWithLifecycle()
     val collapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
@@ -113,14 +112,14 @@ fun RegisterScreen(
 
 @Composable
 fun RegisterContent(
-    modifier: Modifier = Modifier,
     context: Context,
     emailState: TextFieldState,
     nameState: NameState,
     passwordState: PasswordState,
     confirmPasswordState: ConfirmPasswordState,
-    isLoading: Boolean = false,
     onClickSignup: () -> Unit,
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
 ) {
     val commonModifier = modifier.fillMaxWidth()
 
@@ -173,11 +172,13 @@ fun RegisterContent(
 @Composable
 fun RegisterBodyPreview() {
     JetStoriesTheme {
-        RegisterContent(context = LocalContext.current,
+        RegisterContent(
+            context = LocalContext.current,
             emailState = TextFieldState(),
             nameState = NameState(),
             passwordState = PasswordState(),
             confirmPasswordState = ConfirmPasswordState(PasswordState()),
-            onClickSignup = {})
+            onClickSignup = {}
+        )
     }
 }

@@ -54,14 +54,14 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
-    modifier: Modifier = Modifier,
     loginViewModel: LoginViewModel,
     onLoginSuccess: () -> Unit,
     onSignupClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
     val uiState by loginViewModel.uiState.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current
-    val context = LocalContext.current
 
     LaunchedEffect(uiState.isLoginSuccess) {
         if (uiState.isLoginSuccess) {
@@ -178,12 +178,12 @@ fun LoginHeaderPreview() {
 
 @Composable
 fun LoginContent(
-    modifier: Modifier = Modifier,
     context: Context,
     emailState: TextFieldState,
     passwordState: PasswordState,
     onSubmit: () -> Unit,
     onClickSignup: () -> Unit,
+    modifier: Modifier = Modifier,
     isLoading: Boolean = false
 ) {
     Column(

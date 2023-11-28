@@ -21,12 +21,12 @@ import me.onebone.toolbar.ScrollStrategy
 
 @Composable
 fun JetstoriesHeader(
-    modifier: Modifier = Modifier,
     state: CollapsingToolbarScaffoldState,
+    titleToolbarContent: @Composable (TextUnit) -> Unit,
+    modifier: Modifier = Modifier,
     scrollStrategy: ScrollStrategy? = ScrollStrategy.ExitUntilCollapsed,
     startToolbarContent: @Composable () -> Unit? = {},
     endToolbarContent: @Composable () -> Unit? = {},
-    titleToolbarContent: @Composable (TextUnit) -> Unit,
     bodyContent: @Composable () -> Unit
 ) {
     CollapsingToolbarScaffold(modifier = modifier,
