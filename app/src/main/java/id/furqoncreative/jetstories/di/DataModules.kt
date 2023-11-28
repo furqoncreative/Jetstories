@@ -57,34 +57,6 @@ object LocalDataModule {
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkDataModules {
-
-    @Provides
-    @Singleton
-    fun okHttpCallFactory(): Call.Factory = OkHttpClient.Builder().addInterceptor(
-        HttpLoggingInterceptor().apply {
-            if (BuildConfig.DEBUG) {
-                setLevel(HttpLoggingInterceptor.Level.BODY)
-            }
-        },
-    ).build()
-
-    @Provides
-    fun provideAppService(
-        okhttpCallFactory: Call.Factory
-    ): JetstoriesApiService = Retrofit.Builder().callFactory(okhttpCallFactory)
-        .addConverterFactory(GsonConverterFactory.create()).baseUrl(BASE_URL).build()
-        .create(JetstoriesApiService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideNetworkDataSource(
-        appService: JetstoriesApiService,
-    ) = JestoriesNetworkDataSource(appService)
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
     @Singleton

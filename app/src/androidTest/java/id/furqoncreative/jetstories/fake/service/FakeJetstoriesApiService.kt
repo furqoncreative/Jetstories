@@ -82,8 +82,8 @@ class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
         token: String,
         file: MultipartBody.Part,
         description: RequestBody,
-        latitude: Float?,
-        longitude: Float?
+        latitude: Double?,
+        longitude: Double?
     ): AddStoryResponse {
         TODO("Not yet implemented")
     }
@@ -96,7 +96,7 @@ class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
     ): GetAllStoriesResponse {
         return GetAllStoriesResponse(
             error = false,
-            listStory = null,
+            listStory = listOf(),
             message = "Success"
         )
     }
