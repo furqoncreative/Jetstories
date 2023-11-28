@@ -62,15 +62,15 @@ fun JetstoriesNavGraph(
 
         composable(JetstoriesDestinations.HOME_ROUTE) {
             val homeViewViewModel = hiltViewModel<HomeViewModel>()
-            HomeScreen(onClickAddStory = {
+            HomeScreen(onNavigateToAddStory = {
                 navAction.navigateToAddStory()
-            }, onClickMapView = {
+            }, onNavigateToMapView = {
                 navAction.navigateToMapView()
-            }, onClickSettings = {
+            }, onNavigateToSettings = {
                 navAction.navigateToSettings()
             }, onUserLoggedOut = {
                 navAction.navigateToLogin()
-            }, onClickStory = { story ->
+            }, onNavigateToDetail = { story ->
                 story?.let { navAction.navigateToDetail(it.id) }
             }, homeViewModel = homeViewViewModel)
         }

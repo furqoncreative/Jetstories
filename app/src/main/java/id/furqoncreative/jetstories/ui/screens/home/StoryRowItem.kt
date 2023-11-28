@@ -30,12 +30,14 @@ import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StoryRow(
-    modifier: Modifier = Modifier, story: StoryItem?, onClickStory: (StoryItem?) -> Unit
+    story: StoryItem?,
+    onStoryClicked: (StoryItem?) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(modifier = modifier
         .height(300.dp)
         .fillMaxWidth(), onClick = {
-        onClickStory(story)
+        onStoryClicked(story)
     }) {
         Column(
             modifier = modifier
@@ -56,7 +58,7 @@ fun StoryRow(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = (story?.name ?: "Null").uppercase()[0].toString() ,
+                        text = (story?.name ?: "Null").uppercase()[0].toString(),
                         color = MaterialTheme.colorScheme.onPrimary,
                         style = MaterialTheme.typography.titleMedium,
                     )
@@ -93,7 +95,7 @@ fun StoryRowPreview() {
             createdAt = "",
             lat = null,
             lon = null,
-        ), onClickStory = {})
+        ), onStoryClicked = {})
     }
 
 }
