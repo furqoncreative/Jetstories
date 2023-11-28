@@ -25,12 +25,13 @@ data class LoginUiState(
     val isLoading: Boolean = false,
     val userMessage: UiText? = null,
     val loginResult: LoginResult? = null,
-    val isSuccessLogin: Boolean = false
+    val isLoginSuccess: Boolean = false
 )
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginRepository: LoginRepository, private val preferencesManager: PreferencesManager
+    private val loginRepository: LoginRepository,
+    private val preferencesManager: PreferencesManager
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -56,7 +57,7 @@ class LoginViewModel @Inject constructor(
         is Async.Error -> LoginUiState(
             userMessage = UiText.DynamicString(loginAsync.errorMessage),
             isLoading = false,
-            isSuccessLogin = false
+            isLoginSuccess = false
         )
 
         is Async.Success -> {
@@ -66,7 +67,7 @@ class LoginViewModel @Inject constructor(
                 LoginUiState(
                     loginResult = loginResult,
                     isLoading = false,
-                    isSuccessLogin = true,
+                    isLoginSuccess = true,
                     userMessage = UiText.StringResource(R.string.logged_in)
                 )
             } else {
@@ -74,7 +75,7 @@ class LoginViewModel @Inject constructor(
                     emailState = uiState.value.emailState,
                     passwordState = uiState.value.passwordState,
                     isLoading = false,
-                    isSuccessLogin = false,
+                    isLoginSuccess = false,
                     userMessage = UiText.StringResource(R.string.user_not_found)
                 )
             }
