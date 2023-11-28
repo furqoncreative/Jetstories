@@ -34,7 +34,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -54,38 +53,6 @@ object LocalDataModule {
     @Provides
     fun providePreferencesManager(dataStore: DataStore<Preferences>): PreferencesManager =
         PreferencesManager(dataStore)
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-object NetworkDataModules {
-
-    @Provides
-    @Singleton
-    fun okHttpCallFactory(): Call.Factory = OkHttpClient.Builder()
-        .connectTimeout(5, TimeUnit.MINUTES)
-        .readTimeout(5, TimeUnit.MINUTES)
-        .writeTimeout(5, TimeUnit.MINUTES)
-        .addInterceptor(
-        HttpLoggingInterceptor().apply {
-            if (BuildConfig.DEBUG) {
-                setLevel(HttpLoggingInterceptor.Level.BODY)
-            }
-        },
-    ).build()
-
-    @Provides
-    fun provideAppService(
-        okhttpCallFactory: Call.Factory
-    ): JetstoriesApiService = Retrofit.Builder().callFactory(okhttpCallFactory)
-        .addConverterFactory(GsonConverterFactory.create()).baseUrl(BASE_URL).build()
-        .create(JetstoriesApiService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideNetworkDataSource(
-        appService: JetstoriesApiService,
-    ) = JestoriesNetworkDataSource(appService)
 }
 
 @Module

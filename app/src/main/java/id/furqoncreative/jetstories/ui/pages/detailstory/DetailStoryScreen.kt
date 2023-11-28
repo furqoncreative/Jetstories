@@ -36,9 +36,9 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 fun DetailStoryScreen(
     modifier: Modifier = Modifier,
     onNavUp: () -> Unit,
-    storyViewModel: DetailStoryViewModel = hiltViewModel()
+    detailStoryViewModel: DetailStoryViewModel
 ) {
-    val uiState by storyViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by detailStoryViewModel.uiState.collectAsStateWithLifecycle()
     val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =
         rememberCollapsingToolbarScaffoldState()
     val context = LocalContext.current
@@ -46,7 +46,7 @@ fun DetailStoryScreen(
 
     uiState.userMessage?.let { userMessage ->
         context.showToast(userMessage.asString(context))
-        storyViewModel.toastMessageShown()
+        detailStoryViewModel.toastMessageShown()
     }
 
     if (story != null) {

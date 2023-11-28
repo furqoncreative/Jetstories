@@ -38,7 +38,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 fun SettingsScreen(
     modifier: Modifier = Modifier,
     onNavUp: () -> Unit,
-    settingsViewModel: SettingsViewModel = hiltViewModel()
+    settingsViewModel: SettingsViewModel
 ) {
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
     val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =
@@ -107,6 +107,6 @@ fun SettingsScreen(
 @Composable
 fun SettingsScreenPreview() {
     JetStoriesTheme {
-        SettingsScreen(onNavUp = {})
+        SettingsScreen(onNavUp = {}, settingsViewModel = hiltViewModel())
     }
 }

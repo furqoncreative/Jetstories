@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,15 +32,16 @@ import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
-import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.MarkerInfoWindow
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import id.furqoncreative.jetstories.model.stories.Story
 import kotlinx.coroutines.launch
+import id.furqoncreative.jetstories.R
 
 @Composable
 fun MapViewContent(
@@ -51,6 +53,7 @@ fun MapViewContent(
     setSelectedStory: (Story) -> Unit,
     clearSelectedStory: () -> Unit
 ) {
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var isMapLoaded by remember { mutableStateOf(false) }
 
@@ -60,14 +63,14 @@ fun MapViewContent(
                 myLocationButtonEnabled = false,
                 mapToolbarEnabled = false,
                 rotationGesturesEnabled = true,
-                zoomControlsEnabled = false
+                zoomControlsEnabled = false,
             )
         )
     }
     val properties by remember {
         mutableStateOf(
             MapProperties(
-                mapType = MapType.NORMAL,
+                mapStyleOptions = MapStyleOptions.loadRawResourceStyle(context, R.raw.map_styles),
                 isMyLocationEnabled = isMyLocationEnabled,
                 minZoomPreference = 2f,
                 maxZoomPreference = 15f

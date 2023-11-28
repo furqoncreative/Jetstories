@@ -29,7 +29,7 @@ fun LoginScreen(
     onSuccessLogin: () -> Unit,
     onClickSignup: () -> Unit,
     modifier: Modifier = Modifier,
-    loginViewModel: LoginViewModel = hiltViewModel()
+    loginViewModel: LoginViewModel
 ) {
     val uiState by loginViewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -83,7 +83,7 @@ fun LoginScreenPreview() {
         Surface(
             color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()
         ) {
-            LoginScreen(onSuccessLogin = {}, onClickSignup = {})
+            LoginScreen(onSuccessLogin = {}, onClickSignup = {}, loginViewModel = hiltViewModel())
         }
     }
 }

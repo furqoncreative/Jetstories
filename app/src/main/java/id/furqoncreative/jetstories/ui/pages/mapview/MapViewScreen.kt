@@ -34,7 +34,7 @@ fun MapViewScreen(
     modifier: Modifier = Modifier,
     onNavUp: () -> Unit,
     onClickStory: (Story) -> Unit,
-    mapViewViewModel: MapViewViewModel = hiltViewModel()
+    mapViewViewModel: MapViewViewModel
 ) {
     val uiState by mapViewViewModel.uiState.collectAsStateWithLifecycle()
     val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =

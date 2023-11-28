@@ -40,7 +40,7 @@ fun RegisterScreen(
     onNavUp: () -> Unit,
     onSuccessRegister: () -> Unit,
     modifier: Modifier = Modifier,
-    registerViewModel: RegisterViewModel = hiltViewModel()
+    registerViewModel: RegisterViewModel
 ) {
     val uiState by registerViewModel.uiState.collectAsStateWithLifecycle()
     val collapsingToolbarScaffoldState: CollapsingToolbarScaffoldState =
