@@ -36,64 +36,83 @@ fun JetstoriesNavGraph(
     }
 ) {
     NavHost(
-        navController = navController, startDestination = startDestination, modifier = modifier
+        navController = navController,
+        startDestination = startDestination,
+        modifier = modifier
     ) {
         composable(JetstoriesDestinations.LOGIN_ROUTE) {
             val loginViewModel = hiltViewModel<LoginViewModel>()
             LoginScreen(
                 onNavigateToHome = {
                     navAction.navigateToHome()
-                }, onNavigateToRegister = {
+                },
+                onNavigateToRegister = {
                     navAction.navigateToRegister()
-                }, loginViewModel = loginViewModel
+                },
+                loginViewModel = loginViewModel
             )
         }
 
         composable(JetstoriesDestinations.REGISTER_ROUTE) {
             val registerViewModel = hiltViewModel<RegisterViewModel>()
-            RegisterScreen(onNavUp = {
-                navAction.navigateUp()
-            }, onSuccessRegister = {
-                navAction.navigateUp()
-            },
+            RegisterScreen(
+                onNavUp = {
+                    navAction.navigateUp()
+                },
+                onSuccessRegister = {
+                    navAction.navigateUp()
+                },
                 registerViewModel = registerViewModel
             )
         }
 
         composable(JetstoriesDestinations.HOME_ROUTE) {
             val homeViewViewModel = hiltViewModel<HomeViewModel>()
-            HomeScreen(onNavigateToAddStory = {
-                navAction.navigateToAddStory()
-            }, onNavigateToMapView = {
-                navAction.navigateToMapView()
-            }, onNavigateToSettings = {
-                navAction.navigateToSettings()
-            }, onUserLoggedOut = {
-                navAction.navigateToLogin()
-            }, onNavigateToDetail = { story ->
-                story?.let { navAction.navigateToDetail(it.id) }
-            }, homeViewModel = homeViewViewModel)
+            HomeScreen(
+                onNavigateToAddStory = {
+                    navAction.navigateToAddStory()
+                },
+                onNavigateToMapView = {
+                    navAction.navigateToMapView()
+                },
+                onNavigateToSettings = {
+                    navAction.navigateToSettings()
+                },
+                onUserLoggedOut = {
+                    navAction.navigateToLogin()
+                },
+                onNavigateToDetail = { story ->
+                    story?.let { navAction.navigateToDetail(it.id) }
+                },
+                homeViewModel = homeViewViewModel
+            )
         }
 
 
         composable(JetstoriesDestinations.MAP_VIEW_ROUTE) {
             val mapViewModel = hiltViewModel<MapViewViewModel>()
-            MapViewScreen(onNavUp = {
-                navAction.navigateUp()
-            }, onNavigateToDetail = { story ->
-                navAction.navigateToDetail(story.id)
-            },
+            MapViewScreen(
+                onNavUp = {
+                    navAction.navigateUp()
+                },
+                onNavigateToDetail = { story ->
+                    navAction.navigateToDetail(story.id)
+                },
                 mapViewViewModel = mapViewModel
             )
         }
 
         composable(JetstoriesDestinations.ADD_STORY_ROUTE) {
             val addStoryViewModel = hiltViewModel<AddStoryViewModel>()
-            AddStoryScreen(onNavUp = {
-                navAction.navigateUp()
-            }, onSuccessAddStory = {
-                navAction.navigateToHome()
-            }, addStoryViewModel = addStoryViewModel)
+            AddStoryScreen(
+                onNavUp = {
+                    navAction.navigateUp()
+                },
+                onSuccessAddStory = {
+                    navAction.navigateToHome()
+                },
+                addStoryViewModel = addStoryViewModel
+            )
         }
 
         composable(
@@ -102,17 +121,23 @@ fun JetstoriesNavGraph(
             )
         ) {
             val detailStoryViewViewModel = hiltViewModel<DetailStoryViewModel>()
-            DetailStoryScreen(onNavUp = {
-                navAction.navigateUp()
-            }, detailStoryViewModel = detailStoryViewViewModel)
+            DetailStoryScreen(
+                onNavUp = {
+                    navAction.navigateUp()
+                },
+                detailStoryViewModel = detailStoryViewViewModel
+            )
         }
 
 
         composable(JetstoriesDestinations.SETTINGS_ROUTE) {
             val settingViewModel = hiltViewModel<SettingsViewModel>()
-            SettingsScreen(onNavUp = {
-                navAction.navigateUp()
-            }, settingsViewModel = settingViewModel)
+            SettingsScreen(
+                onNavUp = {
+                    navAction.navigateUp()
+                },
+                settingsViewModel = settingViewModel
+            )
         }
     }
 }

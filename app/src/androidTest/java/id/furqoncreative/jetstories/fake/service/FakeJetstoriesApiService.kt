@@ -21,8 +21,8 @@ data class UserCredentials(
 )
 
 class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
-    val users = mutableListOf<UserCredentials>()
-    val listStory = mutableListOf<Story>()
+    private val users = mutableListOf<UserCredentials>()
+    private val listStory = mutableListOf<Story>()
 
     init {
         users.add(

@@ -2,14 +2,13 @@ package id.furqoncreative.jetstories.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesNavGraph
 
 @Composable
 fun JetstoriesApp(
-    viewModel: JetstoriesViewModel = hiltViewModel()
+    viewModel: JetstoriesViewModel
 ) {
     val isLoggedIn by viewModel.isLoggedIn.collectAsStateWithLifecycle()
 

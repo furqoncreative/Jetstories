@@ -82,6 +82,7 @@ class StoryPagingResource : PagingSource<Int, LiveData<List<StoryItem>>>() {
         }
     }
 
+    @Suppress("SameReturnValue")
     override fun getRefreshKey(state: PagingState<Int, LiveData<List<StoryItem>>>): Int {
         return 0
     }
