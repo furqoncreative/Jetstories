@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.data.source.local.StoryDatabase
 import id.furqoncreative.jetstories.data.source.local.StoryItem
-import id.furqoncreative.jetstories.data.source.local.StoryRemoteMediator
+import id.furqoncreative.jetstories.data.source.remotemidiator.StoryRemoteMediator
 import id.furqoncreative.jetstories.data.source.network.JetstoriesApiService
 import id.furqoncreative.jetstories.utils.Async
 import kotlinx.coroutines.flow.Flow
