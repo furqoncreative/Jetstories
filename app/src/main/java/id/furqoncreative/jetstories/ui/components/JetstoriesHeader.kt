@@ -27,21 +27,28 @@ fun JetstoriesHeader(
     scrollStrategy: ScrollStrategy? = ScrollStrategy.ExitUntilCollapsed,
     startToolbarContent: @Composable () -> Unit? = {},
     endToolbarContent: @Composable () -> Unit? = {},
+    isMapView: Boolean? = false,
     bodyContent: @Composable () -> Unit
 ) {
     CollapsingToolbarScaffold(modifier = modifier,
         state = state,
         scrollStrategy = scrollStrategy ?: ScrollStrategy.ExitUntilCollapsed,
         toolbar = {
-            val textSize = (20 + (30 - 12) * state.toolbarState.progress).sp
+            val textSize =  if(!isMapView!!) {
+                (20 + (30 - 12) * state.toolbarState.progress).sp
+            } else {
+                20.sp
+            }
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-                    .pin()
-                    .background(color = MaterialTheme.colorScheme.background)
-            )
+            if (!isMapView) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp)
+                        .pin()
+                        .background(color = MaterialTheme.colorScheme.background)
+                )
+            }
 
             Row(
                 modifier = Modifier.road(
