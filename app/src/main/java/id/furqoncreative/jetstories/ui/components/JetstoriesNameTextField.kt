@@ -22,8 +22,8 @@ import id.furqoncreative.jetstories.ui.components.states.NameState
 
 @Composable
 fun JetstoriesNameTextField(
-    modifier: Modifier = Modifier,
     context: Context,
+    modifier: Modifier = Modifier,
     nameState: NameState = remember { NameState() },
     onImeAction: () -> Unit = {}
 ) {

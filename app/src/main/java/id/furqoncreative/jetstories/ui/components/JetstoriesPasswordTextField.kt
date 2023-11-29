@@ -29,11 +29,11 @@ import id.furqoncreative.jetstories.ui.components.states.TextFieldState
 
 @Composable
 fun JetstoriesPasswordTextField(
-    modifier: Modifier = Modifier,
     context: Context,
     label: String,
     placeholder: String,
     passwordState: TextFieldState,
+    modifier: Modifier = Modifier,
     imeAction: ImeAction = ImeAction.Done,
     onImeAction: () -> Unit = {}
 ) {

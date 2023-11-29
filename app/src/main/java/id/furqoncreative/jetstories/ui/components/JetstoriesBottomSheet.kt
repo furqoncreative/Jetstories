@@ -27,10 +27,10 @@ import id.furqoncreative.jetstories.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JetstoriesBottomSheet(
-    modifier: Modifier = Modifier,
     openBottomSheet: MutableState<Boolean>,
     onGalleryOptionClick: () -> Unit,
-    onCameraOptionClick: () -> Unit
+    onCameraOptionClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     if (openBottomSheet.value) {
         ModalBottomSheet(modifier = modifier, onDismissRequest = {

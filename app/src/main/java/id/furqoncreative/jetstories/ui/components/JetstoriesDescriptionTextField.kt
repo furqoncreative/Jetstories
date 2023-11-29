@@ -18,9 +18,9 @@ import id.furqoncreative.jetstories.ui.components.states.DescriptionState
 
 @Composable
 fun JetstoriesDescriptionTextField(
-    modifier: Modifier = Modifier,
     context: Context,
     descriptionState: DescriptionState,
+    modifier: Modifier = Modifier,
     onImeAction: () -> Unit = {}
 ) {
     TextField(modifier = modifier

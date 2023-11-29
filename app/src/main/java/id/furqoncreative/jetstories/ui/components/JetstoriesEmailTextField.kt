@@ -23,8 +23,8 @@ import id.furqoncreative.jetstories.ui.components.states.TextFieldState
 
 @Composable
 fun JetstoriesEmailTextField(
-    modifier: Modifier = Modifier,
     context: Context,
+    modifier: Modifier = Modifier,
     emailState: TextFieldState = remember { EmailState() },
     onImeAction: () -> Unit = {}
 ) {

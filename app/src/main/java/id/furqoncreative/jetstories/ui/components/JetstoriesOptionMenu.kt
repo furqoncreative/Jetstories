@@ -17,10 +17,10 @@ enum class MenuItem {
 
 @Composable
 fun JetstoriesOptionMenu(
-    modifier: Modifier = Modifier,
     context: Context,
     onClickMenu: Map<MenuItem, () -> Unit>,
-    expanded: MutableState<Boolean>
+    expanded: MutableState<Boolean>,
+    modifier: Modifier = Modifier
 ) {
     DropdownMenu(modifier = modifier,
         expanded = expanded.value,
