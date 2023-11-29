@@ -64,7 +64,7 @@ class MapViewViewModel @Inject constructor(
             )
 
             is Async.Success -> {
-                val stories = storiesAsync.data.listStory
+                val stories = storiesAsync.data.listStory ?: listOf()
                 MapViewUiState(
                     isEmpty = stories.isEmpty(), isLoading = false, stories = stories
                 )

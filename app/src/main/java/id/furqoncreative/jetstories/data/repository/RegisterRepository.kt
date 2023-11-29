@@ -11,7 +11,9 @@ import javax.inject.Singleton
 
 interface RegisterRepository {
     suspend fun registerUser(
-        email: String, name: String, password: String
+        email: String,
+        name: String,
+        password: String
     ): Flow<Async<RegisterResponse>>
 }
 
@@ -20,7 +22,9 @@ class NetworkRegisterRepository @Inject constructor(
     private val networkDataSource: NetworkDataSource
 ) : RegisterRepository {
     override suspend fun registerUser(
-        email: String, name: String, password: String
+        email: String,
+        name: String,
+        password: String
     ): Flow<Async<RegisterResponse>> = networkDataSource.registerUser(email, name, password).map {
         if (it.error) {
             Async.Error(it.message)

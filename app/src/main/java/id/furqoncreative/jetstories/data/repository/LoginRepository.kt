@@ -17,15 +17,14 @@ interface LoginRepository {
 class NetworkLoginRepository @Inject constructor(
     private val networkDataSource: NetworkDataSource
 ) : LoginRepository {
-    override suspend fun loginUser(
-        email: String, password: String
-    ): Flow<Async<LoginResponse>> = networkDataSource.loginUser(email, password).map {
-        if (it.error) {
-            Async.Error(it.message)
-        } else {
-            Async.Success(it)
+    override suspend fun loginUser(email: String, password: String): Flow<Async<LoginResponse>> =
+        networkDataSource.loginUser(email, password).map {
+            if (it.error) {
+                Async.Error(it.message)
+            } else {
+                Async.Success(it)
+            }
+        }.catch { throwable ->
+            throwable.message?.let { Async.Error(it) }
         }
-    }.catch { throwable ->
-        throwable.message?.let { Async.Error(it) }
-    }
 }

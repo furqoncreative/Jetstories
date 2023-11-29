@@ -11,15 +11,17 @@ import okhttp3.RequestBody
 
 interface NetworkDataSource {
     suspend fun loginUser(
-        email: String, password: String
+        email: String,
+        password: String
     ): Flow<LoginResponse>
 
     suspend fun registerUser(
-        email: String, name: String, password: String
+        email: String,
+        name: String,
+        password: String
     ): Flow<RegisterResponse>
 
     suspend fun addStory(
-        token: String,
         file: MultipartBody.Part,
         description: RequestBody,
         latitude: Double?,
@@ -27,10 +29,10 @@ interface NetworkDataSource {
     ): Flow<AddStoryResponse>
 
     suspend fun getAllStories(
-        token: String, page: Int?, size: Int?, location: Int?
+        page: Int?,
+        size: Int?,
+        location: Int?
     ): Flow<GetAllStoriesResponse>
 
-    suspend fun getDetailStory(
-        token: String, id: String
-    ): Flow<GetDetailStoryResponse>
+    suspend fun getDetailStory(id: String): Flow<GetDetailStoryResponse>
 }
