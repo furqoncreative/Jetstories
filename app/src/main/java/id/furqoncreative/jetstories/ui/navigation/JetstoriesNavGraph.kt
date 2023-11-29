@@ -41,9 +41,9 @@ fun JetstoriesNavGraph(
         composable(JetstoriesDestinations.LOGIN_ROUTE) {
             val loginViewModel = hiltViewModel<LoginViewModel>()
             LoginScreen(
-                onLoginSuccess = {
+                onNavigateToHome = {
                     navAction.navigateToHome()
-                }, onSignupClick = {
+                }, onNavigateToRegister = {
                     navAction.navigateToRegister()
                 }, loginViewModel = loginViewModel
             )

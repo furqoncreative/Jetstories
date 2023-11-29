@@ -55,8 +55,8 @@ import kotlinx.coroutines.delay
 @Composable
 fun LoginScreen(
     loginViewModel: LoginViewModel,
-    onLoginSuccess: () -> Unit,
-    onSignupClick: () -> Unit,
+    onNavigateToHome: () -> Unit,
+    onNavigateToRegister: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -65,7 +65,7 @@ fun LoginScreen(
 
     LaunchedEffect(uiState.isLoginSuccess) {
         if (uiState.isLoginSuccess) {
-            onLoginSuccess()
+            onNavigateToHome()
         }
     }
 
@@ -97,7 +97,7 @@ fun LoginScreen(
             emailState = uiState.emailState,
             passwordState = uiState.passwordState,
             onSubmit = onSubmit,
-            onClickSignup = onSignupClick,
+            onClickSignup = onNavigateToRegister,
             isLoading = uiState.isLoading,
         )
     }
@@ -110,7 +110,7 @@ fun LoginScreenPreview() {
         Surface(
             color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()
         ) {
-            LoginScreen(onLoginSuccess = {}, onSignupClick = {}, loginViewModel = hiltViewModel())
+            LoginScreen(onNavigateToHome = {}, onNavigateToRegister = {}, loginViewModel = hiltViewModel())
         }
     }
 }
