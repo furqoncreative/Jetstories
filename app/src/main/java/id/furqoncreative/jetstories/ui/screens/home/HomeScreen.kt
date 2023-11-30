@@ -27,14 +27,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import id.furqoncreative.jetstories.R
@@ -169,11 +167,10 @@ fun HomeContent(
                 Text(text = stringResource(R.string.there_is_no_story))
             }
         } else {
-            val lazyPagingItems: LazyPagingItems<StoryItem> =
-                stories.collectAsLazyPagingItems()
+            val lazyPagingItems = stories.collectAsLazyPagingItems()
 
             LazyColumn(
-                modifier = modifier.testTag("story_list"),
+                modifier = modifier,
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {

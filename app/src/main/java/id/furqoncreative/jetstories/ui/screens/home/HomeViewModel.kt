@@ -67,7 +67,9 @@ class HomeViewModel @Inject constructor(
             is Async.Success -> {
                 val stories = storiesAsync.data
                 HomeUiState(
-                    isEmpty = false, isLoading = false, stories = flowOf(stories).cachedIn(viewModelScope)
+                    isEmpty = false,
+                    isLoading = false,
+                    stories = flowOf(stories).cachedIn(viewModelScope)
                 )
             }
         }

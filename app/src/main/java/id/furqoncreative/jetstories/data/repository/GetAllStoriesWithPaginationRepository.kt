@@ -31,21 +31,23 @@ class NetworkGetAllStoriesWithPaginationRepository @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun getAllStoriesWithPagination(
-        page: Int?, size: Int?, location: Int?
-    ): Flow<Async<PagingData<StoryItem>>> {
-
-        return Pager(
-            config = PagingConfig(
-                pageSize = size ?: 30,
-                initialLoadSize = 1
-            ), remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
-            pagingSourceFactory = {
-                storyDatabase.storyDao().getAllStories()
-            }).flow.map {
-            Async.Success(it)
-        }.catch {
-            Async.Error(it.message.toString())
-        }
-
+        page: Int?,
+        size: Int?,
+        location: Int?
+    ): Flow<Async<PagingData<StoryItem>>> = Pager(
+        config = PagingConfig(
+            pageSize = size ?: 10,
+            enablePlaceholders = false,
+            initialLoadSize = 1
+        ), remoteMediator = StoryRemoteMediator(
+            database = storyDatabase,
+            apiService = apiService
+        ),
+        pagingSourceFactory = {
+            storyDatabase.storyDao().getAllStories()
+        }).flow.map {
+        Async.Success(it)
+    }.catch {
+        Async.Error(it.message.toString())
     }
 }

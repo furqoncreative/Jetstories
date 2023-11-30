@@ -25,7 +25,8 @@ class StoryRemoteMediator(
     }
 
     override suspend fun load(
-        loadType: LoadType, state: PagingState<Int, StoryItem>
+        loadType: LoadType,
+        state: PagingState<Int, StoryItem>
     ): MediatorResult {
         val page = when (loadType) {
             LoadType.REFRESH -> {
@@ -60,15 +61,21 @@ class StoryRemoteMediator(
             val storyItemList = storyList.map { it.toStoryItem() }
             val endOfPaginationReached = storyItemList.isEmpty()
 
+            val prevKey = if (page == 1) null else page - 1
+            val nextKey = if (endOfPaginationReached) null else page + 1
+
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     database.remoteKeysDao().deleteRemoteKeys()
                     database.storyDao().deleteAllStories()
                 }
-                val prevKey = if (page == 1) null else page - 1
-                val nextKey = if (endOfPaginationReached) null else page + 1
+
                 val keys = storyItemList.map {
-                    RemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
+                    RemoteKeys(
+                        id = it.id,
+                        prevKey = prevKey,
+                        nextKey = nextKey
+                    )
                 }
                 database.remoteKeysDao().insertAll(keys)
                 database.storyDao().insertStories(storyItemList)
