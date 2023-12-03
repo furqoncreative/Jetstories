@@ -227,6 +227,8 @@ fun AddStoryScreen(
                             Manifest.permission.ACCESS_COARSE_LOCATION
                         )
                     )
+                } else {
+                    addStoryViewModel.setLocation(null)
                 }
             },
             onSubmit = {
