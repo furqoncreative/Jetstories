@@ -12,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +27,7 @@ import coil.compose.AsyncImage
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
+import id.furqoncreative.jetstories.ui.components.JetstoriesLinearProgressBar
 import id.furqoncreative.jetstories.ui.components.TitleToolbar
 import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -89,9 +89,7 @@ fun DetailStoryContent(
     val commonModifier = modifier.fillMaxWidth()
 
     if (isLoading) {
-        LinearProgressIndicator(
-            modifier = commonModifier.padding(16.dp), color = MaterialTheme.colorScheme.tertiary
-        )
+        JetstoriesLinearProgressBar()
     } else {
         Column(
             modifier = commonModifier
