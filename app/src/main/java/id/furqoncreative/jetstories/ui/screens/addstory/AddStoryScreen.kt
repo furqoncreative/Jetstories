@@ -40,7 +40,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -67,8 +66,6 @@ import id.furqoncreative.jetstories.utils.SquireCropImage
 import id.furqoncreative.jetstories.utils.createImageFile
 import id.furqoncreative.jetstories.utils.getUriForFile
 import id.furqoncreative.jetstories.utils.showToast
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import java.io.File
 import java.util.Date
@@ -94,7 +91,6 @@ fun AddStoryScreen(
         addStoryViewModel.setImageUri(uri)
     }
 
-    val scope = rememberCoroutineScope()
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
     val imageSelectorLauncher =
@@ -148,8 +144,7 @@ fun AddStoryScreen(
                 permissionGranted.containsKey(Manifest.permission.ACCESS_COARSE_LOCATION)
                     .or(permissionGranted.containsKey(Manifest.permission.ACCESS_FINE_LOCATION))
             if (isGranted) {
-                scope.launch {
-                    val location = fusedLocationClient.lastLocation.await()
+                fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                     addStoryViewModel.setLocation(location)
                 }
             } else {
