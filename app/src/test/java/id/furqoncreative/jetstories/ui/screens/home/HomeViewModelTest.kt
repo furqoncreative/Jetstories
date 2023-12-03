@@ -1,6 +1,5 @@
 package id.furqoncreative.jetstories.ui.screens.home
 
-import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.paging.AsyncPagingDataDiffer
