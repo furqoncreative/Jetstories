@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Logout
@@ -14,7 +17,6 @@ import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -32,17 +34,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
-import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.local.StoryItem
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
+import id.furqoncreative.jetstories.ui.components.JetstoriesLinearProgressBar
 import id.furqoncreative.jetstories.ui.components.JetstoriesOptionMenu
 import id.furqoncreative.jetstories.ui.components.MenuItem
 import id.furqoncreative.jetstories.ui.components.TitleToolbar
 import id.furqoncreative.jetstories.utils.showToast
-import kotlinx.coroutines.flow.Flow
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
@@ -62,6 +64,9 @@ fun HomeScreen(
 
     val optionMenuExpandState: MutableState<Boolean> = remember { mutableStateOf(false) }
     val alertDialogState: MutableState<Boolean> = remember { mutableStateOf(false) }
+
+    val lazyListState = rememberLazyListState()
+    val storiesLazyPagingItems = uiState.stories.collectAsLazyPagingItems()
 
     uiState.userMessage?.let { userMessage ->
         context.showToast(userMessage.asString(context))
@@ -136,8 +141,10 @@ fun HomeScreen(
             )
         }) {
 
-        HomeContent(isLoading = uiState.isLoading,
-            stories = uiState.stories,
+        HomeContent(
+            isLoading = uiState.isLoading,
+            storiesLazyPagingItems = storiesLazyPagingItems,
+            lazyListState = lazyListState,
             onStoryClicked = { story ->
                 onNavigateToDetail(story)
             })
@@ -147,81 +154,88 @@ fun HomeScreen(
 
 @Composable
 fun HomeContent(
-    stories: Flow<PagingData<StoryItem>>?,
+    storiesLazyPagingItems: LazyPagingItems<StoryItem>,
+    lazyListState: LazyListState,
     isLoading: Boolean,
     onStoryClicked: (StoryItem?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val commonModifier = modifier.fillMaxWidth()
+
     if (isLoading) {
-        LinearProgressIndicator(
-            modifier = commonModifier.padding(16.dp), color = MaterialTheme.colorScheme.tertiary
-        )
+        JetstoriesLinearProgressBar()
     } else {
-        if (stories == null) {
-            Box(
-                modifier = commonModifier.padding(bottom = 16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = stringResource(R.string.there_is_no_story))
+        Box(
+            modifier = commonModifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            storiesLazyPagingItems.apply {
+
             }
-        } else {
-            val lazyPagingItems = stories.collectAsLazyPagingItems()
 
             LazyColumn(
-                modifier = modifier,
+                state = lazyListState,
+                modifier = commonModifier,
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(
-                    count = lazyPagingItems.itemCount
+                    count = storiesLazyPagingItems.itemCount
                 ) { index ->
-                    val story = lazyPagingItems[index]
-                    StoryRow(story = story, onStoryClicked = { onStoryClicked(story) })
+                    val story = storiesLazyPagingItems[index]
+
+                    if (story == null) {
+                        Box(
+                            modifier = commonModifier.padding(bottom = 16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = stringResource(R.string.there_is_no_story))
+                        }
+                    } else {
+                        StoryRow(
+                            story = story,
+                            onStoryClicked = { onStoryClicked(story) }
+                        )
+                    }
                 }
 
-                lazyPagingItems.apply {
+                storiesLazyPagingItems.apply {
                     when {
                         loadState.refresh is LoadState.Loading -> {
                             item {
-                                LinearProgressIndicator(
-                                    modifier = commonModifier.padding(16.dp),
-                                    color = MaterialTheme.colorScheme.tertiary
-                                )
+                                JetstoriesLinearProgressBar()
                             }
                         }
 
                         loadState.refresh is LoadState.Error -> {
-                            val error = lazyPagingItems.loadState.refresh as LoadState.Error
+                            val error = storiesLazyPagingItems.loadState.refresh as LoadState.Error
                             item {
                                 ErrorMessage(
                                     modifier = Modifier.fillParentMaxSize(),
                                     message = error.error.localizedMessage!!,
-                                    onClickRetry = { retry() })
+                                    onClickRetry = { retry() }
+                                )
                             }
                         }
 
                         loadState.append is LoadState.Loading -> {
                             item {
-                                LinearProgressIndicator(
-                                    modifier = commonModifier.padding(16.dp),
-                                    color = MaterialTheme.colorScheme.tertiary
-                                )
+                                JetstoriesLinearProgressBar()
                             }
                         }
 
                         loadState.append is LoadState.Error -> {
-                            val error = lazyPagingItems.loadState.append as LoadState.Error
+                            val error = storiesLazyPagingItems.loadState.append as LoadState.Error
                             item {
                                 ErrorMessage(
                                     modifier = Modifier,
                                     message = error.error.localizedMessage!!,
-                                    onClickRetry = { retry() })
+                                    onClickRetry = { retry() }
+                                )
                             }
                         }
                     }
                 }
-
             }
         }
     }
