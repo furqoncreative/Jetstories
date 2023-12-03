@@ -57,10 +57,12 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
-
     // Core
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation platform('org.jetbrains.kotlin:kotlin-bom:1.9.10')
@@ -108,13 +110,13 @@ dependencies {
     def room_version = "2.6.1"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
     ksp "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-paging:$room_version"
 
     // Paging
-    implementation 'androidx.paging:paging-runtime-ktx:3.1.0-beta01'
-    implementation 'androidx.paging:paging-compose:1.0.0-alpha13'
+    def paging_version = "3.2.1"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    implementation "androidx.paging:paging-compose:$paging_version"
 
     // Other
     implementation "me.onebone:toolbar-compose:2.3.2"

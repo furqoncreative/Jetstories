@@ -1,6 +1,7 @@
 package id.furqoncreative.jetstories.ui.screens.addstory
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Build
@@ -56,12 +57,12 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.android.gms.location.LocationServices
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.ui.components.JetstoriesBottomSheet
+import id.furqoncreative.jetstories.ui.components.JetstoriesCircularProgressBar
 import id.furqoncreative.jetstories.ui.components.JetstoriesDescriptionTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
-import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
 import id.furqoncreative.jetstories.ui.components.TitleToolbar
-import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import id.furqoncreative.jetstories.ui.components.states.DescriptionState
+import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import id.furqoncreative.jetstories.utils.SquireCropImage
 import id.furqoncreative.jetstories.utils.createImageFile
 import id.furqoncreative.jetstories.utils.getUriForFile
@@ -72,6 +73,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import java.io.File
 import java.util.Date
 
+@SuppressLint("MissingPermission")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AddStoryScreen(
@@ -359,7 +361,7 @@ fun AddStoryContent(
             if (!isLoading) {
                 Text(text = stringResource(R.string.submit))
             } else {
-                JetstoriesProgressBar(size = 30.dp)
+                JetstoriesCircularProgressBar()
             }
         }
     }

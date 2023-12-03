@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
@@ -26,7 +27,7 @@ data class HomeUiState(
     val isLoading: Boolean = false,
     val isUserLogout: Boolean = false,
     val userMessage: UiText? = null,
-    val stories: Flow<PagingData<StoryItem>> = flowOf(PagingData.empty()),
+    val stories: Flow<PagingData<StoryItem>> = emptyFlow(),
 )
 
 @HiltViewModel
