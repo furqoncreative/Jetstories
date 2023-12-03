@@ -18,13 +18,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import id.furqoncreative.jetstories.R
-import id.furqoncreative.jetstories.utils.EmailState
-import id.furqoncreative.jetstories.utils.TextFieldState
+import id.furqoncreative.jetstories.ui.components.states.EmailState
+import id.furqoncreative.jetstories.ui.components.states.TextFieldState
 
 @Composable
 fun JetstoriesEmailTextField(
-    modifier: Modifier = Modifier,
     context: Context,
+    modifier: Modifier = Modifier,
     emailState: TextFieldState = remember { EmailState() },
     onImeAction: () -> Unit = {}
 ) {

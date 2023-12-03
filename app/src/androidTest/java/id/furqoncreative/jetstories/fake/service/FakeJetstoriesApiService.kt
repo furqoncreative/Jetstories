@@ -21,8 +21,8 @@ data class UserCredentials(
 )
 
 class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
-    val users = mutableListOf<UserCredentials>()
-    val listStory = mutableListOf<Story>()
+    private val users = mutableListOf<UserCredentials>()
+    private val listStory = mutableListOf<Story>()
 
     init {
         users.add(
@@ -48,7 +48,10 @@ class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
         )
     }
 
-    override suspend fun loginUser(email: String, password: String): LoginResponse {
+    override suspend fun loginUser(
+        email: String,
+        password: String
+    ): LoginResponse {
         return users.find { it.email == email && it.password == password }.let {
             if (it != null) {
                 LoginResponse(
@@ -79,7 +82,6 @@ class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
     }
 
     override suspend fun addStory(
-        token: String,
         file: MultipartBody.Part,
         description: RequestBody,
         latitude: Double?,
@@ -89,19 +91,31 @@ class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
     }
 
     override suspend fun getAllStories(
-        token: String,
         page: Int?,
         size: Int?,
         location: Int?
     ): GetAllStoriesResponse {
+        for (i in 0..100) {
+            listStory.add(
+                Story(
+                    createdAt = "2023-$i",
+                    description = "I Love Jetpack Compose $i",
+                    id = "story-123-$i",
+                    lat = null,
+                    lon = null,
+                    name = "Jetstories $i",
+                    photoUrl = "https://developer.android.com/static/codelabs/jetpack-compose-animation/img/5bb2e531a22c7de0_856.png?hl=id"
+                )
+            )
+        }
         return GetAllStoriesResponse(
             error = false,
-            listStory = listOf(),
+            listStory = listStory,
             message = "Success"
         )
     }
 
-    override suspend fun getDetailStory(token: String, id: String): GetDetailStoryResponse {
+    override suspend fun getDetailStory(id: String): GetDetailStoryResponse {
         TODO("Not yet implemented")
     }
 

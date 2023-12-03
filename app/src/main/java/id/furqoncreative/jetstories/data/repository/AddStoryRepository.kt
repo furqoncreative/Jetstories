@@ -1,12 +1,10 @@
 package id.furqoncreative.jetstories.data.repository
 
-import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.data.source.network.NetworkDataSource
 import id.furqoncreative.jetstories.model.stories.AddStoryResponse
 import id.furqoncreative.jetstories.utils.Async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -24,16 +22,16 @@ interface AddStoryRepository {
 
 @Singleton
 class NetworkAddStoryRepository @Inject constructor(
-    private val preferencesManager: PreferencesManager,
     private val networkDataSource: NetworkDataSource
 ) : AddStoryRepository {
     override suspend fun addStory(
-        file: MultipartBody.Part, description: RequestBody, latitude: Double?, longitude: Double?
+        file: MultipartBody.Part,
+        description: RequestBody,
+        latitude: Double?,
+        longitude: Double?
     ): Flow<Async<AddStoryResponse>> {
-        val userToken = "Bearer ${preferencesManager.getUserToken.first()}"
 
         return networkDataSource.addStory(
-            token = userToken,
             file = file,
             description = description,
             latitude = latitude,

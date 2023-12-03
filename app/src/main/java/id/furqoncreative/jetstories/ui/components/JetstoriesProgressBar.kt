@@ -16,7 +16,8 @@ import id.furqoncreative.jetstories.R
 
 @Composable
 fun JetstoriesProgressBar(
-    modifier: Modifier = Modifier, size: Dp
+    size: Dp,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier,

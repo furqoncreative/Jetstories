@@ -78,7 +78,7 @@ dependencies {
     implementation 'androidx.compose.ui:ui-tooling-preview'
     implementation 'androidx.compose.material3:material3:1.1.2'
     implementation "androidx.compose.material:material-icons-extended"
-    implementation "androidx.navigation:navigation-compose:2.7.4"
+    implementation "androidx.navigation:navigation-compose:2.7.5"
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
     // Google Maps
@@ -105,7 +105,7 @@ dependencies {
     implementation "io.coil-kt:coil-compose:2.4.0"
 
     // Room
-    def room_version = "2.6.0"
+    def room_version = "2.6.1"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
@@ -113,9 +113,8 @@ dependencies {
     implementation "androidx.room:room-paging:$room_version"
 
     // Paging
-    def paging_version = "3.2.1"
-    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-    implementation "androidx.paging:paging-compose:$paging_version"
+    implementation 'androidx.paging:paging-runtime-ktx:3.1.0-beta01'
+    implementation 'androidx.paging:paging-compose:1.0.0-alpha13'
 
     // Other
     implementation "me.onebone:toolbar-compose:2.3.2"
@@ -126,7 +125,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
     testImplementation "androidx.arch.core:core-testing:2.2.0"
-    testImplementation "androidx.paging:paging-testing:3.2.1"
+    testImplementation 'org.mockito:mockito-core:5.7.0'
+    testImplementation 'org.mockito:mockito-inline:5.2.0'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
@@ -136,9 +136,6 @@ dependencies {
 
     androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-
-    testImplementation 'org.mockito:mockito-core:5.7.0'
-    testImplementation 'org.mockito:mockito-inline:5.2.0'
 
     // Debug
     debugImplementation 'androidx.compose.ui:ui-tooling'
