@@ -15,9 +15,9 @@ import androidx.compose.ui.unit.dp
 import id.furqoncreative.jetstories.R
 
 @Composable
-fun JetstoriesProgressBar(
-    size: Dp,
-    modifier: Modifier = Modifier
+fun JetstoriesCircularProgressBar(
+    modifier: Modifier = Modifier,
+    size: Dp = 30.dp,
 ) {
     Row(
         modifier = modifier,

@@ -42,12 +42,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.furqoncreative.jetstories.R
+import id.furqoncreative.jetstories.ui.components.JetstoriesCircularProgressBar
 import id.furqoncreative.jetstories.ui.components.JetstoriesEmailTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesPasswordTextField
-import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
-import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import id.furqoncreative.jetstories.ui.components.states.PasswordState
 import id.furqoncreative.jetstories.ui.components.states.TextFieldState
+import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import id.furqoncreative.jetstories.utils.showToast
 import kotlinx.coroutines.delay
 
@@ -110,7 +110,11 @@ fun LoginScreenPreview() {
         Surface(
             color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()
         ) {
-            LoginScreen(onNavigateToHome = {}, onNavigateToRegister = {}, loginViewModel = hiltViewModel())
+            LoginScreen(
+                onNavigateToHome = {},
+                onNavigateToRegister = {},
+                loginViewModel = hiltViewModel()
+            )
         }
     }
 }
@@ -228,7 +232,7 @@ fun LoginContent(
             if (!isLoading) {
                 Text(text = stringResource(id = R.string.sign_in))
             } else {
-                JetstoriesProgressBar(size = 30.dp)
+                JetstoriesCircularProgressBar()
             }
         }
     }

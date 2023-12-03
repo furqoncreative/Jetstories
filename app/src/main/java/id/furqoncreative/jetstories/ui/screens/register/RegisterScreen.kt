@@ -28,17 +28,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.furqoncreative.jetstories.R
+import id.furqoncreative.jetstories.ui.components.JetstoriesCircularProgressBar
 import id.furqoncreative.jetstories.ui.components.JetstoriesEmailTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
 import id.furqoncreative.jetstories.ui.components.JetstoriesNameTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesPasswordTextField
-import id.furqoncreative.jetstories.ui.components.JetstoriesProgressBar
 import id.furqoncreative.jetstories.ui.components.TitleToolbar
-import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import id.furqoncreative.jetstories.ui.components.states.ConfirmPasswordState
 import id.furqoncreative.jetstories.ui.components.states.NameState
 import id.furqoncreative.jetstories.ui.components.states.PasswordState
 import id.furqoncreative.jetstories.ui.components.states.TextFieldState
+import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
@@ -162,7 +162,7 @@ fun RegisterContent(
             if (!isLoading) {
                 Text(text = stringResource(R.string.sign_up))
             } else {
-                JetstoriesProgressBar(size = 30.dp)
+                JetstoriesCircularProgressBar()
             }
         }
     }
