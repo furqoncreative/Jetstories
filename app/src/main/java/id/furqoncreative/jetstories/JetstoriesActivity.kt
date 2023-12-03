@@ -11,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.os.LocaleListCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import id.furqoncreative.jetstories.ui.JetstoriesApp
 import id.furqoncreative.jetstories.ui.JetstoriesViewModel
@@ -34,9 +35,11 @@ class JetstoriesActivity : AppCompatActivity() {
         setContent {
             JetStoriesTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
                 ) {
-                    JetstoriesApp()
+                    val viewModel = hiltViewModel<JetstoriesViewModel>()
+                    JetstoriesApp(viewModel)
                 }
             }
         }

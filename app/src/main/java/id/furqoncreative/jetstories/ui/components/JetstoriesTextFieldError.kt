@@ -9,7 +9,8 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun JetstoriesTextFieldError(
-    modifier: Modifier = Modifier, textError: String
+    textError: String,
+    modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier) {
         Text(

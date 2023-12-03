@@ -55,4 +55,8 @@
     <string name="gallery">Galeri</string>
     <string name="camera">Kamera</string>
     <string name="cannot_save_the_image">Tidak bisa menyimpan gambar!</string>
+    <string name="map_view">Tampilan Peta</string>
+    <string name="strRetry">Retry</string>
+    <string name="allow_location_permission">Harap izinkan izin lokasi untuk membagikan lokasi</string>
+    <string name="share_location">Bagikan lokasi</string>
 </resources>

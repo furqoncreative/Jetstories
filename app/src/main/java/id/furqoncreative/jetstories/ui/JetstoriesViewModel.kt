@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
-import id.furqoncreative.jetstories.ui.pages.settings.LanguageEnum
+import id.furqoncreative.jetstories.ui.screens.settings.LanguageEnum
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

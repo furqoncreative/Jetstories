@@ -19,7 +19,10 @@ import javax.inject.Inject
 class JestoriesNetworkDataSource @Inject constructor(
     private val apiService: JetstoriesApiService
 ) : NetworkDataSource {
-    override suspend fun loginUser(email: String, password: String): Flow<LoginResponse> = flow {
+    override suspend fun loginUser(
+        email: String,
+        password: String
+    ): Flow<LoginResponse> = flow {
         try {
             val response = apiService.loginUser(email, password)
             emit(response)
@@ -37,7 +40,9 @@ class JestoriesNetworkDataSource @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     override suspend fun registerUser(
-        email: String, name: String, password: String
+        email: String,
+        name: String,
+        password: String
     ): Flow<RegisterResponse> = flow {
         try {
             val response = apiService.registerUser(email, name, password)
@@ -56,10 +61,12 @@ class JestoriesNetworkDataSource @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     override suspend fun getAllStories(
-        token: String, page: Int?, size: Int?, location: Int?
+        page: Int?,
+        size: Int?,
+        location: Int?
     ): Flow<GetAllStoriesResponse> = flow {
         try {
-            val response = apiService.getAllStories(token, page, size, location)
+            val response = apiService.getAllStories(page, size, location)
             emit(response)
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
@@ -68,21 +75,20 @@ class JestoriesNetworkDataSource @Inject constructor(
         } catch (e: Exception) {
             emit(
                 GetAllStoriesResponse(
-                    error = true, message = e.message, listStory = null
+                    error = true, message = e.message, listStory = listOf()
                 )
             )
         }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun addStory(
-        token: String,
         file: MultipartBody.Part,
         description: RequestBody,
-        latitude: Float?,
-        longitude: Float?
+        latitude: Double?,
+        longitude: Double?
     ): Flow<AddStoryResponse> = flow {
         try {
-            val response = apiService.addStory(token, file, description, latitude, longitude)
+            val response = apiService.addStory(file, description, latitude, longitude)
             emit(response)
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
@@ -97,10 +103,10 @@ class JestoriesNetworkDataSource @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getDetailStory(token: String, id: String): Flow<GetDetailStoryResponse> =
+    override suspend fun getDetailStory(id: String): Flow<GetDetailStoryResponse> =
         flow {
             try {
-                val response = apiService.getDetailStory(token, id)
+                val response = apiService.getDetailStory(id)
                 emit(response)
             } catch (e: HttpException) {
                 val errorBody = e.response()?.errorBody()?.string()

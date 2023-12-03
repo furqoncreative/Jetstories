@@ -9,14 +9,14 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun JetstoriesAlertDialog(
-    modifier: Modifier = Modifier,
     title: String,
     icon: @Composable () -> Unit,
-    content: @Composable (() -> Unit)? = null,
     confirmText: String,
     confirmAction: () -> Unit,
     dismissText: String,
-    openDialog: MutableState<Boolean>
+    openDialog: MutableState<Boolean>,
+    modifier: Modifier = Modifier,
+    content: @Composable (() -> Unit)? = null,
 ) {
     if (openDialog.value) {
         AlertDialog(modifier = modifier, onDismissRequest = {
