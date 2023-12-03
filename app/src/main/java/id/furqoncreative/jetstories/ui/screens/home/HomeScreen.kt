@@ -36,6 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.local.StoryItem
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
@@ -47,6 +48,7 @@ import id.furqoncreative.jetstories.ui.components.TitleToolbar
 import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import timber.log.Timber
 
 @Composable
 fun HomeScreen(
@@ -169,9 +171,6 @@ fun HomeContent(
             modifier = commonModifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            storiesLazyPagingItems.apply {
-
-            }
 
             LazyColumn(
                 state = lazyListState,
@@ -180,6 +179,7 @@ fun HomeContent(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(
+                    key = storiesLazyPagingItems.itemKey { it.id },
                     count = storiesLazyPagingItems.itemCount
                 ) { index ->
                     val story = storiesLazyPagingItems[index]
@@ -202,12 +202,16 @@ fun HomeContent(
                 storiesLazyPagingItems.apply {
                     when {
                         loadState.refresh is LoadState.Loading -> {
+                            Timber.d("PAGING  loadState.refresh is LoadState.Loading ")
+
                             item {
                                 JetstoriesLinearProgressBar()
                             }
                         }
 
                         loadState.refresh is LoadState.Error -> {
+                            Timber.d("PAGING  loadState.refresh is LoadState.Error  ")
+
                             val error = storiesLazyPagingItems.loadState.refresh as LoadState.Error
                             item {
                                 ErrorMessage(
@@ -219,6 +223,8 @@ fun HomeContent(
                         }
 
                         loadState.append is LoadState.Loading -> {
+                            Timber.d("PAGING loadState.append is LoadState.Loading ")
+
                             item {
                                 JetstoriesLinearProgressBar()
                             }
@@ -226,6 +232,7 @@ fun HomeContent(
 
                         loadState.append is LoadState.Error -> {
                             val error = storiesLazyPagingItems.loadState.append as LoadState.Error
+                            Timber.d("PAGING  loadState.append is LoadState.Error ")
                             item {
                                 ErrorMessage(
                                     modifier = Modifier,
