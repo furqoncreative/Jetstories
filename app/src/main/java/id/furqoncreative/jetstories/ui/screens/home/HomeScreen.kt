@@ -34,7 +34,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemKey
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.local.StoryItem
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
@@ -175,7 +174,6 @@ fun HomeContent(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(
-                    key = lazyPagingItems.itemKey { it.id },
                     count = lazyPagingItems.itemCount
                 ) { index ->
                     val story = lazyPagingItems[index]

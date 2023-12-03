@@ -26,7 +26,7 @@ data class HomeUiState(
     val isLoading: Boolean = false,
     val isUserLogout: Boolean = false,
     val userMessage: UiText? = null,
-    val stories: Flow<PagingData<StoryItem>>? = null,
+    val stories: Flow<PagingData<StoryItem>> = flowOf(PagingData.empty()),
 )
 
 @HiltViewModel
@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
         getAllStories()
     }
 
-    private fun getAllStories() {
+    fun getAllStories() {
         viewModelScope.launch {
             _uiState.update {
                 it.copy(isLoading = true)
@@ -56,7 +56,7 @@ class HomeViewModel @Inject constructor(
 
     private fun produceHomeUiState(storiesAsync: Async<PagingData<StoryItem>>) =
         when (storiesAsync) {
-            Async.Loading -> HomeUiState(isLoading = true, isEmpty = true)
+            Async.Loading -> HomeUiState(isLoading =  true, isEmpty = true)
 
             is Async.Error -> HomeUiState(
                 isEmpty = true,
