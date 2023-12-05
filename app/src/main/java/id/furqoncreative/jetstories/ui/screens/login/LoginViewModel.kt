@@ -8,9 +8,9 @@ import id.furqoncreative.jetstories.data.repository.LoginRepository
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.model.login.LoginResult
-import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.ui.components.states.EmailState
 import id.furqoncreative.jetstories.ui.components.states.PasswordState
+import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.utils.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -45,16 +45,22 @@ class LoginViewModel @Inject constructor(
                 uiState.value.emailState.text, uiState.value.passwordState.text
             ).collect { loginAsync ->
                 _uiState.update {
-                    produceLoginUiState(loginAsync)
+                    produceLoginUiState(
+                        loginAsync = loginAsync,
+                        loginUiState = it.copy()
+                    )
                 }
             }
         }
     }
 
-    private suspend fun produceLoginUiState(loginAsync: Async<LoginResponse>) = when (loginAsync) {
+    private suspend fun produceLoginUiState(
+        loginAsync: Async<LoginResponse>,
+        loginUiState: LoginUiState
+    ) = when (loginAsync) {
         Async.Loading -> LoginUiState(isLoading = true)
 
-        is Async.Error -> LoginUiState(
+        is Async.Error -> loginUiState.copy(
             userMessage = UiText.DynamicString(loginAsync.errorMessage),
             isLoading = false,
             isLoginSuccess = false
@@ -64,14 +70,14 @@ class LoginViewModel @Inject constructor(
             val loginResult = loginAsync.data.loginResult
             if (loginResult != null) {
                 preferencesManager.setUserToken(loginResult.token)
-                LoginUiState(
+                loginUiState.copy(
                     loginResult = loginResult,
                     isLoading = false,
                     isLoginSuccess = true,
                     userMessage = UiText.StringResource(R.string.logged_in)
                 )
             } else {
-                LoginUiState(
+                loginUiState.copy(
                     emailState = uiState.value.emailState,
                     passwordState = uiState.value.passwordState,
                     isLoading = false,
