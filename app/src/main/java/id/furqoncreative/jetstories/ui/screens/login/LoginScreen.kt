@@ -234,7 +234,7 @@ fun LoginContent(
 
         Button(
             modifier = commonModifier.height(56.dp),
-            enabled = emailState.isValid && passwordState.isValid,
+            enabled = emailState.isValid && passwordState.isValid && !isLoading,
             onClick = {
                 onSubmit()
             }
