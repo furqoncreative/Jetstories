@@ -202,16 +202,12 @@ fun HomeContent(
                 storiesLazyPagingItems.apply {
                     when {
                         loadState.refresh is LoadState.Loading -> {
-                            Timber.d("PAGING  loadState.refresh is LoadState.Loading ")
-
                             item {
                                 JetstoriesLinearProgressBar()
                             }
                         }
 
                         loadState.refresh is LoadState.Error -> {
-                            Timber.d("PAGING  loadState.refresh is LoadState.Error  ")
-
                             val error = storiesLazyPagingItems.loadState.refresh as LoadState.Error
                             item {
                                 ErrorMessage(
@@ -223,8 +219,6 @@ fun HomeContent(
                         }
 
                         loadState.append is LoadState.Loading -> {
-                            Timber.d("PAGING loadState.append is LoadState.Loading ")
-
                             item {
                                 JetstoriesLinearProgressBar()
                             }
@@ -232,7 +226,6 @@ fun HomeContent(
 
                         loadState.append is LoadState.Error -> {
                             val error = storiesLazyPagingItems.loadState.append as LoadState.Error
-                            Timber.d("PAGING  loadState.append is LoadState.Error ")
                             item {
                                 ErrorMessage(
                                     modifier = Modifier,
