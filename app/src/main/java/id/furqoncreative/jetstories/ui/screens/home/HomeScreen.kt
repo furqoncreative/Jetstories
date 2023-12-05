@@ -41,6 +41,7 @@ import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.local.StoryItem
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
+import id.furqoncreative.jetstories.ui.components.JetstoriesIconButton
 import id.furqoncreative.jetstories.ui.components.JetstoriesLinearProgressBar
 import id.furqoncreative.jetstories.ui.components.JetstoriesOptionMenu
 import id.furqoncreative.jetstories.ui.components.MenuItem
@@ -48,7 +49,6 @@ import id.furqoncreative.jetstories.ui.components.TitleToolbar
 import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import timber.log.Timber
 
 @Composable
 fun HomeScreen(
@@ -114,24 +114,27 @@ fun HomeScreen(
             )
         },
         endToolbarContent = {
-            IconButton(onClick = { onNavigateToAddStory() }) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.add_story)
-                )
+            JetstoriesIconButton(
+                icon = Icons.Default.Add,
+                contentDescription = stringResource(id = R.string.add_story)
+            ) {
+                onNavigateToAddStory()
             }
-            IconButton(onClick = { onNavigateToMapView() }) {
-                Icon(
-                    imageVector = Icons.Default.Map,
-                    contentDescription = stringResource(R.string.map_view)
-                )
+
+            JetstoriesIconButton(
+                icon = Icons.Default.Map,
+                contentDescription = stringResource(id = R.string.map_view)
+            ) {
+                onNavigateToAddStory()
             }
-            IconButton(onClick = { optionMenuExpandState.value = true }) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = stringResource(R.string.more_menu)
-                )
+
+            JetstoriesIconButton(
+                icon = Icons.Default.MoreVert,
+                contentDescription = stringResource(id = R.string.more_menu)
+            ) {
+                onNavigateToAddStory()
             }
+
             JetstoriesOptionMenu(
                 context = context,
                 expanded = optionMenuExpandState,
