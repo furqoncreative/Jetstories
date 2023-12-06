@@ -16,8 +16,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 enum class LanguageEnum(val title: String, val code: String, val icon: String) {
-    ENGLISH(title = "English", code = "en", icon = "🇬🇧"), INDONESIA(
-        title = "Bahasa Indonesia", code = "id", icon = "🇮🇩"
+    ENGLISH(
+        title = "English",
+        code = "en",
+        icon = "🇬🇧"
+    ),
+    INDONESIA(
+        title = "Bahasa Indonesia",
+        code = "id",
+        icon = "🇮🇩"
     )
 }
 
