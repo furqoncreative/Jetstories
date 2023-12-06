@@ -61,4 +61,7 @@
     <string name="map_view_stories">Map View Stories</string>
     <string name="about">About</string>
     <string name="about_page" translatable="false">about_page</string>
+    <string name="about_avatar" translatable="false">https://avatars.githubusercontent.com/u/27626889?v=4</string>
+    <string name="about_name" translatable="false">Deden Muhamad Furqon</string>
+    <string name="about_email" translatable="false">furqoncreative24@gmail.com</string>
 </resources>
