@@ -16,7 +16,6 @@ import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -41,6 +40,7 @@ import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.source.local.StoryItem
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
+import id.furqoncreative.jetstories.ui.components.JetstoriesIconButton
 import id.furqoncreative.jetstories.ui.components.JetstoriesLinearProgressBar
 import id.furqoncreative.jetstories.ui.components.JetstoriesOptionMenu
 import id.furqoncreative.jetstories.ui.components.MenuItem
@@ -48,13 +48,13 @@ import id.furqoncreative.jetstories.ui.components.TitleToolbar
 import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-import timber.log.Timber
 
 @Composable
 fun HomeScreen(
     onNavigateToAddStory: () -> Unit,
     onNavigateToMapView: () -> Unit,
     onNavigateToSettings: () -> Unit,
+    onNavigateToAbout: () -> Unit,
     onNavigateToDetail: (StoryItem?) -> Unit,
     onUserLoggedOut: () -> Unit,
     homeViewModel: HomeViewModel,
@@ -99,52 +99,56 @@ fun HomeScreen(
             )
         })
 
-    JetstoriesHeader(
-        modifier = modifier,
+    JetstoriesHeader(modifier = modifier,
         state = collapsingToolbarScaffoldState,
         scrollStrategy = ScrollStrategy.EnterAlways,
         titleToolbarContent = {
             TitleToolbar(
-                modifier = Modifier
-                    .padding(
-                        top = 10.dp, start = 16.dp, bottom = 16.dp
-                    ),
-                title = stringResource(id = R.string.app_name),
-                textSize = it
+                modifier = Modifier.padding(
+                    top = 10.dp, start = 16.dp, bottom = 16.dp
+                ), title = stringResource(id = R.string.app_name), textSize = it
             )
         },
         endToolbarContent = {
-            IconButton(onClick = { onNavigateToAddStory() }) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.add_story)
-                )
+            JetstoriesIconButton(
+                icon = Icons.Default.Add,
+                contentDescription = stringResource(id = R.string.add_story)
+            ) {
+                onNavigateToAddStory()
             }
-            IconButton(onClick = { onNavigateToMapView() }) {
-                Icon(
-                    imageVector = Icons.Default.Map,
-                    contentDescription = stringResource(R.string.map_view)
-                )
+
+            JetstoriesIconButton(
+                icon = Icons.Default.Map,
+                contentDescription = stringResource(id = R.string.map_view)
+            ) {
+                onNavigateToMapView()
             }
-            IconButton(onClick = { optionMenuExpandState.value = true }) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = stringResource(R.string.more_menu)
-                )
+
+            JetstoriesIconButton(
+                icon = Icons.Default.MoreVert,
+                contentDescription = stringResource(id = R.string.more_menu)
+            ) {
+                optionMenuExpandState.value = true
             }
+
             JetstoriesOptionMenu(
                 context = context,
                 expanded = optionMenuExpandState,
-                onClickMenu = mapOf(Pair(first = MenuItem.LOGOUT, second = {
-                    alertDialogState.value = true
-                }), Pair(MenuItem.SETTINGS) {
-                    onNavigateToSettings()
-                })
+                onClickMenu = mapOf(
+                    Pair(MenuItem.LOGOUT) {
+                        alertDialogState.value = true
+                    },
+                    Pair(MenuItem.SETTINGS) {
+                        onNavigateToSettings()
+                    },
+                    Pair(MenuItem.ABOUT) {
+                        onNavigateToAbout()
+                    },
+                )
             )
         }) {
 
-        HomeContent(
-            isLoading = uiState.isLoading,
+        HomeContent(isLoading = uiState.isLoading,
             storiesLazyPagingItems = storiesLazyPagingItems,
             lazyListState = lazyListState,
             onStoryClicked = { story ->
@@ -168,8 +172,7 @@ fun HomeContent(
         JetstoriesLinearProgressBar()
     } else {
         Box(
-            modifier = commonModifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            modifier = commonModifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
 
             LazyColumn(
@@ -192,39 +195,28 @@ fun HomeContent(
                             Text(text = stringResource(R.string.there_is_no_story))
                         }
                     } else {
-                        StoryRow(
-                            story = story,
-                            onStoryClicked = { onStoryClicked(story) }
-                        )
+                        StoryRow(story = story, onStoryClicked = { onStoryClicked(story) })
                     }
                 }
 
                 storiesLazyPagingItems.apply {
                     when {
                         loadState.refresh is LoadState.Loading -> {
-                            Timber.d("PAGING  loadState.refresh is LoadState.Loading ")
-
                             item {
                                 JetstoriesLinearProgressBar()
                             }
                         }
 
                         loadState.refresh is LoadState.Error -> {
-                            Timber.d("PAGING  loadState.refresh is LoadState.Error  ")
-
                             val error = storiesLazyPagingItems.loadState.refresh as LoadState.Error
                             item {
-                                ErrorMessage(
-                                    modifier = Modifier.fillParentMaxSize(),
+                                ErrorMessage(modifier = Modifier.fillParentMaxSize(),
                                     message = error.error.localizedMessage!!,
-                                    onClickRetry = { retry() }
-                                )
+                                    onClickRetry = { retry() })
                             }
                         }
 
                         loadState.append is LoadState.Loading -> {
-                            Timber.d("PAGING loadState.append is LoadState.Loading ")
-
                             item {
                                 JetstoriesLinearProgressBar()
                             }
@@ -232,13 +224,10 @@ fun HomeContent(
 
                         loadState.append is LoadState.Error -> {
                             val error = storiesLazyPagingItems.loadState.append as LoadState.Error
-                            Timber.d("PAGING  loadState.append is LoadState.Error ")
                             item {
-                                ErrorMessage(
-                                    modifier = Modifier,
+                                ErrorMessage(modifier = Modifier,
                                     message = error.error.localizedMessage!!,
-                                    onClickRetry = { retry() }
-                                )
+                                    onClickRetry = { retry() })
                             }
                         }
                     }
@@ -250,9 +239,7 @@ fun HomeContent(
 
 @Composable
 fun ErrorMessage(
-    message: String,
-    modifier: Modifier = Modifier,
-    onClickRetry: () -> Unit
+    message: String, modifier: Modifier = Modifier, onClickRetry: () -> Unit
 ) {
     Row(
         modifier = modifier.padding(10.dp),

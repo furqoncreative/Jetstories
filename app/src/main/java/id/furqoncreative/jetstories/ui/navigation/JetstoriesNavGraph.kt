@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinationsArgs.STORY_ID
+import id.furqoncreative.jetstories.ui.screens.about.AboutScreen
 import id.furqoncreative.jetstories.ui.screens.addstory.AddStoryScreen
 import id.furqoncreative.jetstories.ui.screens.addstory.AddStoryViewModel
 import id.furqoncreative.jetstories.ui.screens.detailstory.DetailStoryScreen
@@ -78,6 +79,9 @@ fun JetstoriesNavGraph(
                 onNavigateToSettings = {
                     navAction.navigateToSettings()
                 },
+                onNavigateToAbout = {
+                    navAction.navigateToAbout()
+                },
                 onUserLoggedOut = {
                     navAction.navigateToLogin()
                 },
@@ -137,6 +141,14 @@ fun JetstoriesNavGraph(
                     navAction.navigateUp()
                 },
                 settingsViewModel = settingViewModel
+            )
+        }
+
+        composable(JetstoriesDestinations.ABOUT_ROUTE) {
+            AboutScreen(
+                onNavUp = {
+                    navAction.navigateUp()
+                }
             )
         }
     }
