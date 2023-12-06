@@ -26,7 +26,8 @@ data class DetailStoryUiState(
 
 @HiltViewModel
 class DetailStoryViewModel @Inject constructor(
-    private val detailStoryRepository: GetDetailStoryRepository, savedStateHandle: SavedStateHandle
+    private val detailStoryRepository: GetDetailStoryRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val storyId: String? = savedStateHandle[JetstoriesDestinationsArgs.STORY_ID]
 
@@ -46,29 +47,36 @@ class DetailStoryViewModel @Inject constructor(
             }
             detailStoryRepository.getDetailStory(
                 id = storyId
-            ).collect { storyAsync ->
-                _uiState.update {
-                    produceDetailStoryUiState(storyAsync)
+            ).collect { storyResponseAsync ->
+                _uiState.update { detailStoryUiState ->
+                    produceDetailStoryUiState(
+                        storyResponseAsync = storyResponseAsync,
+                        detailStoryUiState = detailStoryUiState
+                    )
                 }
             }
         }
     }
 
-    private fun produceDetailStoryUiState(storyAsync: Async<GetDetailStoryResponse>) =
-        when (storyAsync) {
-            Async.Loading -> DetailStoryUiState(isLoading = true)
+    private fun produceDetailStoryUiState(
+        storyResponseAsync: Async<GetDetailStoryResponse>,
+        detailStoryUiState: DetailStoryUiState
+    ) = when (storyResponseAsync) {
+        Async.Loading -> detailStoryUiState.copy(isLoading = true)
 
-            is Async.Error -> DetailStoryUiState(
-                isLoading = false, userMessage = UiText.DynamicString(storyAsync.errorMessage)
+        is Async.Error -> detailStoryUiState.copy(
+            isLoading = false,
+            userMessage = UiText.DynamicString(storyResponseAsync.errorMessage)
+        )
+
+        is Async.Success -> {
+            val story = storyResponseAsync.data.story
+            detailStoryUiState.copy(
+                isLoading = false,
+                story = story
             )
-
-            is Async.Success -> {
-                val story = storyAsync.data.story
-                DetailStoryUiState(
-                    isLoading = false, story = story
-                )
-            }
         }
+    }
 
     fun toastMessageShown() {
         _uiState.update {
