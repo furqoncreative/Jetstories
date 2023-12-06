@@ -9,8 +9,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.AddStoryRepository
 import id.furqoncreative.jetstories.model.stories.AddStoryResponse
-import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.ui.components.states.DescriptionState
+import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.utils.UiText
 import id.furqoncreative.jetstories.utils.reduceFileImage
 import id.furqoncreative.jetstories.utils.toFile
@@ -42,10 +42,10 @@ class AddStoryViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(AddStoryUiState())
     val uiState = _uiState.asStateFlow()
 
-    fun addStory(
-        context: Context
-    ) {
+    fun addStory(context: Context) {
         viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+
             val imageUri = uiState.value.imageUri
             val location = uiState.value.location
             if (imageUri != null) {
@@ -57,15 +57,17 @@ class AddStoryViewModel @Inject constructor(
                     "photo", file.name, requestImageFile
                 )
 
-                _uiState.update { AddStoryUiState(isLoading = true) }
                 addStoryRepository.addStory(
                     file = imageMultipart,
                     description = description,
                     latitude = location?.latitude,
                     longitude = location?.longitude
-                ).collect { addStoryAsync ->
-                    _uiState.update {
-                        produceAddStoryUiState(addStoryAsync)
+                ).collect { addStoryResponseAsync ->
+                    _uiState.update { addStoryUiState ->
+                        produceAddStoryUiState(
+                            addStoryResponseAsync = addStoryResponseAsync,
+                            addStoryUiState = addStoryUiState
+                        )
                     }
                 }
             } else {
@@ -74,35 +76,37 @@ class AddStoryViewModel @Inject constructor(
         }
     }
 
-    private fun produceAddStoryUiState(addStoryAsync: Async<AddStoryResponse>) =
-        when (addStoryAsync) {
-            Async.Loading -> AddStoryUiState(isLoading = true)
+    private fun produceAddStoryUiState(
+        addStoryResponseAsync: Async<AddStoryResponse>,
+        addStoryUiState: AddStoryUiState
+    ) = when (addStoryResponseAsync) {
+        Async.Loading -> addStoryUiState.copy(isLoading = true)
 
-            is Async.Error -> AddStoryUiState(
-                userMessage = UiText.DynamicString(addStoryAsync.errorMessage),
-                isLoading = false,
-                isSuccessAddStory = false
-            )
+        is Async.Error -> addStoryUiState.copy(
+            userMessage = UiText.DynamicString(addStoryResponseAsync.errorMessage),
+            isLoading = false,
+            isSuccessAddStory = false
+        )
 
-            is Async.Success -> {
-                if (!addStoryAsync.data.error) {
-                    AddStoryUiState(
-                        isLoading = false,
-                        isSuccessAddStory = true,
-                        userMessage = UiText.StringResource(
-                            resId = R.string.success_added_story
-                        )
+        is Async.Success -> {
+            if (!addStoryResponseAsync.data.error) {
+                addStoryUiState.copy(
+                    isLoading = false,
+                    isSuccessAddStory = true,
+                    userMessage = UiText.StringResource(
+                        resId = R.string.success_added_story
                     )
-                } else {
-                    AddStoryUiState(
-                        descriptionState = uiState.value.descriptionState,
-                        isLoading = false,
-                        isSuccessAddStory = false,
-                        userMessage = UiText.DynamicString(addStoryAsync.data.message)
-                    )
-                }
+                )
+            } else {
+                addStoryUiState.copy(
+                    descriptionState = uiState.value.descriptionState,
+                    isLoading = false,
+                    isSuccessAddStory = false,
+                    userMessage = UiText.DynamicString(addStoryResponseAsync.data.message)
+                )
             }
         }
+    }
 
     fun toastMessageShown() {
         _uiState.update {

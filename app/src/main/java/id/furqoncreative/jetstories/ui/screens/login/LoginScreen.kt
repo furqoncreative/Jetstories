@@ -140,7 +140,8 @@ fun LoginHeader(
             }
 
             AnimatedVisibility(
-                visible = visible, enter = slideInVertically(
+                visible = visible,
+                enter = slideInVertically(
                     animationSpec = tween(1500)
                 ) + fadeIn(initialAlpha = 0.3f)
             ) {
@@ -152,7 +153,8 @@ fun LoginHeader(
             }
 
             AnimatedVisibility(
-                visible = visible, enter = scaleIn(
+                visible = visible,
+                enter = scaleIn(
                     initialScale = 0.3f, animationSpec = tween(1500)
                 ) + fadeIn(initialAlpha = 0.3f)
             ) {
@@ -196,17 +198,21 @@ fun LoginContent(
         val commonModifier = Modifier.fillMaxWidth()
 
         JetstoriesEmailTextField(
-            modifier = commonModifier, context = context, emailState = emailState
+            modifier = commonModifier,
+            context = context,
+            emailState = emailState
         )
 
-        JetstoriesPasswordTextField(modifier = commonModifier,
+        JetstoriesPasswordTextField(
+            modifier = commonModifier,
             context = context,
             label = stringResource(id = R.string.password_label),
             placeholder = stringResource(id = R.string.password_placeholder),
             passwordState = passwordState,
             onImeAction = {
                 onSubmit()
-            })
+            }
+        )
 
         Row(
             modifier = commonModifier.align(Alignment.End),
@@ -215,20 +221,24 @@ fun LoginContent(
             Text(
                 text = stringResource(R.string.dont_have_an_account)
             )
-            Text(text = stringResource(id = R.string.sign_up),
+            Text(
+                text = stringResource(id = R.string.sign_up),
                 color = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier
                     .padding(start = 8.dp)
                     .clickable {
                         onClickSignup()
-                    })
+                    }
+            )
         }
 
-        Button(modifier = commonModifier.height(56.dp),
-            enabled = emailState.isValid && passwordState.isValid,
+        Button(
+            modifier = commonModifier.height(56.dp),
+            enabled = emailState.isValid && passwordState.isValid && !isLoading,
             onClick = {
                 onSubmit()
-            }) {
+            }
+        ) {
             if (!isLoading) {
                 Text(text = stringResource(id = R.string.sign_in))
             } else {

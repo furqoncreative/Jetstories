@@ -6,11 +6,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.RegisterRepository
 import id.furqoncreative.jetstories.model.register.RegisterResponse
-import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.ui.components.states.ConfirmPasswordState
 import id.furqoncreative.jetstories.ui.components.states.EmailState
 import id.furqoncreative.jetstories.ui.components.states.NameState
 import id.furqoncreative.jetstories.ui.components.states.PasswordState
+import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.utils.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -47,44 +47,49 @@ class RegisterViewModel @Inject constructor(
                 uiState.value.emailState.text,
                 uiState.value.nameState.text,
                 uiState.value.passwordState.text
-            ).collect { registerAsync ->
-                _uiState.update {
-                    produceRegisterUiState(registerAsync)
+            ).collect { registerResponseAsync ->
+                _uiState.update { registerUiState ->
+                    produceRegisterUiState(
+                        registerResponseAsync = registerResponseAsync,
+                        registerUiState = registerUiState
+                    )
                 }
             }
         }
     }
 
-    private fun produceRegisterUiState(registerAsync: Async<RegisterResponse>) =
-        when (registerAsync) {
-            Async.Loading -> RegisterUiState(isLoading = true)
+    private fun produceRegisterUiState(
+        registerResponseAsync: Async<RegisterResponse>,
+        registerUiState: RegisterUiState
+    ) = when (registerResponseAsync) {
+        Async.Loading -> registerUiState.copy(isLoading = true)
 
-            is Async.Error -> RegisterUiState(
-                userMessage = UiText.DynamicString(registerAsync.errorMessage),
-                isLoading = false,
-                isSuccessRegister = false
-            )
+        is Async.Error -> registerUiState.copy(
+            userMessage = UiText.DynamicString(registerResponseAsync.errorMessage),
+            isLoading = false,
+            isSuccessRegister = false
+        )
 
-            is Async.Success -> {
-                if (!registerAsync.data.error) {
-                    RegisterUiState(
-                        isLoading = false,
-                        isSuccessRegister = true,
-                        userMessage = UiText.StringResource(R.string.signed_up)
-                    )
-                } else {
-                    RegisterUiState(
-                        emailState = uiState.value.emailState,
-                        nameState = uiState.value.nameState,
-                        passwordState = uiState.value.passwordState,
-                        confirmPasswordState = uiState.value.confirmPasswordState,
-                        isLoading = false,
-                        isSuccessRegister = false,
-                        userMessage = UiText.DynamicString(registerAsync.data.message)
-                    )
-                }
+        is Async.Success -> {
+            if (!registerResponseAsync.data.error) {
+                registerUiState.copy(
+                    isLoading = false,
+                    isSuccessRegister = true,
+                    userMessage = UiText.StringResource(R.string.signed_up)
+                )
+            } else {
+                registerUiState.copy(
+                    emailState = uiState.value.emailState,
+                    nameState = uiState.value.nameState,
+                    passwordState = uiState.value.passwordState,
+                    confirmPasswordState = uiState.value.confirmPasswordState,
+                    isLoading = false,
+                    isSuccessRegister = false,
+                    userMessage = UiText.DynamicString(registerResponseAsync.data.message)
+                )
             }
         }
+    }
 
     fun toastMessageShown() {
         _uiState.update {

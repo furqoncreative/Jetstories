@@ -351,7 +351,7 @@ fun AddStoryContent(
         }
 
         Button(modifier = commonModifier.height(56.dp),
-            enabled = descriptionState.isValid && imageUri != null,
+            enabled = descriptionState.isValid && imageUri != null && !isLoading,
             onClick = {
                 onSubmit()
             }) {

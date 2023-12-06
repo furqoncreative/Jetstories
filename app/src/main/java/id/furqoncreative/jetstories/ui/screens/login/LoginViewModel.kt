@@ -8,9 +8,9 @@ import id.furqoncreative.jetstories.data.repository.LoginRepository
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
 import id.furqoncreative.jetstories.model.login.LoginResponse
 import id.furqoncreative.jetstories.model.login.LoginResult
-import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.ui.components.states.EmailState
 import id.furqoncreative.jetstories.ui.components.states.PasswordState
+import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.utils.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -43,35 +43,41 @@ class LoginViewModel @Inject constructor(
             }
             loginRepository.loginUser(
                 uiState.value.emailState.text, uiState.value.passwordState.text
-            ).collect { loginAsync ->
-                _uiState.update {
-                    produceLoginUiState(loginAsync)
+            ).collect { loginResponseAsync ->
+                _uiState.update { loginUiState ->
+                    produceLoginUiState(
+                        loginResponseAsync = loginResponseAsync,
+                        loginUiState = loginUiState
+                    )
                 }
             }
         }
     }
 
-    private suspend fun produceLoginUiState(loginAsync: Async<LoginResponse>) = when (loginAsync) {
-        Async.Loading -> LoginUiState(isLoading = true)
+    private suspend fun produceLoginUiState(
+        loginResponseAsync: Async<LoginResponse>,
+        loginUiState: LoginUiState
+    ) = when (loginResponseAsync) {
+        Async.Loading -> loginUiState.copy(isLoading = true)
 
-        is Async.Error -> LoginUiState(
-            userMessage = UiText.DynamicString(loginAsync.errorMessage),
+        is Async.Error -> loginUiState.copy(
+            userMessage = UiText.DynamicString(loginResponseAsync.errorMessage),
             isLoading = false,
             isLoginSuccess = false
         )
 
         is Async.Success -> {
-            val loginResult = loginAsync.data.loginResult
+            val loginResult = loginResponseAsync.data.loginResult
             if (loginResult != null) {
                 preferencesManager.setUserToken(loginResult.token)
-                LoginUiState(
+                loginUiState.copy(
                     loginResult = loginResult,
                     isLoading = false,
                     isLoginSuccess = true,
                     userMessage = UiText.StringResource(R.string.logged_in)
                 )
             } else {
-                LoginUiState(
+                loginUiState.copy(
                     emailState = uiState.value.emailState,
                     passwordState = uiState.value.passwordState,
                     isLoading = false,

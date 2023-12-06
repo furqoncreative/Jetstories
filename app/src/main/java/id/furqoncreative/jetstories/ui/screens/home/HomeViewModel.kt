@@ -47,33 +47,38 @@ class HomeViewModel @Inject constructor(
             _uiState.update {
                 it.copy(isLoading = true)
             }
-            storiesRepository.getAllStoriesWithPagination().collect { storiesAsync ->
-                _uiState.update {
-                    produceHomeUiState(storiesAsync)
+            storiesRepository.getAllStoriesWithPagination().collect { storiesResponseAsync ->
+                _uiState.update { homeUiState ->
+                    produceHomeUiState(
+                        storiesResponseAsync = storiesResponseAsync,
+                        homeUiState = homeUiState
+                    )
                 }
             }
         }
     }
 
-    private fun produceHomeUiState(storiesAsync: Async<PagingData<StoryItem>>) =
-        when (storiesAsync) {
-            Async.Loading -> HomeUiState(isLoading =  true, isEmpty = true)
+    private fun produceHomeUiState(
+        storiesResponseAsync: Async<PagingData<StoryItem>>,
+        homeUiState: HomeUiState
+    ) = when (storiesResponseAsync) {
+        Async.Loading -> homeUiState.copy(isLoading = true, isEmpty = true)
 
-            is Async.Error -> HomeUiState(
-                isEmpty = true,
+        is Async.Error -> homeUiState.copy(
+            isEmpty = true,
+            isLoading = false,
+            userMessage = UiText.DynamicString(storiesResponseAsync.errorMessage)
+        )
+
+        is Async.Success -> {
+            val stories = storiesResponseAsync.data
+            homeUiState.copy(
+                isEmpty = false,
                 isLoading = false,
-                userMessage = UiText.DynamicString(storiesAsync.errorMessage)
+                stories = flowOf(stories).cachedIn(viewModelScope)
             )
-
-            is Async.Success -> {
-                val stories = storiesAsync.data
-                HomeUiState(
-                    isEmpty = false,
-                    isLoading = false,
-                    stories = flowOf(stories).cachedIn(viewModelScope)
-                )
-            }
         }
+    }
 
     fun toastMessageShown() {
         _uiState.update {
