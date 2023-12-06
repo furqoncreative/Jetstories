@@ -2,6 +2,7 @@ package id.furqoncreative.jetstories.ui.navigation
 
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.ABOUT_ROUTE
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.ADD_STORY_ROUTE
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.HOME_ROUTE
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.LOGIN_ROUTE
@@ -9,6 +10,7 @@ import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.MAP_VIE
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.REGISTER_ROUTE
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.SETTINGS_ROUTE
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinationsArgs.STORY_ID
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.ABOUT_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.ADD_STORY_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.DETAIL_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.HOME_SCREEN
@@ -26,6 +28,7 @@ object JetstoriesScreens {
     const val MAP_VIEW_SCREEN = "map-view"
     const val ADD_STORY_SCREEN = "add-story"
     const val SETTINGS_SCREEN = "settings"
+    const val ABOUT_SCREEN = "aboyt"
 }
 
 object JetstoriesDestinationsArgs {
@@ -40,6 +43,7 @@ object JetstoriesDestinations {
     const val MAP_VIEW_ROUTE = MAP_VIEW_SCREEN
     const val DETAIL_ROUTE = "$DETAIL_SCREEN/{$STORY_ID}"
     const val SETTINGS_ROUTE = SETTINGS_SCREEN
+    const val ABOUT_ROUTE = ABOUT_SCREEN
 }
 
 class JetstoriesNavigationActions(private val navHostController: NavHostController) {
@@ -88,6 +92,14 @@ class JetstoriesNavigationActions(private val navHostController: NavHostControll
 
     fun navigateToSettings() {
         navHostController.navigate(SETTINGS_ROUTE) {
+            popUpTo(navHostController.graph.findStartDestination().id) {
+                saveState = true
+            }
+        }
+    }
+
+    fun navigateToAbout() {
+        navHostController.navigate(ABOUT_ROUTE) {
             popUpTo(navHostController.graph.findStartDestination().id) {
                 saveState = true
             }

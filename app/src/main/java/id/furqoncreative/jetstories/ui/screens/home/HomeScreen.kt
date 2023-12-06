@@ -16,7 +16,6 @@ import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -55,6 +54,7 @@ fun HomeScreen(
     onNavigateToAddStory: () -> Unit,
     onNavigateToMapView: () -> Unit,
     onNavigateToSettings: () -> Unit,
+    onNavigateToAbout: () -> Unit,
     onNavigateToDetail: (StoryItem?) -> Unit,
     onUserLoggedOut: () -> Unit,
     homeViewModel: HomeViewModel,
@@ -99,18 +99,14 @@ fun HomeScreen(
             )
         })
 
-    JetstoriesHeader(
-        modifier = modifier,
+    JetstoriesHeader(modifier = modifier,
         state = collapsingToolbarScaffoldState,
         scrollStrategy = ScrollStrategy.EnterAlways,
         titleToolbarContent = {
             TitleToolbar(
-                modifier = Modifier
-                    .padding(
-                        top = 10.dp, start = 16.dp, bottom = 16.dp
-                    ),
-                title = stringResource(id = R.string.app_name),
-                textSize = it
+                modifier = Modifier.padding(
+                    top = 10.dp, start = 16.dp, bottom = 16.dp
+                ), title = stringResource(id = R.string.app_name), textSize = it
             )
         },
         endToolbarContent = {
@@ -125,29 +121,34 @@ fun HomeScreen(
                 icon = Icons.Default.Map,
                 contentDescription = stringResource(id = R.string.map_view)
             ) {
-                onNavigateToAddStory()
+                onNavigateToMapView()
             }
 
             JetstoriesIconButton(
                 icon = Icons.Default.MoreVert,
                 contentDescription = stringResource(id = R.string.more_menu)
             ) {
-                onNavigateToAddStory()
+                optionMenuExpandState.value = true
             }
 
             JetstoriesOptionMenu(
                 context = context,
                 expanded = optionMenuExpandState,
-                onClickMenu = mapOf(Pair(first = MenuItem.LOGOUT, second = {
-                    alertDialogState.value = true
-                }), Pair(MenuItem.SETTINGS) {
-                    onNavigateToSettings()
-                })
+                onClickMenu = mapOf(
+                    Pair(MenuItem.LOGOUT) {
+                        alertDialogState.value = true
+                    },
+                    Pair(MenuItem.SETTINGS) {
+                        onNavigateToSettings()
+                    },
+                    Pair(MenuItem.ABOUT) {
+                        onNavigateToAbout()
+                    },
+                )
             )
         }) {
 
-        HomeContent(
-            isLoading = uiState.isLoading,
+        HomeContent(isLoading = uiState.isLoading,
             storiesLazyPagingItems = storiesLazyPagingItems,
             lazyListState = lazyListState,
             onStoryClicked = { story ->
@@ -171,8 +172,7 @@ fun HomeContent(
         JetstoriesLinearProgressBar()
     } else {
         Box(
-            modifier = commonModifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            modifier = commonModifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
 
             LazyColumn(
@@ -195,10 +195,7 @@ fun HomeContent(
                             Text(text = stringResource(R.string.there_is_no_story))
                         }
                     } else {
-                        StoryRow(
-                            story = story,
-                            onStoryClicked = { onStoryClicked(story) }
-                        )
+                        StoryRow(story = story, onStoryClicked = { onStoryClicked(story) })
                     }
                 }
 
@@ -213,11 +210,9 @@ fun HomeContent(
                         loadState.refresh is LoadState.Error -> {
                             val error = storiesLazyPagingItems.loadState.refresh as LoadState.Error
                             item {
-                                ErrorMessage(
-                                    modifier = Modifier.fillParentMaxSize(),
+                                ErrorMessage(modifier = Modifier.fillParentMaxSize(),
                                     message = error.error.localizedMessage!!,
-                                    onClickRetry = { retry() }
-                                )
+                                    onClickRetry = { retry() })
                             }
                         }
 
@@ -230,11 +225,9 @@ fun HomeContent(
                         loadState.append is LoadState.Error -> {
                             val error = storiesLazyPagingItems.loadState.append as LoadState.Error
                             item {
-                                ErrorMessage(
-                                    modifier = Modifier,
+                                ErrorMessage(modifier = Modifier,
                                     message = error.error.localizedMessage!!,
-                                    onClickRetry = { retry() }
-                                )
+                                    onClickRetry = { retry() })
                             }
                         }
                     }
@@ -246,9 +239,7 @@ fun HomeContent(
 
 @Composable
 fun ErrorMessage(
-    message: String,
-    modifier: Modifier = Modifier,
-    onClickRetry: () -> Unit
+    message: String, modifier: Modifier = Modifier, onClickRetry: () -> Unit
 ) {
     Row(
         modifier = modifier.padding(10.dp),
