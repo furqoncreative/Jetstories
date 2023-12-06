@@ -154,11 +154,13 @@ fun RegisterContent(
                 onClickSignup()
             })
 
-        Button(modifier = commonModifier.height(56.dp),
-            enabled = emailState.isValid && nameState.isValid && passwordState.isValid && confirmPasswordState.isValid,
+        Button(
+            modifier = commonModifier.height(56.dp),
+            enabled = emailState.isValid && nameState.isValid && passwordState.isValid && confirmPasswordState.isValid && !isLoading,
             onClick = {
                 onClickSignup()
-            }) {
+            }
+        ) {
             if (!isLoading) {
                 Text(text = stringResource(R.string.sign_up))
             } else {
