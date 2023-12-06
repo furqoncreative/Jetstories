@@ -45,27 +45,33 @@ class MapViewViewModel @Inject constructor(
                 it.copy(isLoading = true)
             }
 
-            storiesRepository.getAllStories(location = 1).collect { storiesAsync ->
-                _uiState.update {
-                    produceMapViewUiState(storiesAsync)
+            storiesRepository.getAllStories(location = 1).collect { storiesResponseAsync ->
+                _uiState.update { mapViewUiState ->
+                    produceMapViewUiState(
+                        storiesResponseAsync = storiesResponseAsync,
+                        mapViewUiState = mapViewUiState
+                    )
                 }
             }
         }
     }
 
-    private fun produceMapViewUiState(storiesAsync: Async<GetAllStoriesResponse>) =
-        when (storiesAsync) {
+    private fun produceMapViewUiState(
+        storiesResponseAsync: Async<GetAllStoriesResponse>,
+        mapViewUiState: MapViewUiState,
+    ) =
+        when (storiesResponseAsync) {
             Async.Loading -> MapViewUiState(isLoading = true, isEmpty = true)
 
-            is Async.Error -> MapViewUiState(
+            is Async.Error -> mapViewUiState.copy(
                 isEmpty = true,
                 isLoading = false,
-                userMessage = UiText.DynamicString(storiesAsync.errorMessage)
+                userMessage = UiText.DynamicString(storiesResponseAsync.errorMessage)
             )
 
             is Async.Success -> {
-                val stories = storiesAsync.data.listStory ?: listOf()
-                MapViewUiState(
+                val stories = storiesResponseAsync.data.listStory ?: listOf()
+                mapViewUiState.copy(
                     isEmpty = stories.isEmpty(), isLoading = false, stories = stories
                 )
             }

@@ -43,10 +43,10 @@ class LoginViewModel @Inject constructor(
             }
             loginRepository.loginUser(
                 uiState.value.emailState.text, uiState.value.passwordState.text
-            ).collect { loginAsync ->
+            ).collect { loginResponseAsync ->
                 _uiState.update { loginUiState ->
                     produceLoginUiState(
-                        loginAsyncResponse = loginAsync,
+                        loginResponseAsync = loginResponseAsync,
                         loginUiState = loginUiState
                     )
                 }
@@ -55,19 +55,19 @@ class LoginViewModel @Inject constructor(
     }
 
     private suspend fun produceLoginUiState(
-        loginAsyncResponse: Async<LoginResponse>,
+        loginResponseAsync: Async<LoginResponse>,
         loginUiState: LoginUiState
-    ) = when (loginAsyncResponse) {
+    ) = when (loginResponseAsync) {
         Async.Loading -> LoginUiState(isLoading = true)
 
         is Async.Error -> loginUiState.copy(
-            userMessage = UiText.DynamicString(loginAsyncResponse.errorMessage),
+            userMessage = UiText.DynamicString(loginResponseAsync.errorMessage),
             isLoading = false,
             isLoginSuccess = false
         )
 
         is Async.Success -> {
-            val loginResult = loginAsyncResponse.data.loginResult
+            val loginResult = loginResponseAsync.data.loginResult
             if (loginResult != null) {
                 preferencesManager.setUserToken(loginResult.token)
                 loginUiState.copy(

@@ -47,10 +47,10 @@ class RegisterViewModel @Inject constructor(
                 uiState.value.emailState.text,
                 uiState.value.nameState.text,
                 uiState.value.passwordState.text
-            ).collect { registerAsyncResponse ->
+            ).collect { registerResponseAsync ->
                 _uiState.update { registerUiState ->
                     produceRegisterUiState(
-                        registerAsyncResponse = registerAsyncResponse,
+                        registerResponseAsync = registerResponseAsync,
                         registerUiState = registerUiState
                     )
                 }
@@ -59,18 +59,19 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun produceRegisterUiState(
-        registerAsyncResponse: Async<RegisterResponse>, registerUiState: RegisterUiState
-    ) = when (registerAsyncResponse) {
+        registerResponseAsync: Async<RegisterResponse>,
+        registerUiState: RegisterUiState
+    ) = when (registerResponseAsync) {
         Async.Loading -> RegisterUiState(isLoading = true)
 
         is Async.Error -> registerUiState.copy(
-            userMessage = UiText.DynamicString(registerAsyncResponse.errorMessage),
+            userMessage = UiText.DynamicString(registerResponseAsync.errorMessage),
             isLoading = false,
             isSuccessRegister = false
         )
 
         is Async.Success -> {
-            if (!registerAsyncResponse.data.error) {
+            if (!registerResponseAsync.data.error) {
                 registerUiState.copy(
                     isLoading = false,
                     isSuccessRegister = true,
@@ -84,7 +85,7 @@ class RegisterViewModel @Inject constructor(
                     confirmPasswordState = uiState.value.confirmPasswordState,
                     isLoading = false,
                     isSuccessRegister = false,
-                    userMessage = UiText.DynamicString(registerAsyncResponse.data.message)
+                    userMessage = UiText.DynamicString(registerResponseAsync.data.message)
                 )
             }
         }
