@@ -59,4 +59,6 @@
     <string name="strRetry">Retry</string>
     <string name="allow_location_permission">Harap izinkan izin lokasi untuk membagikan lokasi</string>
     <string name="share_location">Bagikan lokasi</string>
+    <string name="map_view_stories">Cerita tampilan map</string>
+    <string name="about">Tentang</string>
 </resources>
