@@ -62,7 +62,7 @@ class RegisterViewModel @Inject constructor(
         registerResponseAsync: Async<RegisterResponse>,
         registerUiState: RegisterUiState
     ) = when (registerResponseAsync) {
-        Async.Loading -> RegisterUiState(isLoading = true)
+        Async.Loading -> registerUiState.copy(isLoading = true)
 
         is Async.Error -> registerUiState.copy(
             userMessage = UiText.DynamicString(registerResponseAsync.errorMessage),

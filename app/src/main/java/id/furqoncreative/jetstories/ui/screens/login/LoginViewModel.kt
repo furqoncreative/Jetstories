@@ -58,7 +58,7 @@ class LoginViewModel @Inject constructor(
         loginResponseAsync: Async<LoginResponse>,
         loginUiState: LoginUiState
     ) = when (loginResponseAsync) {
-        Async.Loading -> LoginUiState(isLoading = true)
+        Async.Loading -> loginUiState.copy(isLoading = true)
 
         is Async.Error -> loginUiState.copy(
             userMessage = UiText.DynamicString(loginResponseAsync.errorMessage),
