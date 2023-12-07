@@ -103,7 +103,7 @@ fun HomeScreen(
 
     JetstoriesHeader(modifier = modifier,
         state = collapsingToolbarScaffoldState,
-        scrollStrategy = ScrollStrategy.EnterAlways,
+        scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
         titleToolbarContent = {
             TitleToolbar(
                 modifier = Modifier.padding(
