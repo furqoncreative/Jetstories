@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalPagingApi::class)
-
 package id.furqoncreative.jetstories.data.repository
 
 import androidx.paging.ExperimentalPagingApi
@@ -32,6 +30,7 @@ interface GetAllStoriesWithPaginationRepository {
     ): Flow<Async<PagingData<StoryItem>>>
 }
 
+@OptIn(ExperimentalPagingApi::class)
 @Singleton
 class NetworkGetAllStoriesWithPaginationRepository @Inject constructor(
     private val storyDatabase: StoryDatabase,
