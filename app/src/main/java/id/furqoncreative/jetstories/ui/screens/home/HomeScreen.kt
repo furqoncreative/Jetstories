@@ -1,5 +1,6 @@
 package id.furqoncreative.jetstories.ui.screens.home
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -43,6 +44,7 @@ import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
 import id.furqoncreative.jetstories.ui.components.JetstoriesIconButton
 import id.furqoncreative.jetstories.ui.components.JetstoriesLinearProgressBar
 import id.furqoncreative.jetstories.ui.components.JetstoriesOptionMenu
+import id.furqoncreative.jetstories.ui.components.JetstoriesSearchBar
 import id.furqoncreative.jetstories.ui.components.MenuItem
 import id.furqoncreative.jetstories.ui.components.TitleToolbar
 import id.furqoncreative.jetstories.utils.showToast
@@ -148,20 +150,29 @@ fun HomeScreen(
             )
         }) {
 
-        HomeContent(isLoading = uiState.isLoading,
+        HomeContent(
+            isLoading = uiState.isLoading,
             storiesLazyPagingItems = storiesLazyPagingItems,
             lazyListState = lazyListState,
+            query = uiState.searchQuery,
+            searchStory = {
+                homeViewModel.searchStory(it)
+            },
             onStoryClicked = { story ->
                 onNavigateToDetail(story)
-            })
+            }
+        )
 
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeContent(
     storiesLazyPagingItems: LazyPagingItems<StoryItem>,
     lazyListState: LazyListState,
+    query: String,
+    searchStory: (String) -> Unit,
     isLoading: Boolean,
     onStoryClicked: (StoryItem?) -> Unit,
     modifier: Modifier = Modifier
@@ -172,15 +183,25 @@ fun HomeContent(
         JetstoriesLinearProgressBar()
     } else {
         Box(
-            modifier = commonModifier.fillMaxSize(), contentAlignment = Alignment.Center
+            modifier = commonModifier.fillMaxSize(),
+            contentAlignment = Alignment.TopCenter
         ) {
-
             LazyColumn(
                 state = lazyListState,
                 modifier = commonModifier,
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                stickyHeader {
+                    JetstoriesSearchBar(
+                        query = query,
+                        onQueryChange = {
+                            searchStory(it)
+                        }, onSearch = {
+                            searchStory(it)
+                        }
+                    )
+                }
                 items(
                     key = storiesLazyPagingItems.itemKey { it.id },
                     count = storiesLazyPagingItems.itemCount
@@ -208,7 +229,8 @@ fun HomeContent(
                         }
 
                         loadState.refresh is LoadState.Error -> {
-                            val error = storiesLazyPagingItems.loadState.refresh as LoadState.Error
+                            val error =
+                                storiesLazyPagingItems.loadState.refresh as LoadState.Error
                             item {
                                 ErrorMessage(modifier = Modifier.fillParentMaxSize(),
                                     message = error.error.localizedMessage!!,
@@ -223,7 +245,8 @@ fun HomeContent(
                         }
 
                         loadState.append is LoadState.Error -> {
-                            val error = storiesLazyPagingItems.loadState.append as LoadState.Error
+                            val error =
+                                storiesLazyPagingItems.loadState.append as LoadState.Error
                             item {
                                 ErrorMessage(modifier = Modifier,
                                     message = error.error.localizedMessage!!,
@@ -239,7 +262,9 @@ fun HomeContent(
 
 @Composable
 fun ErrorMessage(
-    message: String, modifier: Modifier = Modifier, onClickRetry: () -> Unit
+    message: String,
+    onClickRetry: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier.padding(10.dp),
@@ -257,6 +282,3 @@ fun ErrorMessage(
         }
     }
 }
-
-
-
