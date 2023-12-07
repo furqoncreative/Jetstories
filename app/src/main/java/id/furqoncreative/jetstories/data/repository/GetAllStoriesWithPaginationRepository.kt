@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalPagingApi::class)
+
 package id.furqoncreative.jetstories.data.repository
 
 import androidx.paging.ExperimentalPagingApi
@@ -16,9 +18,16 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface GetAllStoriesWithPaginationRepository {
-    suspend fun getAllStoriesWithPagination(
+    suspend fun getStoriesWithPagination(
         page: Int? = null,
         size: Int? = null,
+        location: Int? = 0
+    ): Flow<Async<PagingData<StoryItem>>>
+
+    suspend fun searchStories(
+        page: Int? = null,
+        size: Int? = null,
+        query: String? = null,
         location: Int? = 0
     ): Flow<Async<PagingData<StoryItem>>>
 }
@@ -29,8 +38,7 @@ class NetworkGetAllStoriesWithPaginationRepository @Inject constructor(
     private val apiService: JetstoriesApiService
 ) : GetAllStoriesWithPaginationRepository {
 
-    @OptIn(ExperimentalPagingApi::class)
-    override suspend fun getAllStoriesWithPagination(
+    override suspend fun getStoriesWithPagination(
         page: Int?,
         size: Int?,
         location: Int?
@@ -50,4 +58,24 @@ class NetworkGetAllStoriesWithPaginationRepository @Inject constructor(
     }.catch {
         Async.Error(it.message.toString())
     }
+
+    override suspend fun searchStories(
+        page: Int?,
+        size: Int?,
+        query: String?,
+        location: Int?
+    ): Flow<Async<PagingData<StoryItem>>> = Pager(
+        config = PagingConfig(
+            pageSize = size ?: 10,
+            enablePlaceholders = false,
+            initialLoadSize = 1
+        ),
+        pagingSourceFactory = {
+            storyDatabase.storyDao().getStories(query)
+        }).flow.map {
+        Async.Success(it)
+    }.catch {
+        Async.Error(it.message.toString())
+    }
+
 }
