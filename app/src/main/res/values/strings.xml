@@ -64,4 +64,5 @@
     <string name="about_avatar" translatable="false">https://avatars.githubusercontent.com/u/27626889?v=4</string>
     <string name="about_name" translatable="false">Deden Muhamad Furqon</string>
     <string name="about_email" translatable="false">furqoncreative24@gmail.com</string>
+    <string name="search_placeholder">Search by name or description</string>
 </resources>

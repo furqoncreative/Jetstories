@@ -14,6 +14,9 @@ interface StoryDao {
     @Query("SELECT * FROM story")
     fun getAllStories(): PagingSource<Int, StoryItem>
 
+    @Query("SELECT * FROM story WHERE description LIKE '%' || :query || '%' OR name LIKE '%' || :query || '%'")
+    fun getStories(query: String?): PagingSource<Int, StoryItem>
+
     @Query("DELETE FROM story")
     suspend fun deleteAllStories()
 }
