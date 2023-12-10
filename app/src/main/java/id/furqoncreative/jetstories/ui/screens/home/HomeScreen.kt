@@ -123,7 +123,7 @@ fun HomeScreen(
 
             JetstoriesIconButton(
                 icon = Icons.Default.FavoriteBorder,
-                contentDescription = stringResource(R.string.favorite)
+                contentDescription = stringResource(R.string.favorite_stories)
             ) {
                 onNavigateToFavorite()
             }

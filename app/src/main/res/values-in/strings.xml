@@ -62,4 +62,5 @@
     <string name="map_view_stories">Cerita tampilan map</string>
     <string name="about">Tentang</string>
     <string name="search_placeholder">Cari berdasarkan nama atau deskripsi</string>
+    <string name="favorite_stories">Cerita Favorite</string>
 </resources>
