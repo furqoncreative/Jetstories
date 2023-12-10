@@ -15,7 +15,7 @@ interface StoryFavoriteDao {
     @Delete
     suspend fun delete(storyFavoriteItem: StoryFavoriteItem)
 
-    @Query("SELECT * FROM story")
+    @Query("SELECT * FROM story_favorite")
     suspend fun getAllFavorites(): List<StoryFavoriteItem>
 
     @Query("SELECT EXISTS(SELECT 1 FROM story_favorite WHERE id = :id)")
