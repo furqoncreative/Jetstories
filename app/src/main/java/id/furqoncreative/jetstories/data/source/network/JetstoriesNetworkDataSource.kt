@@ -16,7 +16,7 @@ import retrofit2.HttpException
 import javax.inject.Inject
 
 
-class JestoriesNetworkDataSource @Inject constructor(
+class JetstoriesNetworkDataSource @Inject constructor(
     private val apiService: JetstoriesApiService
 ) : NetworkDataSource {
     override suspend fun loginUser(
