@@ -29,6 +29,7 @@ import coil.compose.AsyncImage
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
+import id.furqoncreative.jetstories.ui.components.JetstoriesIconButton
 import id.furqoncreative.jetstories.ui.components.JetstoriesLinearProgressBar
 import id.furqoncreative.jetstories.ui.components.TitleToolbar
 import id.furqoncreative.jetstories.utils.showToast
@@ -67,11 +68,11 @@ fun DetailStoryScreen(
                 )
             },
             startToolbarContent = {
-                IconButton(
-                    onClick = {
-                        onNavUp()
-                    }) {
-                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = "Back")
+                JetstoriesIconButton(
+                    icon = Icons.Default.ChevronLeft,
+                    contentDescription = stringResource(id = R.string.back)
+                ) {
+                    onNavUp()
                 }
             }, endToolbarContent = {
                 IconButton(
@@ -84,7 +85,10 @@ fun DetailStoryScreen(
                     if (uiState.isFavorite) {
                         Icon(imageVector = Icons.Default.Favorite, contentDescription = "Favorite")
                     } else {
-                        Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = "UnFavorite")
+                        Icon(
+                            imageVector = Icons.Default.FavoriteBorder,
+                            contentDescription = "UnFavorite"
+                        )
                     }
                 }
             }
