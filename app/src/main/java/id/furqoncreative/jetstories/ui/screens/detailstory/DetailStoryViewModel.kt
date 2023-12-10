@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.data.repository.FavoriteRepository
 import id.furqoncreative.jetstories.data.repository.GetDetailStoryRepository
-import id.furqoncreative.jetstories.data.source.local.StoryItem
 import id.furqoncreative.jetstories.model.stories.GetDetailStoryResponse
 import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinationsArgs
