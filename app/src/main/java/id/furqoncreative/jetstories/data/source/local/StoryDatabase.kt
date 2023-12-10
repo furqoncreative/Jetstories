@@ -6,13 +6,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [StoryItem::class, RemoteKeys::class],
-    version = 2,
+    entities = [StoryItem::class, StoryFavoriteItem::class, RemoteKeys::class],
+    version = 4,
     exportSchema = false
 )
-abstract class StoryDatabase: RoomDatabase() {
+abstract class StoryDatabase : RoomDatabase() {
 
     abstract fun storyDao(): StoryDao
+
+    abstract fun favoriteDao(): StoryFavoriteDao
 
     abstract fun remoteKeysDao(): RemoteKeysDao
 
