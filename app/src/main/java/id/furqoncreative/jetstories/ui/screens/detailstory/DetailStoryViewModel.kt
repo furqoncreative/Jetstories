@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.furqoncreative.jetstories.data.repository.FavoriteRepository
 import id.furqoncreative.jetstories.data.repository.GetDetailStoryRepository
 import id.furqoncreative.jetstories.model.stories.GetDetailStoryResponse
 import id.furqoncreative.jetstories.model.stories.Story
@@ -19,6 +20,7 @@ import javax.inject.Inject
 
 data class DetailStoryUiState(
     val isLoading: Boolean = false,
+    val isFavorite: Boolean = false,
     val isUserLogout: Boolean = false,
     val userMessage: UiText? = null,
     val story: Story? = null,
@@ -27,6 +29,7 @@ data class DetailStoryUiState(
 @HiltViewModel
 class DetailStoryViewModel @Inject constructor(
     private val detailStoryRepository: GetDetailStoryRepository,
+    private val favoriteRepository: FavoriteRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val storyId: String? = savedStateHandle[JetstoriesDestinationsArgs.STORY_ID]
@@ -37,6 +40,7 @@ class DetailStoryViewModel @Inject constructor(
     init {
         if (storyId != null) {
             getDetailStory(storyId)
+            isFavorite(storyId)
         }
     }
 
@@ -55,6 +59,55 @@ class DetailStoryViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    fun setFavorite(isFavorite: Boolean, story: Story) {
+        viewModelScope.launch {
+            if (isFavorite) {
+                favoriteRepository.deleteFavorite(story)
+                _uiState.update {
+                    it.copy(isFavorite = false)
+                }
+            } else {
+                favoriteRepository.addFavorite(story)
+                _uiState.update {
+                    it.copy(isFavorite = true)
+                }
+            }
+        }
+    }
+
+    private fun isFavorite(storyId: String) {
+        viewModelScope.launch {
+            favoriteRepository.isFavorite(storyId)
+                .collect { isFavorite ->
+                    _uiState.update { detailStoryUiState ->
+                        when (isFavorite) {
+                            is Async.Success -> {
+                                detailStoryUiState.copy(
+                                    isFavorite = isFavorite.data,
+                                    isLoading = false
+                                )
+                            }
+
+                            is Async.Error -> {
+                                detailStoryUiState.copy(
+                                    isFavorite = false,
+                                    isLoading = false,
+                                    userMessage = UiText.DynamicString(isFavorite.errorMessage)
+
+                                )
+                            }
+
+                            is Async.Loading -> {
+                                detailStoryUiState.copy(
+                                    isLoading = true
+                                )
+                            }
+                        }
+                    }
+                }
         }
     }
 

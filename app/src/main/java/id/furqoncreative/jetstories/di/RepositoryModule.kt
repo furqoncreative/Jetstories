@@ -5,9 +5,11 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.furqoncreative.jetstories.data.repository.AddStoryRepository
+import id.furqoncreative.jetstories.data.repository.FavoriteRepository
 import id.furqoncreative.jetstories.data.repository.GetAllStoriesRepository
 import id.furqoncreative.jetstories.data.repository.GetAllStoriesWithPaginationRepository
 import id.furqoncreative.jetstories.data.repository.GetDetailStoryRepository
+import id.furqoncreative.jetstories.data.repository.LocalFavoriteRepository
 import id.furqoncreative.jetstories.data.repository.LoginRepository
 import id.furqoncreative.jetstories.data.repository.NetworkAddStoryRepository
 import id.furqoncreative.jetstories.data.repository.NetworkGetAllStoriesRepository
@@ -45,4 +47,8 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindAddStoryRepository(repository: NetworkAddStoryRepository): AddStoryRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindFavoriteRepository(repository: LocalFavoriteRepository): FavoriteRepository
 }

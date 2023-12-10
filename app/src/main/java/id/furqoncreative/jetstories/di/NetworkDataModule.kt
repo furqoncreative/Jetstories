@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.furqoncreative.jetstories.BuildConfig
-import id.furqoncreative.jetstories.data.source.network.JestoriesNetworkDataSource
+import id.furqoncreative.jetstories.data.source.network.JetstoriesNetworkDataSource
 import id.furqoncreative.jetstories.data.source.network.JetstoriesApiService
 import id.furqoncreative.jetstories.interceptor.AuthInterceptor
 import okhttp3.Call
@@ -47,5 +47,5 @@ object NetworkDataModule {
     @Provides
     fun provideNetworkDataSource(
         appService: JetstoriesApiService,
-    ) = JestoriesNetworkDataSource(appService)
+    ) = JetstoriesNetworkDataSource(appService)
 }

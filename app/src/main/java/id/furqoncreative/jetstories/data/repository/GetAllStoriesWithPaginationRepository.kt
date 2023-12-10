@@ -4,10 +4,12 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.map
 import id.furqoncreative.jetstories.data.source.local.StoryDatabase
-import id.furqoncreative.jetstories.data.source.local.StoryItem
+import id.furqoncreative.jetstories.data.source.mapper.toStory
 import id.furqoncreative.jetstories.data.source.network.JetstoriesApiService
 import id.furqoncreative.jetstories.data.source.remotemediator.StoryRemoteMediator
+import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.utils.Async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -20,14 +22,14 @@ interface GetAllStoriesWithPaginationRepository {
         page: Int? = null,
         size: Int? = null,
         location: Int? = 0
-    ): Flow<Async<PagingData<StoryItem>>>
+    ): Flow<Async<PagingData<Story>>>
 
     suspend fun searchStories(
         page: Int? = null,
         size: Int? = null,
         query: String? = null,
         location: Int? = 0
-    ): Flow<Async<PagingData<StoryItem>>>
+    ): Flow<Async<PagingData<Story>>>
 }
 
 @OptIn(ExperimentalPagingApi::class)
@@ -41,7 +43,7 @@ class NetworkGetAllStoriesWithPaginationRepository @Inject constructor(
         page: Int?,
         size: Int?,
         location: Int?
-    ): Flow<Async<PagingData<StoryItem>>> = Pager(
+    ): Flow<Async<PagingData<Story>>> = Pager(
         config = PagingConfig(
             pageSize = size ?: 10,
             enablePlaceholders = false,
@@ -52,8 +54,8 @@ class NetworkGetAllStoriesWithPaginationRepository @Inject constructor(
         ),
         pagingSourceFactory = {
             storyDatabase.storyDao().getAllStories()
-        }).flow.map {
-        Async.Success(it)
+        }).flow.map { pagingData ->
+        Async.Success(pagingData.map { it.toStory() })
     }.catch {
         Async.Error(it.message.toString())
     }
@@ -63,7 +65,7 @@ class NetworkGetAllStoriesWithPaginationRepository @Inject constructor(
         size: Int?,
         query: String?,
         location: Int?
-    ): Flow<Async<PagingData<StoryItem>>> = Pager(
+    ): Flow<Async<PagingData<Story>>> = Pager(
         config = PagingConfig(
             pageSize = size ?: 10,
             enablePlaceholders = false,
@@ -71,8 +73,8 @@ class NetworkGetAllStoriesWithPaginationRepository @Inject constructor(
         ),
         pagingSourceFactory = {
             storyDatabase.storyDao().getStories(query)
-        }).flow.map {
-        Async.Success(it)
+        }).flow.map { pagingData ->
+        Async.Success(pagingData.map { it.toStory() })
     }.catch {
         Async.Error(it.message.toString())
     }

@@ -10,6 +10,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +29,7 @@ import coil.compose.AsyncImage
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
+import id.furqoncreative.jetstories.ui.components.JetstoriesIconButton
 import id.furqoncreative.jetstories.ui.components.JetstoriesLinearProgressBar
 import id.furqoncreative.jetstories.ui.components.TitleToolbar
 import id.furqoncreative.jetstories.utils.showToast
@@ -65,10 +68,28 @@ fun DetailStoryScreen(
                 )
             },
             startToolbarContent = {
-                IconButton(onClick = {
+                JetstoriesIconButton(
+                    icon = Icons.Default.ChevronLeft,
+                    contentDescription = stringResource(id = R.string.back)
+                ) {
                     onNavUp()
-                }) {
-                    Icon(imageVector = Icons.Default.ChevronLeft, contentDescription = "Back")
+                }
+            }, endToolbarContent = {
+                IconButton(
+                    onClick = {
+                        detailStoryViewModel.setFavorite(
+                            isFavorite = uiState.isFavorite,
+                            story = story
+                        )
+                    }) {
+                    if (uiState.isFavorite) {
+                        Icon(imageVector = Icons.Default.Favorite, contentDescription = "Favorite")
+                    } else {
+                        Icon(
+                            imageVector = Icons.Default.FavoriteBorder,
+                            contentDescription = "UnFavorite"
+                        )
+                    }
                 }
             }
         ) {
