@@ -11,11 +11,21 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinationsArgs.STORY_ID
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.ABOUT_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.ADD_STORY_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.FAVORITE_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.HOME_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.LOGIN_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.MAP_VIEW_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.REGISTER_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.SETTINGS_SCREEN
 import id.furqoncreative.jetstories.ui.screens.about.AboutScreen
 import id.furqoncreative.jetstories.ui.screens.addstory.AddStoryScreen
 import id.furqoncreative.jetstories.ui.screens.addstory.AddStoryViewModel
 import id.furqoncreative.jetstories.ui.screens.detailstory.DetailStoryScreen
 import id.furqoncreative.jetstories.ui.screens.detailstory.DetailStoryViewModel
+import id.furqoncreative.jetstories.ui.screens.favorite.FavoriteScreen
+import id.furqoncreative.jetstories.ui.screens.favorite.FavoriteViewModel
 import id.furqoncreative.jetstories.ui.screens.home.HomeScreen
 import id.furqoncreative.jetstories.ui.screens.home.HomeViewModel
 import id.furqoncreative.jetstories.ui.screens.login.LoginScreen
@@ -31,7 +41,7 @@ import id.furqoncreative.jetstories.ui.screens.settings.SettingsViewModel
 fun JetstoriesNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = JetstoriesDestinations.LOGIN_ROUTE,
+    startDestination: String = LOGIN_SCREEN,
     navAction: JetstoriesNavigationActions = remember(navController) {
         JetstoriesNavigationActions(navController)
     }
@@ -41,7 +51,7 @@ fun JetstoriesNavGraph(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        composable(JetstoriesDestinations.LOGIN_ROUTE) {
+        composable(LOGIN_SCREEN) {
             val loginViewModel = hiltViewModel<LoginViewModel>()
             LoginScreen(
                 onNavigateToHome = {
@@ -54,7 +64,7 @@ fun JetstoriesNavGraph(
             )
         }
 
-        composable(JetstoriesDestinations.REGISTER_ROUTE) {
+        composable(REGISTER_SCREEN) {
             val registerViewModel = hiltViewModel<RegisterViewModel>()
             RegisterScreen(
                 onNavUp = {
@@ -67,7 +77,7 @@ fun JetstoriesNavGraph(
             )
         }
 
-        composable(JetstoriesDestinations.HOME_ROUTE) {
+        composable(HOME_SCREEN) {
             val homeViewViewModel = hiltViewModel<HomeViewModel>()
             HomeScreen(
                 onNavigateToAddStory = {
@@ -88,12 +98,15 @@ fun JetstoriesNavGraph(
                 onNavigateToDetail = { story ->
                     story?.let { navAction.navigateToDetail(it.id) }
                 },
+                onNavigateToFavorite = {
+                    navAction.navigateToFavorite()
+                },
                 homeViewModel = homeViewViewModel
             )
         }
 
 
-        composable(JetstoriesDestinations.MAP_VIEW_ROUTE) {
+        composable(MAP_VIEW_SCREEN) {
             val mapViewModel = hiltViewModel<MapViewViewModel>()
             MapViewScreen(
                 onNavUp = {
@@ -106,7 +119,7 @@ fun JetstoriesNavGraph(
             )
         }
 
-        composable(JetstoriesDestinations.ADD_STORY_ROUTE) {
+        composable(ADD_STORY_SCREEN) {
             val addStoryViewModel = hiltViewModel<AddStoryViewModel>()
             AddStoryScreen(
                 onNavUp = {
@@ -134,7 +147,7 @@ fun JetstoriesNavGraph(
         }
 
 
-        composable(JetstoriesDestinations.SETTINGS_ROUTE) {
+        composable(SETTINGS_SCREEN) {
             val settingViewModel = hiltViewModel<SettingsViewModel>()
             SettingsScreen(
                 onNavUp = {
@@ -144,10 +157,23 @@ fun JetstoriesNavGraph(
             )
         }
 
-        composable(JetstoriesDestinations.ABOUT_ROUTE) {
+        composable(ABOUT_SCREEN) {
             AboutScreen(
                 onNavUp = {
                     navAction.navigateUp()
+                }
+            )
+        }
+
+        composable(FAVORITE_SCREEN) {
+            val favoriteViewModel = hiltViewModel<FavoriteViewModel>()
+            FavoriteScreen(
+                favoriteViewModel = favoriteViewModel,
+                onNavUp = {
+                    navAction.navigateUp()
+                },
+                onNavigateToDetail = { story ->
+                    story?.let { it1 -> navAction.navigateToDetail(it1.id) }
                 }
             )
         }

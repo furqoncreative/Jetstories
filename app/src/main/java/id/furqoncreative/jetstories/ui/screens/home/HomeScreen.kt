@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.MoreVert
@@ -38,7 +39,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import id.furqoncreative.jetstories.R
-import id.furqoncreative.jetstories.data.source.local.StoryItem
+import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
 import id.furqoncreative.jetstories.ui.components.JetstoriesIconButton
@@ -57,7 +58,8 @@ fun HomeScreen(
     onNavigateToMapView: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToAbout: () -> Unit,
-    onNavigateToDetail: (StoryItem?) -> Unit,
+    onNavigateToFavorite: () -> Unit,
+    onNavigateToDetail: (Story?) -> Unit,
     onUserLoggedOut: () -> Unit,
     homeViewModel: HomeViewModel,
     modifier: Modifier = Modifier,
@@ -120,6 +122,13 @@ fun HomeScreen(
             }
 
             JetstoriesIconButton(
+                icon = Icons.Default.FavoriteBorder,
+                contentDescription = stringResource(R.string.favorite)
+            ) {
+                onNavigateToFavorite()
+            }
+
+            JetstoriesIconButton(
                 icon = Icons.Default.Map,
                 contentDescription = stringResource(id = R.string.map_view)
             ) {
@@ -169,12 +178,12 @@ fun HomeScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeContent(
-    storiesLazyPagingItems: LazyPagingItems<StoryItem>,
+    storiesLazyPagingItems: LazyPagingItems<Story>,
     lazyListState: LazyListState,
     query: String,
     searchStory: (String) -> Unit,
     isLoading: Boolean,
-    onStoryClicked: (StoryItem?) -> Unit,
+    onStoryClicked: (Story?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val commonModifier = modifier.fillMaxWidth()
