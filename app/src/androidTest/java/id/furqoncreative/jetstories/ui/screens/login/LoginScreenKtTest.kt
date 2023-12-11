@@ -26,13 +26,12 @@ class LoginScreenKtTest : JetstoriesScreenTest() {
     }
 
     @Test
-    fun navigateToHomeScreen_onSuccessfulLogin() {
-        composeTestRule.apply {
-            onNodeWithText("Email").performTextReplacement("jetstories@mail.com")
-            onNodeWithText("Password").performTextReplacement("jetstories123")
-            onNodeWithText("Sign in").performClick()
-            waitForIdle()
-            navHostController.assertCurrentRouteName(JetstoriesScreens.HOME_SCREEN)
-        }
+    fun navigateToHomeScreen_onSuccessfulLogin() = runTest {
+        onNodeWithText("Email").performTextReplacement("jetstories@mail.com")
+        onNodeWithText("Password").performTextReplacement("jetstories123")
+        onNodeWithText("Sign in").performClick()
+
+        waitForIdle()
+        navHostController.assertCurrentRouteName(JetstoriesScreens.HOME_SCREEN)
     }
 }

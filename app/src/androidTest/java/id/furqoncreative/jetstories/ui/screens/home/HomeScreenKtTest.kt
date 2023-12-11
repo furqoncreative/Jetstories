@@ -27,14 +27,14 @@ class HomeScreenKtTest : JetstoriesScreenTest() {
     }
 
     @Test
-    fun navigateToLoginScreen_onSuccessfulLogout() {
-        composeTestRule.apply {
-            onNodeWithContentDescription("More Menu").performClick()
-            onNodeWithText("Logout").performClick()
-            waitForIdle()
-            onNodeWithText("Yes").performClick()
-            waitForIdle()
-            navHostController.assertCurrentRouteName(JetstoriesScreens.LOGIN_SCREEN)
-        }
+    fun navigateToLoginScreen_onSuccessfulLogout() = runTest {
+        onNodeWithContentDescription("More Menu").performClick()
+        onNodeWithText("Logout").performClick()
+
+        waitForIdle()
+        onNodeWithText("Yes").performClick()
+
+        waitForIdle()
+        navHostController.assertCurrentRouteName(JetstoriesScreens.LOGIN_SCREEN)
     }
 }
