@@ -12,9 +12,9 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import id.furqoncreative.jetstories.JetstoriesActivity
 import id.furqoncreative.jetstories.assertCurrentRouteName
-import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesNavGraph
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.HOME_SCREEN
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
 import org.junit.Before
 import org.junit.Rule
@@ -39,7 +39,7 @@ class HomeScreenKtTest {
                 navHostController.navigatorProvider.addNavigator(ComposeNavigator())
                 JetstoriesNavGraph(
                     navController = navHostController,
-                    startDestination = JetstoriesDestinations.HOME_ROUTE
+                    startDestination = HOME_SCREEN
                 )
             }
         }
