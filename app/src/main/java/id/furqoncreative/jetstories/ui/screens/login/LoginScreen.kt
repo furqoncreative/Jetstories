@@ -21,6 +21,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,10 +46,11 @@ import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.ui.components.JetstoriesCircularProgressBar
 import id.furqoncreative.jetstories.ui.components.JetstoriesEmailTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesPasswordTextField
+import id.furqoncreative.jetstories.ui.components.JetstoriesSnackBarHost
+import id.furqoncreative.jetstories.ui.components.showSnackBar
 import id.furqoncreative.jetstories.ui.components.states.PasswordState
 import id.furqoncreative.jetstories.ui.components.states.TextFieldState
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
-import id.furqoncreative.jetstories.utils.showToast
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -62,6 +64,7 @@ fun LoginScreen(
     val context = LocalContext.current
     val uiState by loginViewModel.uiState.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(uiState.isLoginSuccess) {
         if (uiState.isLoginSuccess) {
@@ -76,30 +79,44 @@ fun LoginScreen(
         }
     }
 
-    uiState.userMessage?.let { userMessage ->
-        context.showToast(message = userMessage.asString(context))
+    LaunchedEffect(uiState.userMessage) {
+        uiState.userMessage?.let {
+            showSnackBar(
+                snackbarHostState = snackbarHostState,
+                actionLabel = "OK",
+                message = it.asString(context),
+            )
+        }
         loginViewModel.toastMessageShown()
     }
 
-    Column(
-        modifier = modifier
-            .verticalScroll(state = rememberScrollState())
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = modifier,
     ) {
-
-        LoginHeader(modifier = modifier)
-
-        LoginContent(
-            modifier = modifier,
-            context = context,
-            emailState = uiState.emailState,
-            passwordState = uiState.passwordState,
-            onSubmit = onSubmit,
-            onClickSignup = onNavigateToRegister,
-            isLoading = uiState.isLoading,
+        JetstoriesSnackBarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
         )
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .verticalScroll(state = rememberScrollState())
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            LoginHeader()
+
+            LoginContent(
+                context = context,
+                emailState = uiState.emailState,
+                passwordState = uiState.passwordState,
+                onSubmit = onSubmit,
+                onClickSignup = onNavigateToRegister,
+                isLoading = uiState.isLoading,
+            )
+        }
     }
 }
 
