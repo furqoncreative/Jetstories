@@ -6,6 +6,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextReplacement
 import dagger.hilt.android.testing.HiltAndroidTest
 import id.furqoncreative.jetstories.JetstoriesScreenTest
+import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.assertCurrentRouteName
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesNavGraph
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.HOME_SCREEN
@@ -28,28 +29,53 @@ class LoginScreenKtTest : JetstoriesScreenTest() {
     }
 
     @Test
-    fun showUserNotFoundSnackbar_whenEnteredUnregisteredUser() = runTest {
-        onNodeWithText("Email").performTextReplacement("jet@gmail.com")
-        onNodeWithText("Password").performTextReplacement("jetstories123")
-        onNodeWithText("Sign in").performClick()
+    fun showEmailErrorSupportingText_whenEnteredInvalidEmail() = runTest {
+        activity.apply {
+            onNodeWithText(getString(R.string.email_label)).performTextReplacement("jet@gmail")
 
-        waitForIdle()
-        onNodeWithText("User Not Found").assertIsDisplayed()
+            waitForIdle()
+            onNodeWithText(getString(R.string.email_invalid_message)).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun showPasswordErrorSupportingText_whenEnteredInvalidPassword() = runTest {
+        activity.apply {
+            onNodeWithText(getString(R.string.password_label)).performTextReplacement("1111")
+
+            waitForIdle()
+            onNodeWithText(getString(R.string.password_invalid_message)).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun showUserNotFoundSnackbar_whenEnteredUnregisteredUser() = runTest {
+        activity.apply {
+            onNodeWithText(getString(R.string.email_label)).performTextReplacement("jet@gmail.com")
+            onNodeWithText(getString(R.string.password_label)).performTextReplacement("jetstories123")
+            onNodeWithText(getString(R.string.sign_in)).performClick()
+
+            waitForIdle()
+            onNodeWithText("User Not Found").assertIsDisplayed()
+        }
+
     }
 
     @Test
     fun showInvalidPasswordSnackbar_whenEnteredWrongPassword() = runTest {
-        onNodeWithText("Email").performTextReplacement("jetstories@mail.com")
-        onNodeWithText("Password").performTextReplacement("jetstories")
-        onNodeWithText("Sign in").performClick()
+        activity.apply {
+            onNodeWithText(getString(R.string.email_label)).performTextReplacement("jetstories@mail.com")
+            onNodeWithText(getString(R.string.password_label)).performTextReplacement("jetstories")
+            onNodeWithText(getString(R.string.sign_in)).performClick()
 
-        waitForIdle()
-        onNodeWithText("Invalid Password").assertIsDisplayed()
+            waitForIdle()
+            onNodeWithText("Invalid Password").assertIsDisplayed()
+        }
     }
 
     @Test
     fun navigateToRegisterScreen_onClickSignup() = runTest {
-        onNodeWithText("Sign up").performClick()
+        onNodeWithText(activity.getString(R.string.sign_up)).performClick()
 
         waitForIdle()
         navHostController.assertCurrentRouteName(REGISTER_SCREEN)
@@ -57,11 +83,13 @@ class LoginScreenKtTest : JetstoriesScreenTest() {
 
     @Test
     fun navigateToHomeScreen_onSuccessfulLogin() = runTest {
-        onNodeWithText("Email").performTextReplacement("jetstories@mail.com")
-        onNodeWithText("Password").performTextReplacement("jetstories123")
-        onNodeWithText("Sign in").performClick()
+        activity.apply {
+            onNodeWithText(getString(R.string.email_label)).performTextReplacement("jetstories@mail.com")
+            onNodeWithText(getString(R.string.password_label)).performTextReplacement("jetstories123")
+            onNodeWithText(getString(R.string.sign_in)).performClick()
 
-        waitForIdle()
-        navHostController.assertCurrentRouteName(HOME_SCREEN)
+            waitForIdle()
+            navHostController.assertCurrentRouteName(HOME_SCREEN)
+        }
     }
 }
