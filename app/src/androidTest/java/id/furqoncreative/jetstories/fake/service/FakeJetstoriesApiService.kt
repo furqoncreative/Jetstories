@@ -52,25 +52,30 @@ class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
         email: String,
         password: String
     ): LoginResponse {
-        return users.find { it.email == email && it.password == password }.let {
-            if (it != null) {
-                LoginResponse(
-                    error = false,
-                    loginResult = LoginResult(
-                        userId = it.userId,
-                        token = it.token,
-                        name = it.name
-                    ),
-                    message = "Success"
-                )
-            } else {
-                LoginResponse(
-                    error = true,
-                    loginResult = null,
-                    message = "Login Failed"
-                )
-            }
+        val userCredential = users.firstOrNull { it.email == email }
+            ?: return LoginResponse(
+                error = true,
+                loginResult = null,
+                message = "User Not Found"
+            )
+
+        if (userCredential.password != password) {
+            return LoginResponse(
+                error = true,
+                loginResult = null,
+                message = "Invalid Password"
+            )
         }
+
+        return LoginResponse(
+            error = false,
+            loginResult = LoginResult(
+                userId = userCredential.userId,
+                token = userCredential.token,
+                name = userCredential.name
+            ),
+            message = "Success"
+        )
     }
 
     override suspend fun registerUser(
