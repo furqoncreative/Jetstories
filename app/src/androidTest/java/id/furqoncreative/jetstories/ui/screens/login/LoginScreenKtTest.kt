@@ -29,7 +29,7 @@ class LoginScreenKtTest : JetstoriesScreenTest() {
     }
 
     @Test
-    fun showEmailErrorSupportingText_whenEnteredInvalidEmail() = runTest {
+    fun showErrorEmailMustBeValid_whenEnteredInvalidEmail() = runTest {
         activity.apply {
             onNodeWithText(getString(R.string.email_label)).performTextReplacement("jet@gmail")
 
@@ -39,7 +39,7 @@ class LoginScreenKtTest : JetstoriesScreenTest() {
     }
 
     @Test
-    fun showPasswordErrorSupportingText_whenEnteredInvalidPassword() = runTest {
+    fun showErrorPasswordMustBeValid_whenEnteredInvalidPassword() = runTest {
         activity.apply {
             onNodeWithText(getString(R.string.password_label)).performTextReplacement("1111")
 
