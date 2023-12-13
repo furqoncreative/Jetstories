@@ -46,7 +46,7 @@
     <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="sign_in">Sign in</string>
     <string name="email_invalid_message">Email must be valid</string>
-    <string name="name_invalid_message">Name must not empty</string>
+    <string name="name_invalid_message">Name must be not empty</string>
     <string name="confirm_password_invalid_message">Passwords don\'t match</string>
     <string name="password_invalid_message">Password must be at least 8 characters long</string>
     <string name="description_invalid_message">Description must not empty</string>
