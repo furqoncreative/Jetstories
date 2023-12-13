@@ -71,7 +71,7 @@ fun JetstoriesNavGraph(
                     navAction.navigateUp()
                 },
                 onSuccessRegister = {
-                    navAction.navigateUp()
+                    navAction.navigateToLogin()
                 },
                 registerViewModel = registerViewModel
             )
