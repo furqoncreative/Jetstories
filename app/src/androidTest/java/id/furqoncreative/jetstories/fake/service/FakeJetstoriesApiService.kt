@@ -83,7 +83,17 @@ class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
         name: String,
         password: String
     ): RegisterResponse {
-        TODO("Not yet implemented")
+        return if (users.find { it.email == email } == null) {
+            RegisterResponse(
+                error = false,
+                message = "Register Success"
+            )
+        } else {
+            RegisterResponse(
+                error = true,
+                message = "Email is already taken"
+            )
+        }
     }
 
     override suspend fun addStory(

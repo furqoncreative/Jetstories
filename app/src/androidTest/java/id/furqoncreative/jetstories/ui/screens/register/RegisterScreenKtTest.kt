@@ -2,6 +2,7 @@ package id.furqoncreative.jetstories.ui.screens.register
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performTextReplacement
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -68,4 +69,17 @@ class RegisterScreenKtTest : JetstoriesScreenTest() {
         }
     }
 
+    @Test
+    fun showErrorEmailIsAlreadyTaken_whenEnteredUsedEmail() = runTest {
+        activity.apply {
+            onNodeWithText(getString(R.string.email_label)).performTextReplacement("jetstories@mail.com")
+            onNodeWithText(getString(R.string.name_label)).performTextReplacement("Test")
+            onNodeWithText(getString(R.string.password_label)).performTextReplacement("12345678")
+            onNodeWithText(getString(R.string.confirmation_password_label)).performTextReplacement("12345678")
+            onNodeWithText(getString(R.string.sign_up)).performClick()
+
+            waitForIdle()
+            onNodeWithText("Email is already taken").assertIsDisplayed()
+        }
+    }
 }
