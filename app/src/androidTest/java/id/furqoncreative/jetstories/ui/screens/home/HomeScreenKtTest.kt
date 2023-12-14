@@ -1,8 +1,10 @@
 package id.furqoncreative.jetstories.ui.screens.home
 
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToIndex
 import dagger.hilt.android.testing.HiltAndroidTest
 import id.furqoncreative.jetstories.JetstoriesScreenTest
 import id.furqoncreative.jetstories.R
@@ -29,21 +31,6 @@ class HomeScreenKtTest : JetstoriesScreenTest() {
                 navController = navHostController, startDestination = HOME_SCREEN
             )
         }
-    }
-
-    @Test
-    fun navigateToLoginScreen_onSuccessfulLogout() = runTest {
-        activity.apply {
-            onNodeWithContentDescription(getString(R.string.more_menu)).performClick()
-            onNodeWithText(getString(R.string.logout)).performClick()
-
-            waitForIdle()
-            onNodeWithText(getString(R.string.yes)).performClick()
-
-            waitForIdle()
-            navHostController.assertCurrentRouteName(LOGIN_SCREEN)
-        }
-
     }
 
     @Test
@@ -97,4 +84,29 @@ class HomeScreenKtTest : JetstoriesScreenTest() {
             navHostController.assertCurrentRouteName(SETTINGS_SCREEN)
         }
     }
+
+    @Test
+    fun navigateToLoginScreen_onSuccessfulLogout() = runTest {
+        activity.apply {
+            onNodeWithContentDescription(getString(R.string.more_menu)).performClick()
+            onNodeWithText(getString(R.string.logout)).performClick()
+
+            waitForIdle()
+            onNodeWithText(getString(R.string.yes)).performClick()
+
+            waitForIdle()
+            navHostController.assertCurrentRouteName(LOGIN_SCREEN)
+        }
+    }
+
+    @Test
+    fun showItemJetstories9_onSuccessfulScrollToIndex10() = runTest {
+        activity.apply {
+            onNodeWithTag("story_list").performScrollToIndex(10)
+
+            waitForIdle()
+            onNodeWithText("Jetstories 9").assertExists()
+        }
+    }
+
 }
