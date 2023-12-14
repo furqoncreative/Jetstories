@@ -1,10 +1,12 @@
 package id.furqoncreative.jetstories.ui.screens.home
 
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
+import androidx.compose.ui.test.performTextReplacement
 import dagger.hilt.android.testing.HiltAndroidTest
 import id.furqoncreative.jetstories.JetstoriesScreenTest
 import id.furqoncreative.jetstories.R
@@ -109,4 +111,13 @@ class HomeScreenKtTest : JetstoriesScreenTest() {
         }
     }
 
+    @Test
+    fun showEmptyScreen_WhenEnteredRandomTextOnSearchBar() = runTest {
+        activity.apply {
+            onNodeWithText(getString(R.string.search_placeholder)).performTextReplacement("Random")
+
+            waitForIdle()
+            onNodeWithText(getString(R.string.there_is_no_story)).assertIsDisplayed()
+        }
+    }
 }

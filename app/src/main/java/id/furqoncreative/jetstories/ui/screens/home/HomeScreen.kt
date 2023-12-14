@@ -212,21 +212,24 @@ fun HomeContent(
                         }
                     )
                 }
+
                 items(
                     key = storiesLazyPagingItems.itemKey { it.id },
                     count = storiesLazyPagingItems.itemCount
                 ) { index ->
                     val story = storiesLazyPagingItems[index]
 
-                    if (story == null) {
+                    StoryRow(story = story, onStoryClicked = { onStoryClicked(story) })
+                }
+
+                item {
+                    if (storiesLazyPagingItems.itemCount == 0) {
                         Box(
                             modifier = commonModifier.padding(bottom = 16.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(text = stringResource(R.string.there_is_no_story))
                         }
-                    } else {
-                        StoryRow(story = story, onStoryClicked = { onStoryClicked(story) })
                     }
                 }
 
