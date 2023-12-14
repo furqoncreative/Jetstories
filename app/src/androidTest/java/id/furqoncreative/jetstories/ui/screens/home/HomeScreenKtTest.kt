@@ -9,6 +9,7 @@ import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.assertCurrentRouteName
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesNavGraph
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.ADD_STORY_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.FAVORITE_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.HOME_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.LOGIN_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.MAP_VIEW_SCREEN
@@ -60,6 +61,16 @@ class HomeScreenKtTest : JetstoriesScreenTest() {
 
             waitForIdle()
             navHostController.assertCurrentRouteName(MAP_VIEW_SCREEN)
+        }
+    }
+
+    @Test
+    fun navigateToFavoriteStory_WhenClickedFavoriteIconMenu() = runTest {
+        activity.apply {
+            onNodeWithContentDescription(getString(R.string.favorite_stories)).performClick()
+
+            waitForIdle()
+            navHostController.assertCurrentRouteName(FAVORITE_SCREEN)
         }
     }
 }
