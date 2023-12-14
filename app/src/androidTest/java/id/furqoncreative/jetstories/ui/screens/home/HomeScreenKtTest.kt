@@ -53,5 +53,13 @@ class HomeScreenKtTest : JetstoriesScreenTest() {
         }
     }
 
+    @Test
+    fun navigateToMapViewStory_WhenClickedMapIconMenu() = runTest {
+        activity.apply {
+            onNodeWithContentDescription(getString(R.string.map_view)).performClick()
 
+            waitForIdle()
+            navHostController.assertCurrentRouteName(MAP_VIEW_SCREEN)
+        }
+    }
 }
