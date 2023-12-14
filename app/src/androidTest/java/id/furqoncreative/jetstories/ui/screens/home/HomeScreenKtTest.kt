@@ -14,6 +14,7 @@ import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.FAVORITE_SCR
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.HOME_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.LOGIN_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.MAP_VIEW_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.SETTINGS_SCREEN
 import org.junit.Before
 import org.junit.Test
 
@@ -83,6 +84,17 @@ class HomeScreenKtTest : JetstoriesScreenTest() {
 
             waitForIdle()
             navHostController.assertCurrentRouteName(ABOUT_SCREEN)
+        }
+    }
+
+    @Test
+    fun navigateToSettingsScreen_WhenClickedSettingsMenu() = runTest {
+        activity.apply {
+            onNodeWithContentDescription(getString(R.string.more_menu)).performClick()
+            onNodeWithContentDescription(getString(R.string.settings)).performClick()
+
+            waitForIdle()
+            navHostController.assertCurrentRouteName(SETTINGS_SCREEN)
         }
     }
 }
