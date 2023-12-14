@@ -5,10 +5,13 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import dagger.hilt.android.testing.HiltAndroidTest
 import id.furqoncreative.jetstories.JetstoriesScreenTest
+import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.assertCurrentRouteName
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesNavGraph
-import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.ADD_STORY_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.HOME_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.LOGIN_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.MAP_VIEW_SCREEN
 import org.junit.Before
 import org.junit.Test
 
@@ -20,21 +23,35 @@ class HomeScreenKtTest : JetstoriesScreenTest() {
         inject()
         setJetstoriesContent {
             JetstoriesNavGraph(
-                navController = navHostController,
-                startDestination = HOME_SCREEN
+                navController = navHostController, startDestination = HOME_SCREEN
             )
         }
     }
 
     @Test
     fun navigateToLoginScreen_onSuccessfulLogout() = runTest {
-        onNodeWithContentDescription("More Menu").performClick()
-        onNodeWithText("Logout").performClick()
+        activity.apply {
+            onNodeWithContentDescription(getString(R.string.more_menu)).performClick()
+            onNodeWithText(getString(R.string.logout)).performClick()
 
-        waitForIdle()
-        onNodeWithText("Yes").performClick()
+            waitForIdle()
+            onNodeWithText(getString(R.string.yes)).performClick()
 
-        waitForIdle()
-        navHostController.assertCurrentRouteName(JetstoriesScreens.LOGIN_SCREEN)
+            waitForIdle()
+            navHostController.assertCurrentRouteName(LOGIN_SCREEN)
+        }
+
     }
+
+    @Test
+    fun navigateToAddStory_WhenClickedAddIconMenu() = runTest {
+        activity.apply {
+            onNodeWithContentDescription(getString(R.string.add_story)).performClick()
+
+            waitForIdle()
+            navHostController.assertCurrentRouteName(ADD_STORY_SCREEN)
+        }
+    }
+
+
 }
