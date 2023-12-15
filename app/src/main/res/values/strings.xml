@@ -67,6 +67,6 @@
     <string name="search_placeholder">Search by name or description</string>
     <string name="favorite_stories">Favorite Stories</string>
     <string name="profile_picture" tools:ignore="MissingTranslation">profile picture</string>
-    <string name="unfavorite_icon_button">UnFavorite Icon Button</string>
-    <string name="favorite_icon_button">Favorite Icon Button</string>
+    <string name="unfavorite_icon_button" translatable="false">UnFavorite Icon Button</string>
+    <string name="favorite_icon_button" translatable="false">Favorite Icon Button</string>
 </resources>

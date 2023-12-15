@@ -86,13 +86,13 @@ fun DetailStoryScreen(
                         Icon(
                             imageVector = Icons.Default.Favorite,
                             contentDescription = stringResource(
-                                R.string.favorite_icon_button
+                                R.string.unfavorite_icon_button
                             )
                         )
                     } else {
                         Icon(
                             imageVector = Icons.Default.FavoriteBorder,
-                            contentDescription = stringResource(R.string.unfavorite_icon_button)
+                            contentDescription = stringResource(R.string.favorite_icon_button)
                         )
                     }
                 }

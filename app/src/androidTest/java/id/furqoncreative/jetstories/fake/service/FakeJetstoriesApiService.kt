@@ -20,6 +20,18 @@ data class UserCredentials(
     val token: String
 )
 
+object DummyStory {
+    val story = Story(
+        createdAt = "2023",
+        description = "I Love Jetpack Compose",
+        id = "story-123",
+        lat = null,
+        lon = null,
+        name = "Jetstories",
+        photoUrl = "https://developer.android.com/static/codelabs/jetpack-compose-animation/img/5bb2e531a22c7de0_856.png?hl=id"
+    )
+}
+
 class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
     private val users = mutableListOf<UserCredentials>()
     private val listStory = mutableListOf<Story>()
@@ -35,17 +47,7 @@ class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
             )
         )
 
-        listStory.add(
-            Story(
-                createdAt = "2023",
-                description = "I Love Jetpack Compose",
-                id = "story-123",
-                lat = null,
-                lon = null,
-                name = "Jetstories",
-                photoUrl = "https://developer.android.com/static/codelabs/jetpack-compose-animation/img/5bb2e531a22c7de0_856.png?hl=id"
-            )
-        )
+        listStory.add(DummyStory.story)
     }
 
     override suspend fun loginUser(
@@ -131,7 +133,11 @@ class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
     }
 
     override suspend fun getDetailStory(id: String): GetDetailStoryResponse {
-        TODO("Not yet implemented")
+        return GetDetailStoryResponse(
+            error = false,
+            story = DummyStory.story,
+            message = "Success"
+        )
     }
 
 }
