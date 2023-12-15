@@ -79,7 +79,7 @@ fun AboutContent(
     ) {
         AsyncImage(
             model = stringResource(R.string.about_avatar),
-            contentDescription = "profile picture",
+            contentDescription = stringResource(R.string.profile_picture),
             modifier = Modifier
                 .size(250.dp)
                 .clip(CircleShape)

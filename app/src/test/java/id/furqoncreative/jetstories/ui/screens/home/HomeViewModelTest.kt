@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.ListUpdateCallback
 import id.furqoncreative.jetstories.DataDummy
 import id.furqoncreative.jetstories.MainDispatcherRule
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
-import id.furqoncreative.jetstories.data.source.local.StoryItem
 import id.furqoncreative.jetstories.fake.FakeGetAllStoriesWithPaginationRepository
+import id.furqoncreative.jetstories.model.stories.Story
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -37,7 +37,7 @@ class HomeViewModelTest {
     private lateinit var preferencesManager: PreferencesManager
 
     private val storyRepository = FakeGetAllStoriesWithPaginationRepository()
-    private lateinit var differ: AsyncPagingDataDiffer<StoryItem>
+    private lateinit var differ: AsyncPagingDataDiffer<Story>
     private lateinit var homeViewModel: HomeViewModel
 
     @Before
@@ -54,7 +54,7 @@ class HomeViewModelTest {
     @Test
     fun `when get story then should not null and return data`() = runTest {
         val dummyStory = DataDummy.generateDummyStory()
-        val data: PagingData<StoryItem> = StoryPagingResource.snapshot(dummyStory)
+        val data: PagingData<Story> = StoryPagingResource.snapshot(dummyStory)
         storyRepository.emit(data)
 
         val actualStory = homeViewModel.uiState.value.stories.first()
@@ -67,7 +67,7 @@ class HomeViewModelTest {
 
     @Test
     fun `when get empty story then should return no data`() = runTest {
-        val data: PagingData<StoryItem> = PagingData.empty()
+        val data: PagingData<Story> = PagingData.empty()
         storyRepository.emit(data)
 
         val actualStory = homeViewModel.uiState.value.stories.first()
@@ -78,19 +78,19 @@ class HomeViewModelTest {
     }
 }
 
-class StoryPagingResource : PagingSource<Int, LiveData<List<StoryItem>>>() {
+class StoryPagingResource : PagingSource<Int, LiveData<List<Story>>>() {
     companion object {
-        fun snapshot(items: List<StoryItem>): PagingData<StoryItem> {
+        fun snapshot(items: List<Story>): PagingData<Story> {
             return PagingData.from(items)
         }
     }
 
     @Suppress("SameReturnValue")
-    override fun getRefreshKey(state: PagingState<Int, LiveData<List<StoryItem>>>): Int {
+    override fun getRefreshKey(state: PagingState<Int, LiveData<List<Story>>>): Int {
         return 0
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LiveData<List<StoryItem>>> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LiveData<List<Story>>> {
         return LoadResult.Page(emptyList(), 0, 1)
     }
 }
@@ -102,12 +102,12 @@ private val noopListUpdateCallback = object : ListUpdateCallback {
     override fun onChanged(position: Int, count: Int, payload: Any?) {}
 }
 
-private val DIFF_CALLBACK_TEST = object : DiffUtil.ItemCallback<StoryItem>() {
-    override fun areItemsTheSame(oldItem: StoryItem, newItem: StoryItem): Boolean {
+private val DIFF_CALLBACK_TEST = object : DiffUtil.ItemCallback<Story>() {
+    override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: StoryItem, newItem: StoryItem): Boolean {
+    override fun areContentsTheSame(oldItem: Story, newItem: Story): Boolean {
         return oldItem.id == newItem.id
     }
 }

@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -197,7 +198,7 @@ fun HomeContent(
         ) {
             LazyColumn(
                 state = lazyListState,
-                modifier = commonModifier,
+                modifier = commonModifier.testTag("story_list"),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -211,21 +212,24 @@ fun HomeContent(
                         }
                     )
                 }
+
                 items(
                     key = storiesLazyPagingItems.itemKey { it.id },
                     count = storiesLazyPagingItems.itemCount
                 ) { index ->
                     val story = storiesLazyPagingItems[index]
 
-                    if (story == null) {
+                    StoryRow(story = story, onStoryClicked = { onStoryClicked(story) })
+                }
+
+                item {
+                    if (storiesLazyPagingItems.itemCount == 0) {
                         Box(
                             modifier = commonModifier.padding(bottom = 16.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(text = stringResource(R.string.there_is_no_story))
                         }
-                    } else {
-                        StoryRow(story = story, onStoryClicked = { onStoryClicked(story) })
                     }
                 }
 

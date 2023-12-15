@@ -83,11 +83,16 @@ fun DetailStoryScreen(
                         )
                     }) {
                     if (uiState.isFavorite) {
-                        Icon(imageVector = Icons.Default.Favorite, contentDescription = "Favorite")
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = stringResource(
+                                R.string.unfavorite_icon_button
+                            )
+                        )
                     } else {
                         Icon(
                             imageVector = Icons.Default.FavoriteBorder,
-                            contentDescription = "UnFavorite"
+                            contentDescription = stringResource(R.string.favorite_icon_button)
                         )
                     }
                 }

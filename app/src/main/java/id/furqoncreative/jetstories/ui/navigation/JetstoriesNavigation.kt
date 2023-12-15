@@ -40,7 +40,10 @@ class JetstoriesNavigationActions(private val navHostController: NavHostControll
     }
 
     fun navigateToLogin() {
-        navHostController.navigate(LOGIN_SCREEN)
+        navHostController.navigate(LOGIN_SCREEN) {
+            popUpTo(navHostController.graph.startDestinationId) { inclusive = true }
+        }
+        navHostController.graph.setStartDestination(LOGIN_SCREEN)
     }
 
     fun navigateToRegister() {

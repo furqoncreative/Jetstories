@@ -1,6 +1,7 @@
 package id.furqoncreative.jetstories.ui.screens.settings
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -21,8 +22,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,9 +44,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.ui.components.JetstoriesAlertDialog
 import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
+import id.furqoncreative.jetstories.ui.components.JetstoriesSnackBarHost
 import id.furqoncreative.jetstories.ui.components.TitleToolbar
+import id.furqoncreative.jetstories.ui.components.showSnackBar
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
-import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
@@ -55,44 +59,60 @@ fun SettingsScreen(
     val context = LocalContext.current
     val uiState by settingsViewModel.uiState.collectAsStateWithLifecycle()
     val collapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    uiState.userMessage?.let { userMessage ->
-        context.showToast(message = userMessage.asString(context))
+    LaunchedEffect(uiState.userMessage) {
+        uiState.userMessage?.let {
+            showSnackBar(
+                snackbarHostState = snackbarHostState,
+                actionLabel = "OK",
+                message = it.asString(context),
+            )
+        }
         settingsViewModel.toastMessageShown()
     }
 
-    JetstoriesHeader(
-        modifier = modifier,
-        state = collapsingToolbarScaffoldState,
-        titleToolbarContent = {
-            TitleToolbar(
-                modifier = Modifier
-                    .padding(
-                        top = 10.dp, start = 40.dp, bottom = 16.dp, end = 40.dp
-                    ),
-                title = stringResource(id = R.string.settings),
-                textSize = it
-            )
-        },
-        startToolbarContent = {
-            IconButton(onClick = {
-                onNavUp()
-            }) {
-                Icon(
-                    imageVector = Icons.Default.ChevronLeft,
-                    contentDescription = stringResource(
-                        id = R.string.back
-                    )
-                )
-            }
-        }
+    Box(
+        modifier = modifier.fillMaxHeight(),
     ) {
-        SettingsContent(
-            selectedLanguageEnum = uiState.selectedLanguageEnum,
-            onSetAppLanguage = { settingsViewModel.setAppLanguage() },
-            onSetSelectedLanguage = { selectedLanguage ->
-                settingsViewModel.setSelectedLanguage(selectedLanguage)
-            })
+        JetstoriesHeader(
+            modifier = modifier.align(Alignment.TopCenter),
+            state = collapsingToolbarScaffoldState,
+            titleToolbarContent = {
+                TitleToolbar(
+                    modifier = Modifier
+                        .padding(
+                            top = 10.dp, start = 40.dp, bottom = 16.dp, end = 40.dp
+                        ),
+                    title = stringResource(id = R.string.settings),
+                    textSize = it
+                )
+            },
+            startToolbarContent = {
+                IconButton(onClick = {
+                    onNavUp()
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.ChevronLeft,
+                        contentDescription = stringResource(
+                            id = R.string.back
+                        )
+                    )
+                }
+            }
+        ) {
+            SettingsContent(
+                selectedLanguageEnum = uiState.selectedLanguageEnum,
+                onSetAppLanguage = { settingsViewModel.setAppLanguage() },
+                onSetSelectedLanguage = { selectedLanguage ->
+                    settingsViewModel.setSelectedLanguage(selectedLanguage)
+                })
+        }
+
+        JetstoriesSnackBarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
 
@@ -115,6 +135,7 @@ fun SettingsContent(
 ) {
     val languageOption = LanguageEnum.entries.toTypedArray()
     val (selectedLanguage, onSelectedLanguage) = remember { mutableStateOf(selectedLanguageEnum) }
+
     val commonModifier = modifier.fillMaxWidth()
 
     JetstoriesAlertDialog(modifier = modifier,
@@ -196,7 +217,8 @@ fun SettingsContent(
                     )
                 }
                 Text(
-                    text = selectedLanguageEnum.icon, style = MaterialTheme.typography.titleMedium
+                    text = selectedLanguageEnum.icon,
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
         }

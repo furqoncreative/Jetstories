@@ -2,6 +2,7 @@ package id.furqoncreative.jetstories.ui.screens.register
 
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,10 +15,13 @@ import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,13 +37,14 @@ import id.furqoncreative.jetstories.ui.components.JetstoriesEmailTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesHeader
 import id.furqoncreative.jetstories.ui.components.JetstoriesNameTextField
 import id.furqoncreative.jetstories.ui.components.JetstoriesPasswordTextField
+import id.furqoncreative.jetstories.ui.components.JetstoriesSnackBarHost
 import id.furqoncreative.jetstories.ui.components.TitleToolbar
+import id.furqoncreative.jetstories.ui.components.showSnackBar
 import id.furqoncreative.jetstories.ui.components.states.ConfirmPasswordState
 import id.furqoncreative.jetstories.ui.components.states.NameState
 import id.furqoncreative.jetstories.ui.components.states.PasswordState
 import id.furqoncreative.jetstories.ui.components.states.TextFieldState
 import id.furqoncreative.jetstories.ui.theme.JetStoriesTheme
-import id.furqoncreative.jetstories.utils.showToast
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -54,6 +59,7 @@ fun RegisterScreen(
     val collapsingToolbarScaffoldState = rememberCollapsingToolbarScaffoldState()
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    val snackbarHostState = remember { SnackbarHostState() }
 
     val onClickRegister = {
         if (uiState.emailState.isValid && uiState.passwordState.isValid && uiState.confirmPasswordState.isValid) {
@@ -68,44 +74,59 @@ fun RegisterScreen(
         }
     }
 
-    uiState.userMessage?.let { userMessage ->
-        context.showToast(message = userMessage.asString(context))
+    LaunchedEffect(uiState.userMessage) {
+        uiState.userMessage?.let {
+            showSnackBar(
+                snackbarHostState = snackbarHostState,
+                actionLabel = "OK",
+                message = it.asString(context),
+            )
+        }
         registerViewModel.toastMessageShown()
     }
 
-    JetstoriesHeader(
-        modifier = modifier,
-        state = collapsingToolbarScaffoldState,
-        startToolbarContent = {
-            IconButton(onClick = {
-                onNavUp()
-            }) {
-                Icon(
-                    imageVector = Icons.Default.ChevronLeft,
-                    contentDescription = stringResource(
-                        id = R.string.back
+    Box(
+        modifier = modifier.fillMaxHeight(),
+    ) {
+        JetstoriesHeader(
+            modifier = modifier.align(Alignment.TopCenter),
+            state = collapsingToolbarScaffoldState,
+            startToolbarContent = {
+                IconButton(onClick = {
+                    onNavUp()
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.ChevronLeft,
+                        contentDescription = stringResource(
+                            id = R.string.back
+                        )
                     )
+                }
+            },
+            titleToolbarContent = {
+                TitleToolbar(
+                    modifier = Modifier.padding(
+                        top = 10.dp, start = 40.dp, bottom = 16.dp, end = 40.dp
+                    ),
+                    title = stringResource(id = R.string.register),
+                    textSize = it
                 )
             }
-        },
-        titleToolbarContent = {
-            TitleToolbar(
-                modifier = Modifier.padding(
-                    top = 10.dp, start = 40.dp, bottom = 16.dp, end = 40.dp
-                ),
-                title = stringResource(id = R.string.register),
-                textSize = it
+        ) {
+            RegisterContent(
+                context = context,
+                emailState = uiState.emailState,
+                nameState = uiState.nameState,
+                passwordState = uiState.passwordState,
+                confirmPasswordState = uiState.confirmPasswordState,
+                isLoading = uiState.isLoading,
+                onClickSignup = onClickRegister
             )
         }
-    ) {
-        RegisterContent(
-            context = context,
-            emailState = uiState.emailState,
-            nameState = uiState.nameState,
-            passwordState = uiState.passwordState,
-            confirmPasswordState = uiState.confirmPasswordState,
-            isLoading = uiState.isLoading,
-            onClickSignup = onClickRegister
+
+        JetstoriesSnackBarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
 }
