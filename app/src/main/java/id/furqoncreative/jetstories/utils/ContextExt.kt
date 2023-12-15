@@ -36,6 +36,13 @@ fun Context.showToast(message: String) {
 }
 
 fun Context.getMenuItemStringResource(menuItem: MenuItem) = when (menuItem) {
-    MenuItem.LOGOUT -> this.getString(R.string.logout)
-    MenuItem.SETTINGS -> this.getString(R.string.settings)
+    MenuItem.LOGOUT -> getString(R.string.logout)
+    MenuItem.SETTINGS -> getString(R.string.settings)
+    MenuItem.ABOUT -> getString(R.string.about)
+}
+
+fun Context.getMenuItemContentDescription(menuItem: MenuItem) = when (menuItem) {
+    MenuItem.LOGOUT -> getString(R.string.logout)
+    MenuItem.SETTINGS -> getString(R.string.settings)
+    MenuItem.ABOUT -> getString(R.string.about_page)
 }

@@ -20,6 +20,18 @@ data class UserCredentials(
     val token: String
 )
 
+object DummyStory {
+    val story = Story(
+        createdAt = "2023",
+        description = "I Love Jetpack Compose",
+        id = "story-123",
+        lat = null,
+        lon = null,
+        name = "Jetstories",
+        photoUrl = "https://developer.android.com/static/codelabs/jetpack-compose-animation/img/5bb2e531a22c7de0_856.png?hl=id"
+    )
+}
+
 class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
     private val users = mutableListOf<UserCredentials>()
     private val listStory = mutableListOf<Story>()
@@ -35,42 +47,37 @@ class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
             )
         )
 
-        listStory.add(
-            Story(
-                createdAt = "2023",
-                description = "I Love Jetpack Compose",
-                id = "story-123",
-                lat = null,
-                lon = null,
-                name = "Jetstories",
-                photoUrl = "https://developer.android.com/static/codelabs/jetpack-compose-animation/img/5bb2e531a22c7de0_856.png?hl=id"
-            )
-        )
+        listStory.add(DummyStory.story)
     }
 
     override suspend fun loginUser(
         email: String,
         password: String
     ): LoginResponse {
-        return users.find { it.email == email && it.password == password }.let {
-            if (it != null) {
-                LoginResponse(
-                    error = false,
-                    loginResult = LoginResult(
-                        userId = it.userId,
-                        token = it.token,
-                        name = it.name
-                    ),
-                    message = "Success"
-                )
-            } else {
-                LoginResponse(
-                    error = true,
-                    loginResult = null,
-                    message = "Login Failed"
-                )
-            }
+        val userCredential = users.firstOrNull { it.email == email }
+            ?: return LoginResponse(
+                error = true,
+                loginResult = null,
+                message = "User Not Found"
+            )
+
+        if (userCredential.password != password) {
+            return LoginResponse(
+                error = true,
+                loginResult = null,
+                message = "Invalid Password"
+            )
         }
+
+        return LoginResponse(
+            error = false,
+            loginResult = LoginResult(
+                userId = userCredential.userId,
+                token = userCredential.token,
+                name = userCredential.name
+            ),
+            message = "Success"
+        )
     }
 
     override suspend fun registerUser(
@@ -78,7 +85,17 @@ class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
         name: String,
         password: String
     ): RegisterResponse {
-        TODO("Not yet implemented")
+        return if (users.find { it.email == email } == null) {
+            RegisterResponse(
+                error = false,
+                message = "Register Success"
+            )
+        } else {
+            RegisterResponse(
+                error = true,
+                message = "Email is already taken"
+            )
+        }
     }
 
     override suspend fun addStory(
@@ -116,7 +133,11 @@ class FakeJetstoriesApiService @Inject constructor() : JetstoriesApiService {
     }
 
     override suspend fun getDetailStory(id: String): GetDetailStoryResponse {
-        TODO("Not yet implemented")
+        return GetDetailStoryResponse(
+            error = false,
+            story = DummyStory.story,
+            message = "Success"
+        )
     }
 
 }

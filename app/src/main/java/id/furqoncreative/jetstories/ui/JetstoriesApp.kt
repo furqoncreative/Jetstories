@@ -3,8 +3,9 @@ package id.furqoncreative.jetstories.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesNavGraph
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.HOME_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.LOGIN_SCREEN
 
 @Composable
 fun JetstoriesApp(
@@ -14,11 +15,11 @@ fun JetstoriesApp(
 
     if (isLoggedIn) {
         JetstoriesNavGraph(
-            startDestination = JetstoriesDestinations.HOME_ROUTE
+            startDestination = HOME_SCREEN
         )
     } else {
         JetstoriesNavGraph(
-            startDestination = JetstoriesDestinations.LOGIN_ROUTE
+            startDestination = LOGIN_SCREEN
         )
     }
 }

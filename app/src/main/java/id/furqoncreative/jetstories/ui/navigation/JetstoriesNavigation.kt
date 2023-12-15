@@ -2,15 +2,11 @@ package id.furqoncreative.jetstories.ui.navigation
 
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.ADD_STORY_ROUTE
-import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.HOME_ROUTE
-import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.LOGIN_ROUTE
-import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.MAP_VIEW_ROUTE
-import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.REGISTER_ROUTE
-import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinations.SETTINGS_ROUTE
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesDestinationsArgs.STORY_ID
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.ABOUT_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.ADD_STORY_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.DETAIL_SCREEN
+import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.FAVORITE_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.HOME_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.LOGIN_SCREEN
 import id.furqoncreative.jetstories.ui.navigation.JetstoriesScreens.MAP_VIEW_SCREEN
@@ -26,6 +22,8 @@ object JetstoriesScreens {
     const val MAP_VIEW_SCREEN = "map-view"
     const val ADD_STORY_SCREEN = "add-story"
     const val SETTINGS_SCREEN = "settings"
+    const val ABOUT_SCREEN = "about"
+    const val FAVORITE_SCREEN = "favorite"
 }
 
 object JetstoriesDestinationsArgs {
@@ -33,13 +31,7 @@ object JetstoriesDestinationsArgs {
 }
 
 object JetstoriesDestinations {
-    const val LOGIN_ROUTE = LOGIN_SCREEN
-    const val REGISTER_ROUTE = REGISTER_SCREEN
-    const val HOME_ROUTE = HOME_SCREEN
-    const val ADD_STORY_ROUTE = ADD_STORY_SCREEN
-    const val MAP_VIEW_ROUTE = MAP_VIEW_SCREEN
     const val DETAIL_ROUTE = "$DETAIL_SCREEN/{$STORY_ID}"
-    const val SETTINGS_ROUTE = SETTINGS_SCREEN
 }
 
 class JetstoriesNavigationActions(private val navHostController: NavHostController) {
@@ -48,11 +40,14 @@ class JetstoriesNavigationActions(private val navHostController: NavHostControll
     }
 
     fun navigateToLogin() {
-        navHostController.navigate(LOGIN_ROUTE)
+        navHostController.navigate(LOGIN_SCREEN) {
+            popUpTo(navHostController.graph.startDestinationId) { inclusive = true }
+        }
+        navHostController.graph.setStartDestination(LOGIN_SCREEN)
     }
 
     fun navigateToRegister() {
-        navHostController.navigate(REGISTER_ROUTE) {
+        navHostController.navigate(REGISTER_SCREEN) {
             popUpTo(navHostController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -60,10 +55,10 @@ class JetstoriesNavigationActions(private val navHostController: NavHostControll
     }
 
     fun navigateToHome() {
-        navHostController.navigate(HOME_ROUTE) {
+        navHostController.navigate(HOME_SCREEN) {
             popUpTo(navHostController.graph.startDestinationId) { inclusive = true }
         }
-        navHostController.graph.setStartDestination(HOME_ROUTE)
+        navHostController.graph.setStartDestination(HOME_SCREEN)
     }
 
     fun navigateToDetail(storyId: String) {
@@ -71,7 +66,7 @@ class JetstoriesNavigationActions(private val navHostController: NavHostControll
     }
 
     fun navigateToMapView() {
-        navHostController.navigate(MAP_VIEW_ROUTE) {
+        navHostController.navigate(MAP_VIEW_SCREEN) {
             popUpTo(navHostController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -79,7 +74,7 @@ class JetstoriesNavigationActions(private val navHostController: NavHostControll
     }
 
     fun navigateToAddStory() {
-        navHostController.navigate(ADD_STORY_ROUTE) {
+        navHostController.navigate(ADD_STORY_SCREEN) {
             popUpTo(navHostController.graph.findStartDestination().id) {
                 saveState = true
             }
@@ -87,7 +82,23 @@ class JetstoriesNavigationActions(private val navHostController: NavHostControll
     }
 
     fun navigateToSettings() {
-        navHostController.navigate(SETTINGS_ROUTE) {
+        navHostController.navigate(SETTINGS_SCREEN) {
+            popUpTo(navHostController.graph.findStartDestination().id) {
+                saveState = true
+            }
+        }
+    }
+
+    fun navigateToAbout() {
+        navHostController.navigate(ABOUT_SCREEN) {
+            popUpTo(navHostController.graph.findStartDestination().id) {
+                saveState = true
+            }
+        }
+    }
+
+    fun navigateToFavorite() {
+        navHostController.navigate(FAVORITE_SCREEN) {
             popUpTo(navHostController.graph.findStartDestination().id) {
                 saveState = true
             }

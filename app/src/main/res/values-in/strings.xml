@@ -39,7 +39,6 @@
     <string name="logged_in">Anda berhasil masuk</string>
     <string name="sign_up">Daftar</string>
     <string name="register">Daftar</string>
-    <string name="signed_up">Anda terdaftar</string>
     <string name="language_changed_to">Bahasa diubah menjadi: %s"</string>
     <string name="change_language">Ubah Bahasa</string>
     <string name="confirm">Konfirmasi</string>
@@ -59,4 +58,8 @@
     <string name="strRetry">Retry</string>
     <string name="allow_location_permission">Harap izinkan izin lokasi untuk membagikan lokasi</string>
     <string name="share_location">Bagikan lokasi</string>
+    <string name="map_view_stories">Cerita tampilan map</string>
+    <string name="about">Tentang</string>
+    <string name="search_placeholder">Cari berdasarkan nama atau deskripsi</string>
+    <string name="favorite_stories">Cerita Favorite</string>
 </resources>

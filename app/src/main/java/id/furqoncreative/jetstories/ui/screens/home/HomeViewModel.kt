@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.GetAllStoriesWithPaginationRepository
 import id.furqoncreative.jetstories.data.source.local.PreferencesManager
-import id.furqoncreative.jetstories.data.source.local.StoryItem
+import id.furqoncreative.jetstories.model.stories.Story
 import id.furqoncreative.jetstories.utils.Async
 import id.furqoncreative.jetstories.utils.UiText
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +27,8 @@ data class HomeUiState(
     val isLoading: Boolean = false,
     val isUserLogout: Boolean = false,
     val userMessage: UiText? = null,
-    val stories: Flow<PagingData<StoryItem>> = emptyFlow(),
+    val searchQuery: String = "",
+    val stories: Flow<PagingData<Story>> = emptyFlow(),
 )
 
 @HiltViewModel
@@ -39,27 +40,40 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
-        getAllStories()
+        getStories(uiState.value.searchQuery)
     }
 
-    fun getAllStories() {
+    private fun getStories(query: String) {
         viewModelScope.launch {
             _uiState.update {
                 it.copy(isLoading = true)
             }
-            storiesRepository.getAllStoriesWithPagination().collect { storiesResponseAsync ->
-                _uiState.update { homeUiState ->
-                    produceHomeUiState(
-                        storiesResponseAsync = storiesResponseAsync,
-                        homeUiState = homeUiState
-                    )
-                }
+            if (query.isNotEmpty()) {
+                storiesRepository.searchStories(query = query)
+                    .collect { storiesResponseAsync ->
+                        _uiState.update { homeUiState ->
+                            produceHomeUiState(
+                                storiesResponseAsync = storiesResponseAsync,
+                                homeUiState = homeUiState
+                            )
+                        }
+                    }
+            } else {
+                storiesRepository.getStoriesWithPagination()
+                    .collect { storiesResponseAsync ->
+                        _uiState.update { homeUiState ->
+                            produceHomeUiState(
+                                storiesResponseAsync = storiesResponseAsync,
+                                homeUiState = homeUiState
+                            )
+                        }
+                    }
             }
         }
     }
 
     private fun produceHomeUiState(
-        storiesResponseAsync: Async<PagingData<StoryItem>>,
+        storiesResponseAsync: Async<PagingData<Story>>,
         homeUiState: HomeUiState
     ) = when (storiesResponseAsync) {
         Async.Loading -> homeUiState.copy(isLoading = true, isEmpty = true)
@@ -106,4 +120,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun searchStory(query: String) {
+        _uiState.update {
+            it.copy(searchQuery = query)
+        }
+        getStories(query)
+    }
 }

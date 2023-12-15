@@ -3,7 +3,6 @@ package id.furqoncreative.jetstories.ui.screens.register
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.furqoncreative.jetstories.R
 import id.furqoncreative.jetstories.data.repository.RegisterRepository
 import id.furqoncreative.jetstories.model.register.RegisterResponse
 import id.furqoncreative.jetstories.ui.components.states.ConfirmPasswordState
@@ -75,7 +74,7 @@ class RegisterViewModel @Inject constructor(
                 registerUiState.copy(
                     isLoading = false,
                     isSuccessRegister = true,
-                    userMessage = UiText.StringResource(R.string.signed_up)
+                    userMessage = UiText.DynamicString(registerResponseAsync.data.message)
                 )
             } else {
                 registerUiState.copy(

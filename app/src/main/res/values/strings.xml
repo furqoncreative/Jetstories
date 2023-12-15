@@ -38,7 +38,6 @@
     <string name="logged_in">You are logged in</string>
     <string name="sign_up">Sign up</string>
     <string name="register">Register</string>
-    <string name="signed_up">You are signed up</string>
     <string name="language_changed_to">"Language changed to: %s"</string>
     <string name="change_language">Change Language</string>
     <string name="confirm">Confirm</string>
@@ -46,7 +45,7 @@
     <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="sign_in">Sign in</string>
     <string name="email_invalid_message">Email must be valid</string>
-    <string name="name_invalid_message">Name must not empty</string>
+    <string name="name_invalid_message">Name must be not empty</string>
     <string name="confirm_password_invalid_message">Passwords don\'t match</string>
     <string name="password_invalid_message">Password must be at least 8 characters long</string>
     <string name="description_invalid_message">Description must not empty</string>
@@ -59,4 +58,14 @@
     <string name="allow_location_permission">Please allow location permission for share location</string>
     <string name="share_location">Share Location</string>
     <string name="map_view_stories">Map View Stories</string>
+    <string name="about">About</string>
+    <string name="about_page" translatable="false">about_page</string>
+    <string name="about_avatar" translatable="false">https://avatars.githubusercontent.com/u/27626889?v=4</string>
+    <string name="about_name" translatable="false">Deden Muhamad Furqon</string>
+    <string name="about_email" translatable="false">furqoncreative24@gmail.com</string>
+    <string name="search_placeholder">Search by name or description</string>
+    <string name="favorite_stories">Favorite Stories</string>
+    <string name="profile_picture" tools:ignore="MissingTranslation">profile picture</string>
+    <string name="unfavorite_icon_button" translatable="false">UnFavorite Icon Button</string>
+    <string name="favorite_icon_button" translatable="false">Favorite Icon Button</string>
 </resources>
