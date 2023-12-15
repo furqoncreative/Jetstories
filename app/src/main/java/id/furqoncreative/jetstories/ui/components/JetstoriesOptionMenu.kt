@@ -31,7 +31,7 @@ fun JetstoriesOptionMenu(
     DropdownMenu(
         modifier = modifier,
         expanded = expanded.value,
-        offset = DpOffset(x = (-10).dp, y = (-40).dp),
+        offset = DpOffset(x = (40).dp, y = (-40).dp),
         onDismissRequest = { expanded.value = false }) {
         enumValues<MenuItem>().forEach { menuItem ->
             DropdownMenuItem(
